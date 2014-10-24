@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.test.base.MenuActivity;
 import com.test.base.MyApplication;
+import com.test.base.NormalActivity;
 
 public class ConnectServer {
 	
@@ -27,9 +29,13 @@ public class ConnectServer {
 	      public void onResponse(JSONObject response) {
 	       try {
 	       Log.i(MyApplication.TAG, request+"response-->"+response.toString());
+	       if(context instanceof MenuActivity)
+	    	   ((MenuActivity)context).showResualt(response,request);
+	       else
+	    	   ((NormalActivity)context).showResualt(response,request);
 //	        int code = response.getInt("code");
 //	        if (response.getInt("code") == 1) {
-	        	((MenuActivity)context).showResualt(response,request);
+	        	
 //	        } else {
 //	         Toast.makeText(context, ErrorMsg.getErrorMsg(request,code), 2000).show();
 //	        }

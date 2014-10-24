@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar.LayoutParams;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -55,7 +56,7 @@ import com.test.utils.NetworkAction;
 public class Home extends MenuActivity implements OnGestureListener,
 		OnItemClickListener, OnClickListener {
 
-	private Title tile;// 设置标题栏
+	private Title title;// 设置标题栏
 
 	private MyViewFlipper flipper;// 广告容器
 	private boolean getHeight = false;// 是否有获取到广告的高度
@@ -131,8 +132,8 @@ public class Home extends MenuActivity implements OnGestureListener,
 		thread.start();
 		flipper = (MyViewFlipper) findViewById(R.id.home_viewFlipper);
 		flipperTxt = (RadioGroup) findViewById(R.id.home_txt_layout);
-		tile = (Title) findViewById(R.id.title);
-		tile.setModule(1);
+		title = (Title) findViewById(R.id.title);
+		title.setModule(1);
 		gesture = new GestureDetector(this);
 		flipper.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -173,6 +174,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 				long time = bundle.getLong("time");
 				// 取出索引，根据该索引查询对应的时间和textview
 				int index = bundle.getInt("index");
+//				Log.i("test", ""+index);
 				// 从子线程返回的计算好了的新的时间字符串
 				String timeString = bundle.getString("timeString");
 				TextView txt = (TextView) ((View) ChangeTime.txtViewList.get(
@@ -444,17 +446,33 @@ public class Home extends MenuActivity implements OnGestureListener,
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long productId) {
+
+//		Intent intent = new Intent().setClass(this, ProductDetail.class);
+//		
+//		if (parent.getId() == R.id.home_seckill_gridview) {
+//			Product product = (Product) secKillProduct.get(position);
+//			intent.putExtra("productId",product.getId());
+//			intent.putExtra("skid",product.getSkID());
+////			Log.i(MyApplication.TAG,"productId-->"+product.getId()+"  skid-->"+product.getSkID());
+//		}
+//		else if(parent.getId() == R.id.home_hot_gridview)
+//		{
+//			intent.putExtra("productId", String.valueOf(productId));
+//		}
+////		Toast.makeText(this, String.valueOf(productId), 2000).show();
+//		 startActivity(intent);
 
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent=new Intent();
 		switch (v.getId()) {
 		// 秒杀更多按钮
 		case R.id.home_seckill_more_btn:
-
+			intent.setClass(this, Seckill.class);
 			break;
 		// 热门商品更多按钮
 		case R.id.home_hot_more_btn:
@@ -462,6 +480,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 			break;
 		}
 
+		startActivity(intent);
 	}
 
 }

@@ -147,6 +147,14 @@ public class MyApplication extends Application {
 		mList.add(activity);
 	}
 
+	public void removeActivity(Activity finishActivity)
+	{
+		for (Activity activity : mList) {
+			if (activity.equals(finishActivity))
+				activity.finish();
+		}
+	}
+	
 	/*
 	 * 整个应用程序退出，循环遍历集合内没有销毁的Activity，全都销毁以后再退出，保证应用程序正常关闭退出
 	 */

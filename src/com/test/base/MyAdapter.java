@@ -122,6 +122,7 @@ public class MyAdapter extends BaseAdapter implements
 					|| request.equals(NetworkAction.秒杀商品))
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.home_hot_item, null);
+//		}
 		}else if (convertView != null && request.equals(NetworkAction.秒杀商品)) {
 			return convertView;
 		}
@@ -129,6 +130,7 @@ public class MyAdapter extends BaseAdapter implements
 		
 		if (request.equals(NetworkAction.热门商品))
 		{
+			Log.i("test", "热门商品data.size()->"+data.size());
 			Product product = (Product) data.get(position);
 			NetworkImageView img = (NetworkImageView) convertView
 					.findViewById(R.id.home_hot_img);
@@ -142,6 +144,7 @@ public class MyAdapter extends BaseAdapter implements
 			MyApplication.client.getImageForNetImageView(product.getImgPath(),
 					img, R.drawable.ic_launcher);
 		}else if (request.equals(NetworkAction.秒杀商品)) {
+			Log.i("test", "秒杀商品data.size()->"+data.size());
 			Product product = (Product) data.get(position);
 			NetworkImageView img = (NetworkImageView) convertView
 					.findViewById(R.id.home_hot_img);

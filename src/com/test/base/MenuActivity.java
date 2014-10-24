@@ -14,6 +14,11 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
 
+/**
+ * 主菜单上显示的activity继承的父类
+ * @author Administrator
+ *
+ */
 public abstract class MenuActivity extends Activity {
 
 

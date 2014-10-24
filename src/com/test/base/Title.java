@@ -23,6 +23,8 @@ public class Title extends FrameLayout{
 	private LinearLayout msgBtn;//消息按钮
 	private FrameLayout searchLayout;//搜索模块
 	private LinearLayout moreBtn;//更多模块
+	private LinearLayout txtLayout;//标题模块
+	private TextView titleTxt;//标题栏文字
 	private SearchEditText searchTxt;
 	
 	public Title(Context context) {
@@ -35,9 +37,10 @@ public class Title extends FrameLayout{
         LayoutInflater.from(context).inflate(R.layout.title, this,true);
         backBtn=(LinearLayout) findViewById(R.id.backBtn);
         msgBtn=(LinearLayout) findViewById(R.id.msgBtn);
+        titleTxt=(TextView) findViewById(R.id.title_txt);
         searchLayout=(FrameLayout) findViewById(R.id.searchLayout);
         moreBtn=(LinearLayout) findViewById(R.id.moreBtn);
-      
+        txtLayout=(LinearLayout) findViewById(R.id.txtLayout);
         backBtn.setOnClickListener(new OnclickListener());
         msgBtn.setOnClickListener(new OnclickListener());
         moreBtn.setOnClickListener(new OnclickListener());
@@ -89,6 +92,7 @@ public class Title extends FrameLayout{
     /**
      * 设置标题栏模式
      * 1. 消息按钮+搜索框+更多按钮
+     * 2. 后退按钮+标题名称+更多按钮
      * @param module
      */
     public void setModule(int module)
@@ -99,10 +103,19 @@ public class Title extends FrameLayout{
 			searchLayout.setVisibility(View.VISIBLE);
 			moreBtn.setVisibility(View.VISIBLE);
 			break;
-
+		case 2:
+			backBtn.setVisibility(View.VISIBLE);
+			txtLayout.setVisibility(View.VISIBLE);
+			moreBtn.setVisibility(View.VISIBLE);
+			break;
 		default:
 			break;
 		}
     }
     
+    //如果是有显示标题栏模块则设置该标题栏的文字内容
+    public void setTitleTxt(String title)
+    {
+    	titleTxt.setText(title);
+    }
 }
