@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_textcolor">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <drawable name="style_btn_bg">#296ECD</drawable>
+    <color name="black">#000000</color>
+    <color name="red">#ffff0000</color>
+    <color name="gray">#FF575756</color>
+</resources>

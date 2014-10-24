@@ -1,0 +1,190 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <com.test.base.Title
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    
+
+            <!-- 广告栏 -->
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.test.base.MyViewFlipper
+                    android:id="@+id/home_viewFlipper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white" >
+                </com.test.base.MyViewFlipper>
+
+                <RadioGroup
+                    android:id="@+id/home_txt_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal" />
+            </FrameLayout>
+<ScrollView
+        android:id="@+id/home_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <!-- 整个内容 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <!-- 秒杀专区 -->
+
+            <LinearLayout
+                android:id="@+id/home_seckill_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <FrameLayout
+                    android:id="@+id/home_seckill_framlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:src="@drawable/home_seckill_ico" />
+
+                    <TextView
+                        android:id="@+id/home_seckill_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="秒杀专区"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/home_seckill_more_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/home_seckill_more"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="6dp"
+                            android:text="更多"
+                            android:textColor="#646464"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/home_more_ico" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <com.test.base.MyGridView
+                    android:id="@+id/home_seckill_gridview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                     android:background="#f5f8f9"
+                    android:columnWidth="140dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="10px"
+                    android:numColumns="auto_fit"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10px" />
+            </LinearLayout>
+            <!-- 热卖商品 -->
+
+            <LinearLayout
+                android:id="@+id/home_hot_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/home_hot_framlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:src="@drawable/home_hot_ico" />
+
+                    <TextView
+                        android:id="@+id/home_hot_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="热卖商品"
+                        android:textColor="#404040"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/home_hot_more_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                      
+                        <TextView
+                            android:id="@+id/home_hot_more"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="6dp"
+                            android:text="更多"
+                            android:textColor="#646464"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/home_more_ico" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <com.test.base.MyGridView
+                    android:id="@+id/home_hot_gridview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#f5f8f9"
+                    android:columnWidth="140dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="10px"
+                    android:numColumns="auto_fit"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10px" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

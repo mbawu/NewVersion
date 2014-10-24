@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NewVersion</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+<string name="version">1.0</string>
+
+<item type="id" name="tag_first"></item>
+    <item type="id" name="tag_second"></item>
+      <item type="id" name="tag_three"></item>
+    <item type="id" name="tag_four"></item>
+</resources>
