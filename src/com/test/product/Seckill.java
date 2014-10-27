@@ -8,7 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.test.R;
 import com.test.base.ChangeTime;
@@ -28,7 +32,7 @@ public class Seckill extends NormalActivity {
 	private ArrayList<Object> secKillProduct; // 数据集合
 	private MyAdapter adapterSecKill; // 秒杀商品适配器
 	HashMap<String, String> paramterSeckill;
-
+	public static Handler secHandler;
 	private int newHeight = 0;
 	private boolean load;
 	private int page = 1; // 当前页码
@@ -45,6 +49,13 @@ public class Seckill extends NormalActivity {
 		initData();
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ChangeTime.sectimeList.clear();
+		ChangeTime.sectxtViewList.clear();
+	}
 	private void initView() {
 		title = (Title) findViewById(R.id.title);
 		gridView = (GridView) findViewById(R.id.seckill_gridview);
@@ -64,6 +75,35 @@ public class Seckill extends NormalActivity {
 		paramterSeckill.put("pagesize", pageSize);
 		ConnectServer.getResualt(this, paramterSeckill, NetworkAction.秒杀商品,
 				Url.URL_SECKILL);
+		// 每秒刷新秒杀商品时间的handler
+				secHandler = new Handler() {
+					@Override
+					public void handleMessage(Message msg) {
+						Bundle bundle = msg.getData();
+						// 取出最新的时间
+						long time = bundle.getLong("time");
+						// 取出索引，根据该索引查询对应的时间和textview
+						int index = bundle.getInt("index");
+//						Log.i("test", ""+index);
+						// 从子线程返回的计算好了的新的时间字符串
+						String timeString = bundle.getString("timeString");
+						TextView txt = (TextView) ((View) ChangeTime.sectxtViewList.get(
+								index).getTag())
+								.findViewById(R.id.home_seckill_outtime);
+						// 如果秒杀还没有结束的话，刷新最新的时间，否则重新获取一遍秒杀商品
+						// if(time>0)
+						// ChangeTime.txtViewList.get(index).setText(timeString);
+						if (time > 0)
+							txt.setText(timeString);
+						else {
+							ChangeTime.sectxtViewList.clear();
+							ChangeTime.sectimeList.clear();
+							secKillProduct.clear();
+							ConnectServer.getResualt(Seckill.this, paramterSeckill,
+									NetworkAction.秒杀商品, Url.URL_SECKILL);
+						}
+					}
+				};
 	}
 
 	@Override

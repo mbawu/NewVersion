@@ -116,6 +116,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 		super.onResume();
 		// 如果点击广告图片离开app以后返回该页面继续播放广告图片
 		// flipper.startFlipping();
+
 	}
 
 	@Override
@@ -329,6 +330,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 			}
 			adapterHot.notifyDataSetChanged();// 通知适配器数据发生变化了
 		} else if (request.equals(NetworkAction.秒杀商品)) {// 获取秒杀商品
+			secKillProduct.clear();
 			page++;// 当前页加一
 			totalPage = Integer.valueOf(response.getString("totalpage"));// 获取总页码
 
@@ -473,6 +475,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 		// 秒杀更多按钮
 		case R.id.home_seckill_more_btn:
 			intent.setClass(this, Seckill.class);
+			MyApplication.seckillModule=true;
 			break;
 		// 热门商品更多按钮
 		case R.id.home_hot_more_btn:

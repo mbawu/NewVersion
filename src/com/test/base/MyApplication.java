@@ -58,6 +58,7 @@ public class MyApplication extends Application {
 	public static boolean exit=false;
 	public static Context context;
 	public static boolean comment=false;//是否在评论订单的状态
+	public static boolean seckillModule=false;//是否进入到秒杀专区
 
 
 	@Override
