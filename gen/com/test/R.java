@@ -47,14 +47,16 @@ public final class R {
         public static final int img_select=0x7f020008;
         public static final int loading=0x7f020009;
         public static final int more_ico=0x7f02000a;
-        public static final int msg_ico=0x7f02000b;
-        public static final int search_ico=0x7f02000c;
-        public static final int style_btn_bg=0x7f02000e;
-        public static final int title_bg=0x7f02000d;
+        public static final int more_item=0x7f02000b;
+        public static final int msg_ico=0x7f02000c;
+        public static final int search_ico=0x7f02000d;
+        public static final int style_btn_bg=0x7f02000f;
+        public static final int title_bg=0x7f02000e;
     }
     public static final class id {
-        public static final int action_settings=0x7f080025;
-        public static final int backBtn=0x7f08001e;
+        public static final int action_settings=0x7f080028;
+        public static final int backBtn=0x7f080021;
+        public static final int getMore=0x7f08001f;
         public static final int home_hot_framlayout=0x7f080012;
         public static final int home_hot_gridview=0x7f080016;
         public static final int home_hot_img=0x7f080017;
@@ -75,31 +77,34 @@ public final class R {
         public static final int home_seckill_txt=0x7f08000d;
         public static final int home_txt_layout=0x7f080009;
         public static final int home_viewFlipper=0x7f080008;
+        public static final int hot_gridview=0x7f08001e;
         public static final int message=0x7f080004;
-        public static final int moreBtn=0x7f080024;
-        public static final int msgBtn=0x7f08001f;
+        public static final int moreBtn=0x7f080027;
+        public static final int msgBtn=0x7f080022;
         public static final int negativeButton=0x7f080006;
         public static final int positiveButton=0x7f080005;
-        public static final int searchLayout=0x7f080020;
-        public static final int searchTxt=0x7f080021;
-        public static final int seckill_gridview=0x7f08001d;
-        public static final int seckill_img=0x7f08001c;
+        public static final int scrollView=0x7f08001c;
+        public static final int searchLayout=0x7f080023;
+        public static final int searchTxt=0x7f080024;
+        public static final int seckill_gridview=0x7f080020;
+        public static final int seckill_img=0x7f08001d;
         public static final int tag_first=0x7f080000;
         public static final int tag_four=0x7f080003;
         public static final int tag_second=0x7f080001;
         public static final int tag_three=0x7f080002;
         public static final int title=0x7f080007;
-        public static final int title_txt=0x7f080023;
-        public static final int txtLayout=0x7f080022;
+        public static final int title_txt=0x7f080026;
+        public static final int txtLayout=0x7f080025;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int dialog_normal_layout=0x7f030001;
         public static final int home=0x7f030002;
         public static final int home_hot_item=0x7f030003;
-        public static final int load=0x7f030004;
-        public static final int seckill=0x7f030005;
-        public static final int title=0x7f030006;
+        public static final int hot=0x7f030004;
+        public static final int load=0x7f030005;
+        public static final int seckill=0x7f030006;
+        public static final int title=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;

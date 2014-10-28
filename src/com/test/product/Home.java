@@ -474,12 +474,12 @@ public class Home extends MenuActivity implements OnGestureListener,
 		switch (v.getId()) {
 		// 秒杀更多按钮
 		case R.id.home_seckill_more_btn:
-			intent.setClass(this, Seckill.class);
+			intent.setClass(this, SeckillProduct.class);
 			MyApplication.seckillModule=true;
 			break;
 		// 热门商品更多按钮
 		case R.id.home_hot_more_btn:
-
+			intent.setClass(this, HotProduct.class);
 			break;
 		}
 

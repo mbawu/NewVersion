@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 //import com.test.activity.person.Person;
 //import com.test.activity.person.PersonAddress;
@@ -62,6 +63,7 @@ public class MyAdapter extends BaseAdapter implements
 	private ArrayList<Object> data;
 	private NetworkAction request;
 	private int orderTypeTemp;
+
 
 	/**
 	 * 
@@ -150,19 +152,21 @@ public class MyAdapter extends BaseAdapter implements
 			}
 		}
 		else{
-			return convertView;
+//			return convertView;
+			holder=(ViewHolder) convertView.getTag();
 		}
 		
 		if (request.equals(NetworkAction.热门商品)) {
-			Log.i("test", "热门商品data.size()->" + data.size());
+//			Log.i("test", "热门商品data.size()->" + data.size());
 			Product product = (Product) data.get(position);
 			holder.nameTxt.setText(product.getName());
 			holder.priceTxt.setText("￥ " + product.getStorePrice());
 			// Log.i(MyApplication.TAG,"getImgPath-->"+ product.getImgPath());
 			MyApplication.client.getImageForNetImageView(product.getImgPath(),
 					holder.img, R.drawable.ic_launcher);
+//			holder.img.setImageUrl(product.getImgPath(), MyApplication.imageLoader);
 		} else if (request.equals(NetworkAction.秒杀商品)) {
-			Log.i("test", "秒杀商品data.size()->" + data.size());
+//			Log.i("test", "秒杀商品data.size()->" + data.size());
 			Product product = (Product) data.get(position);
 			holder.timeLayout.setVisibility(View.VISIBLE);
 			long outTime = Integer.valueOf(product.getOutEndTime());
@@ -187,7 +191,7 @@ public class MyAdapter extends BaseAdapter implements
 			}
 			holder.nameTxt.setText(product.getName());
 			holder.priceTxt.setText("￥ " + product.getSKPrice());
-			Log.i(MyApplication.TAG, "getView-->adapter");
+//			Log.i(MyApplication.TAG, "getView-->adapter");
 			MyApplication.client.getImageForNetImageView(product.getImgPath(),
 					holder.img, R.drawable.ic_launcher);
 		}

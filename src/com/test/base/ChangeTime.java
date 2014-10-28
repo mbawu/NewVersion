@@ -3,7 +3,7 @@ package com.test.base;
 import java.util.ArrayList;
 
 import com.test.product.Home;
-import com.test.product.Seckill;
+import com.test.product.SeckillProduct;
 //import com.bdh.activity.product.ProductDetail;
 
 import android.os.Bundle;
@@ -66,8 +66,8 @@ public class ChangeTime  implements Runnable{
 			//秒杀商品列表倒计时刷新
 			if(timeList.size()>0&&!MyApplication.exit)
 			{
-				Log.i(MyApplication.TAG, "timeList-->"+timeList.size());
-				Log.i(MyApplication.TAG, "txtViewList-->"+txtViewList.size());
+//				Log.i(MyApplication.TAG, "timeList-->"+timeList.size());
+//				Log.i(MyApplication.TAG, "txtViewList-->"+txtViewList.size());
 				for (int i = 0; i < timeList.size(); i++) {
 					long time=timeList.get(i);
 					Bundle bundle=new Bundle();
@@ -97,7 +97,7 @@ public class ChangeTime  implements Runnable{
 			//秒杀专区列表倒计时刷新
 			if(sectimeList.size()>0&&!MyApplication.exit)
 			{
-				Log.i(MyApplication.TAG, "sectimeList-->"+sectimeList.size());
+//				Log.i(MyApplication.TAG, "sectimeList-->"+sectimeList.size());
 //				Log.i(MyApplication.TAG, "txtViewList-->"+txtViewList.size());
 				for (int i = 0; i < sectimeList.size(); i++) {
 					long time=sectimeList.get(i);
@@ -115,11 +115,11 @@ public class ChangeTime  implements Runnable{
 						bundle.putInt("index", i);
 						sectimeList.remove(i);
 						sectimeList.add(i, time);
-						if(Seckill.secHandler!=null)
+						if(SeckillProduct.secHandler!=null)
 						{
 							Message msg=new Message();
 							msg.setData(bundle);
-							Seckill.secHandler.sendMessage(msg);
+							SeckillProduct.secHandler.sendMessage(msg);
 						}
 					}
 				}

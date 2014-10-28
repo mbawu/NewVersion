@@ -49,7 +49,7 @@ public class MyApplication extends Application {
 	public static boolean registerSuc = false; // 注册成功以后通知登录页面是否需要刷新并登录
 	public static Resources resources;
 	public static MyHttpClient client;
-	public static String TAG = "Beidahuang";// 测试用的TAG
+	public static String TAG = "New";// 测试用的TAG
 	public static int subStringLength=20;//如果产品名称过长则保留字符串的长度
 	public static ArrayList<Object> shopCartList;//放置到购物车的商品的集合
 	public static ShopCartManager shopCartManager;//购物车管理类

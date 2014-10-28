@@ -25,7 +25,7 @@ import com.test.model.Product;
 import com.test.utils.ConnectServer;
 import com.test.utils.NetworkAction;
 
-public class Seckill extends NormalActivity {
+public class SeckillProduct extends NormalActivity {
 
 	private Title title;// 设置标题栏
 	private GridView gridView;
@@ -99,7 +99,7 @@ public class Seckill extends NormalActivity {
 							ChangeTime.sectxtViewList.clear();
 							ChangeTime.sectimeList.clear();
 							secKillProduct.clear();
-							ConnectServer.getResualt(Seckill.this, paramterSeckill,
+							ConnectServer.getResualt(SeckillProduct.this, paramterSeckill,
 									NetworkAction.秒杀商品, Url.URL_SECKILL);
 						}
 					}
