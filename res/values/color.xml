@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <drawable name="style_btn_bg">#296ECD</drawable>
     <color name="black">#000000</color>
-    <color name="red">#ffff0000</color>
+    <color name="red">#FF0000</color>
     <color name="gray">#FF575756</color>
+    <color name="background_gray">#f5f8f9</color>
+    <color name="catagory_first">#646464</color>
 </resources>

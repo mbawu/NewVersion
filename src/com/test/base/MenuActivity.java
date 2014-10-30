@@ -76,5 +76,11 @@ public abstract class MenuActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 		}
 	 
+	 /**
+	  * 处理和服务器通讯的结果的方法
+	  * @param response   从服务器返回的结果
+	  * @param request		与服务器通讯的请求类型
+	  * @throws JSONException
+	  */
 	 public abstract void showResualt(JSONObject response,NetworkAction request) throws JSONException;
 }

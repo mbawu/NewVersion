@@ -47,4 +47,10 @@
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    
+    <style name="ItemRadioBtn">  
+      <!--   <item name="android:background">@drawable/radio_btn_bg</item>   -->
+        <item name="android:background">@drawable/radio_item</item>  
+             <item name="android:layout_marginTop">5dp</item>
+	</style>
 </resources>

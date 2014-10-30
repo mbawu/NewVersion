@@ -124,11 +124,11 @@
         <activity
             android:name="com.test.Load"
             android:label="@string/app_name" >
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter> --> 
         </activity>
         <activity
             android:name="com.test.product.Home"
@@ -142,6 +142,16 @@
             android:name="com.test.product.HotProduct"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+         <activity
+            android:name="com.test.product.CatagoryFirst"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+         <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

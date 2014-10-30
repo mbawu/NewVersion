@@ -1,0 +1,8 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">      
+    <item android:state_checked="true" android:state_window_focused="false"  
+          android:drawable="@drawable/catagory_frist_select" />  
+    <item android:state_checked="false" android:state_window_focused="false"  
+          android:drawable="@drawable/radio_select" />  
+    <item android:state_checked="false" android:drawable="@drawable/radio_select" />  
+    <item android:state_checked="true" android:drawable="@drawable/catagory_frist_select" />  
+</selector>  

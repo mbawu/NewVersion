@@ -93,6 +93,7 @@ public class Title extends FrameLayout{
      * 设置标题栏模式
      * 1. 消息按钮+搜索框+更多按钮
      * 2. 后退按钮+标题名称+更多按钮
+     * 3. 标题名称
      * @param module
      */
     public void setModule(int module)
@@ -108,7 +109,8 @@ public class Title extends FrameLayout{
 			txtLayout.setVisibility(View.VISIBLE);
 			moreBtn.setVisibility(View.VISIBLE);
 			break;
-		default:
+		case 3:
+			txtLayout.setVisibility(View.VISIBLE);
 			break;
 		}
     }

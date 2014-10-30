@@ -8,6 +8,22 @@ public class Category {
 	private String parent_catid;
 	private String category_level;
 	private String category_name;
+	private String category_img;
+	private boolean isChecked;
+	
+	
+	public String getCategory_img() {
+		return category_img;
+	}
+	public void setCategory_img(String category_img) {
+		this.category_img = category_img;
+	}
+	public boolean isChecked() {
+		return isChecked;
+	}
+	public void setChecked(boolean isChecked) {
+		this.isChecked = isChecked;
+	}
 	public String getCategory_id() {
 		return category_id;
 	}

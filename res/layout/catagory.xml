@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+	android:orientation="vertical">
+    <com.test.base.Title
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- 搜索模块 -->
+
+        
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bg"
+            android:layout_gravity="center"
+            />
+            <EditText 
+                 android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+                        android:layout_gravity="center"
+                android:hint="寻找宝贝"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:drawableLeft="@drawable/search_icob"
+            android:textColor="#969696"/>
+ 
+        </FrameLayout>
+
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/background_gray">
+             <!-- <RadioGroup 
+                android:id="@+id/catatgory_first"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:background="@color/white"
+                android:layout_height="wrap_content"/> -->
+              <ListView 
+                    android:id="@+id/catatgory_first"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"/> 
+            <GridView 
+                android:id="@+id/catatgory_second"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnWidth="80dp"
+                    android:gravity="center"
+                    android:horizontalSpacing="10px"
+                    android:numColumns="auto_fit"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10px" />
+        </LinearLayout>
+</LinearLayout>
