@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.test.R;
@@ -45,7 +46,7 @@ public class HotProduct extends NormalActivity implements OnClickListener{
 	private int page = 1; // 当前页码
 	private String pageSize = "10"; // 每页显示的数据条数
 	private int totalPage = 0; // 总页码
-	private ImageView getMore;
+	private LinearLayout getMore;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class HotProduct extends NormalActivity implements OnClickListener{
 		adapterHot = new MyAdapter(this, NetworkAction.热门商品, hotProduct);
 		paramterHot = new HashMap<String, String>();
 		gridView.setAdapter(adapterHot);
-		getMore= (ImageView) findViewById(R.id.getMore);
+		getMore= (LinearLayout) findViewById(R.id.getMore);
 		getMore.setOnClickListener(this);
 	}
 

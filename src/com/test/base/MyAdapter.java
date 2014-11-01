@@ -113,9 +113,9 @@ public class MyAdapter extends BaseAdapter implements
 			// long parentId = Long.valueOf(category.getCategory_id());
 			// return parentId;
 		} else if (request.equals(NetworkAction.二级分类)) {
-			// Category category = (Category) data.get(position);
-			// long parentId = Long.valueOf(category.getCategory_id());
-			// return parentId;
+			 Category category = (Category) data.get(position);
+			 long parentId = Long.valueOf(category.getCategory_id());
+			 return parentId;
 		}
 
 		return position;
@@ -144,7 +144,8 @@ public class MyAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			holder = new ViewHolder();
 			if (request.equals(NetworkAction.热门商品)
-					|| request.equals(NetworkAction.秒杀商品)) {
+					|| request.equals(NetworkAction.秒杀商品)
+					|| request.equals(NetworkAction.获取分类商品)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.home_hot_item, null);
 				holder.img = (NetworkImageView) convertView
@@ -169,7 +170,8 @@ public class MyAdapter extends BaseAdapter implements
 				holder.firstImg = (ImageView) convertView
 						.findViewById(R.id.catagory_first_select_img);
 
-			} else if (request.equals(NetworkAction.二级分类)) {
+			} else if (request.equals(NetworkAction.二级分类)
+					||request.equals(NetworkAction.三级分类)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.catagory_second_item, null);
 				holder.secondImg=(NetworkImageView) convertView
@@ -184,7 +186,8 @@ public class MyAdapter extends BaseAdapter implements
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if (request.equals(NetworkAction.热门商品)) {
+		if (request.equals(NetworkAction.热门商品)
+				|| request.equals(NetworkAction.获取分类商品)) {
 			// Log.i("test", "热门商品data.size()->" + data.size());
 			Product product = (Product) data.get(position);
 			holder.nameTxt.setText(product.getName());
@@ -230,7 +233,7 @@ public class MyAdapter extends BaseAdapter implements
 			holder.firstImg.setTag(category.getCategory_id());
 			if (position == 0 && firstPosition<=1) {
 				holder.firstTxt.setTextColor(MyApplication.resources
-						.getColor(R.color.red));
+						.getColor(R.color.style_color));
 				holder.firstImg.setVisibility(View.VISIBLE);
 				((CatagoryFirst)object).getCatagorySecond(category.getCategory_id());
 				firstPosition++;
@@ -244,7 +247,8 @@ public class MyAdapter extends BaseAdapter implements
 			temp.add(holder.firstTxt);
 
 		}
-		else if (request.equals(NetworkAction.二级分类)) {
+		else if (request.equals(NetworkAction.二级分类)
+				||request.equals(NetworkAction.三级分类)) {
 			Category category = (Category) data.get(position);
 			MyApplication.client.getImageForNetImageView(category.getCategory_img(),
 					holder.secondImg, R.drawable.ic_launcher);
@@ -268,7 +272,7 @@ public class MyAdapter extends BaseAdapter implements
 				img1.setVisibility(View.GONE);
 			}
 			((TextView) v).setTextColor(MyApplication.resources
-					.getColor(R.color.red));
+					.getColor(R.color.style_color));
 			ImageView img = (ImageView) v.getTag();
 			img.setVisibility(View.VISIBLE);
 			String id=(String) img.getTag();

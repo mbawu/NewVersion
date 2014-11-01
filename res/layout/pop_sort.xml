@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp" >
+
+        <RadioButton
+            android:id="@+id/show_pop_sort"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/catagory_second_bg"
+            android:button="@null"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="综合排序"
+            android:textColor="@color/menu_noselect" />
+
+        <RadioButton
+            android:id="@+id/show_pop_low"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+                       android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/catagory_second_bg"
+            android:button="@null"
+            android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+            android:text="价格从低到高"
+            android:textColor="@color/menu_noselect" />
+
+        <RadioButton
+            android:id="@+id/show_pop_high"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+                        android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/catagory_second_bg"
+            android:button="@null"
+            android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+            android:text="价格从高到底"
+            android:textColor="@color/menu_noselect" />
+    </RadioGroup>
+
+</LinearLayout>

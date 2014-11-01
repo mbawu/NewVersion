@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:orientation="vertical" >
+
+    <com.test.base.Title
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- 搜索模块 -->
+
+    <RadioGroup
+        android:id="@+id/show_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/catagory_second_bg"
+        android:padding="6dp"
+        android:orientation="horizontal">
+	<RadioButton 
+	    android:id="@+id/show_sort"
+	    android:layout_width="0dp"
+	    android:layout_weight="3"
+	    android:layout_height="match_parent"
+	    android:button="@null"
+	    android:gravity="center"
+	    android:drawableRight="@drawable/sort_ico_noselect"
+	    android:textColor="@color/menu_noselect"
+	    android:text="综合排序"/>
+       
+	<RadioButton 
+	    android:id="@+id/show_salefirst"
+	    android:layout_width="0dp"
+	    android:layout_weight="3"
+	    android:layout_height="match_parent"
+	    android:button="@null"
+	    android:gravity="center"
+	    android:textColor="@color/menu_noselect"
+	    android:text="销量优先"/>
+	<RadioButton 
+	    android:id="@+id/show_filter"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:button="@null"
+	    android:layout_gravity="right"
+	    android:textColor="@color/menu_noselect"
+	    android:layout_marginRight="10dp"
+	    android:drawableRight="@drawable/filter_ico_noselect"
+	    android:gravity="center"
+	    android:text="筛选"/>
+    </RadioGroup>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <com.test.base.MyGridView
+                android:id="@+id/product_gridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnWidth="140dp"
+                android:gravity="center"
+                android:horizontalSpacing="10px"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10px" />
+
+            <LinearLayout
+                android:id="@+id/getMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/getMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/more_item" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
