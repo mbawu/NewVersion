@@ -45,28 +45,31 @@ public class Title extends FrameLayout {
 		msgBtn.setOnClickListener(new OnclickListener());
 		moreBtn.setOnClickListener(new OnclickListener());
 		searchTxt = (SearchEditText) findViewById(R.id.searchTxt);
-		searchTxt.setOnEditorActionListener(new OnEditorActionListener() {
-
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					// 先隐藏键盘
-					((InputMethodManager) searchTxt.getContext()
-							.getSystemService(Context.INPUT_METHOD_SERVICE))
-							.hideSoftInputFromWindow(((Activity) context)
-									.getCurrentFocus().getWindowToken(),
-									InputMethodManager.HIDE_NOT_ALWAYS);
-
-				}
-				Toast.makeText(context, "你点了回车键", 2000).show();
-				Toast.makeText(context, v.getText().toString(), 2000).show();
-				return true;
-			}
-
-		});
+		searchTxt.setOnEditorActionListener(new MyApplication.OnEditorActionListener(context,searchTxt));
+//		searchTxt.setOnEditorActionListener(new OnEditorActionListener() {
+//
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId,
+//					KeyEvent event) {
+//				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//					// 先隐藏键盘
+//					((InputMethodManager) searchTxt.getContext()
+//							.getSystemService(Context.INPUT_METHOD_SERVICE))
+//							.hideSoftInputFromWindow(((Activity) context)
+//									.getCurrentFocus().getWindowToken(),
+//									InputMethodManager.HIDE_NOT_ALWAYS);
+//
+//				}
+////				if(((Activity)context).getLocalClassName().equals("product.ProductShow"))
+//				Toast.makeText(context,((Activity)context).getLocalClassName().equals("product.ProductShow")+"", 2000).show();
+//				Toast.makeText(context, v.getText().toString(), 2000).show();
+//				return true;
+//			}
+//
+//		});
 	}
 
+	
 	public class OnclickListener implements View.OnClickListener {
 
 		@Override

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,6 +51,7 @@ public class CatagoryFirst extends MenuActivity implements OnItemClickListener {
 	private GridView gridView;
 	private HashMap<String, String> paramterFirst;
 	private boolean isThird = false;// 是否有三级分类
+	private EditText catagorySearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,8 @@ public class CatagoryFirst extends MenuActivity implements OnItemClickListener {
 		gridView.setAdapter(adapterSecond);
 		gridView.setOnItemClickListener(this);
 		paramterFirst = new HashMap<String, String>();
-
+		catagorySearch=(EditText) findViewById(R.id.catagory_search);
+		catagorySearch.setOnEditorActionListener(new MyApplication.OnEditorActionListener(this, catagorySearch));
 	}
 
 	public void getCatagorySecond(String parentId) {
@@ -182,6 +185,7 @@ public class CatagoryFirst extends MenuActivity implements OnItemClickListener {
 					((Category) listSecond.get(position)).getCategory_id());
 			intent.putExtra("CacheID",
 					((Category) listSecond.get(position)).getCacheID());
+			MyApplication.searchModule=1;
 		}
 		startActivity(intent);
 	}

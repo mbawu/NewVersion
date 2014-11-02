@@ -10,31 +10,39 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
-
 import cn.jpush.android.api.JPushInterface;
 
 import com.test.utils.CacheManager;
 import com.test.utils.MyHttpClient;
 import com.test.model.City;
 import com.test.model.Product;
+import com.test.product.ProductShow;
 
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
+import android.sax.StartElementListener;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyApplication extends Application {
 	public static boolean loginStat = false; // 登录状态
 	public static boolean jPush = false; // 是否接受消息推送
-	public static boolean goToOrder=false;//是否要跳转到查看订单的页面
+	public static boolean goToOrder = false;// 是否要跳转到查看订单的页面
 	public static ProgressDialog mypDialog; // 全局进度条
 	public static int width; // 屏幕宽
 	public static int height; // 屏幕高
@@ -50,24 +58,30 @@ public class MyApplication extends Application {
 	public static Resources resources;
 	public static MyHttpClient client;
 	public static String TAG = "New";// 测试用的TAG
-	public static int subStringLength=20;//如果产品名称过长则保留字符串的长度
-	public static ArrayList<Object> shopCartList;//放置到购物车的商品的集合
-	public static ShopCartManager shopCartManager;//购物车管理类
-	public static Boolean shopcart_refresh = false;//购物车数据发生变化时是否需要刷新购物车数据
-	public static String sid="15";//商家ID
-	public static boolean exit=false;
+	public static int subStringLength = 20;// 如果产品名称过长则保留字符串的长度
+	public static ArrayList<Object> shopCartList;// 放置到购物车的商品的集合
+	public static ShopCartManager shopCartManager;// 购物车管理类
+	public static Boolean shopcart_refresh = false;// 购物车数据发生变化时是否需要刷新购物车数据
+	public static String sid = "14";// 商家ID
+	public static boolean exit = false;
 	public static Context context;
-	public static boolean comment=false;//是否在评论订单的状态
-	public static boolean seckillModule=false;//是否进入到秒杀专区
-
+	public static boolean comment = false;// 是否在评论订单的状态
+	public static boolean seckillModule = false;// 是否进入到秒杀专区
+	/*
+	 * 三种搜索模式
+	 * 1. 从分类列表跳转到商品列表，根据分类ID获取相应的商品数据 
+	 * 2. 从其他页面的搜索框输入搜索信息，根据搜索字样进行搜索并获取到商品数据
+	 * 3. 从更多按钮跳转到商品列表页面，但是还没有搜索条件，所以没有商品数据，需要在搜索框输入搜索内容点击搜索按钮的时候更改搜索模式到第二种
+	 */
+	public static int searchModule;
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		context=getApplicationContext();
-		shopCartManager=new ShopCartManager(getApplicationContext());
-		shopCartList=new ArrayList<Object>();
+		context = getApplicationContext();
+		shopCartManager = new ShopCartManager(getApplicationContext());
+		shopCartList = new ArrayList<Object>();
 		try {
 			shopCartList = shopCartManager.readShopCart();
 		} catch (StreamCorruptedException e) {
@@ -148,14 +162,13 @@ public class MyApplication extends Application {
 		mList.add(activity);
 	}
 
-	public void removeActivity(Activity finishActivity)
-	{
+	public void removeActivity(Activity finishActivity) {
 		for (Activity activity : mList) {
 			if (activity.equals(finishActivity))
 				activity.finish();
 		}
 	}
-	
+
 	/*
 	 * 整个应用程序退出，循环遍历集合内没有销毁的Activity，全都销毁以后再退出，保证应用程序正常关闭退出
 	 */
@@ -170,7 +183,7 @@ public class MyApplication extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if(!exit)
+			if (!exit)
 				System.exit(0);
 		}
 	}
@@ -180,22 +193,25 @@ public class MyApplication extends Application {
 		System.gc();
 	}
 
-	
 	/**
 	 * 全局进度条，在任何一个activity中都可以调用该进度条，传入当前context和需要显示的文字即可
 	 * 在需要出现进度条的模块调用该方法，在执行完网络请求以后无论何种情况都会先结束掉该进度条
-	 * @param context  上下文对象
-	 * @param title  标题
-	 * @param msg  进度条显示的内容
+	 * 
+	 * @param context
+	 *            上下文对象
+	 * @param title
+	 *            标题
+	 * @param msg
+	 *            进度条显示的内容
 	 */
 	public static void progressShow(Context context, String msg) {
-		
+
 		mypDialog = new ProgressDialog(context);
 		mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		// 设置进度条风格，风格为长形，有刻度的
-			mypDialog.setTitle("加载");
+		mypDialog.setTitle("加载");
 		// 设置ProgressDialog 标题
-		mypDialog.setMessage(msg+"加载中...");
+		mypDialog.setMessage(msg + "加载中...");
 		// 设置ProgressDialog 提示信息
 		// mypDialog.setIcon(R.drawable.android);
 		// //设置ProgressDialog 标题图标
@@ -231,12 +247,53 @@ public class MyApplication extends Application {
 		return url;
 	}
 
-	public static String limitString(String name)
-	{
-		if(name.length()>subStringLength)
-		{
-			name=name.substring(0, subStringLength)+"...";
+	public static String limitString(String name) {
+		if (name.length() > subStringLength) {
+			name = name.substring(0, subStringLength) + "...";
 		}
 		return name;
+	}
+
+	public static class OnEditorActionListener implements
+			android.widget.TextView.OnEditorActionListener {
+
+		private Context contextTemp;
+		private View view;
+
+		public OnEditorActionListener(Context context, View view) {
+			contextTemp = context;
+			this.view = view;
+		}
+
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				// 先隐藏键盘
+				((InputMethodManager) view.getContext().getSystemService(
+						Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+						((Activity) contextTemp).getCurrentFocus()
+								.getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+				if(((EditText)view).getText().toString().equals(""))
+					Toast.makeText(contextTemp,"请输入搜索内容！", 2000)
+					.show();
+				//如果是在商品列表页面
+				 if(((Activity)contextTemp).getLocalClassName().equals("product.ProductShow"))
+				 {
+					 MyApplication.searchModule=2;
+				 }
+				 else
+				 {
+					 Intent intent=new Intent();
+					 intent.setClass(contextTemp, ProductShow.class);
+					 intent.putExtra("searchTxt", ((EditText)view).getText().toString());
+					 MyApplication.searchModule=2;
+					 ((Activity)contextTemp).startActivity(intent);
+				 }
+
+			}
+			return true;
+
+		}
 	}
 }

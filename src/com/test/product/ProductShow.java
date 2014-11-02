@@ -26,10 +26,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
@@ -59,7 +61,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private HashMap<String, String> paramterCatagory;// 获取分类商品的请求参数
 	private int page = 1; // 需要申请查看的数据的页码
 	private String pageSize = "10";
-//	private String sortType = "0"; // 排序方式 0销量，1价格升序，2价格降序，3人气，4上架时间，5好评
+	// private String sortType = "0"; // 排序方式 0销量，1价格升序，2价格降序，3人气，4上架时间，5好评
 	private int totalpage = 0;
 	private LinearLayout getMore;// 获取更多数据的按钮
 	private RadioGroup radioGroup;
@@ -69,9 +71,16 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private RadioButton popHigh;// 综合排序弹出框选项
 	private RadioButton showSaleFirst;// 销量优先
 	private RadioButton showFilter;// 筛选
+	private EditText startPrice;// 筛选起止价格
+	private EditText endPrice;// 筛选起止价格
+	private String start_price="0";
+	private String end_price="0";
 	private PopupWindow sortPopWindow; // 综合排序PopupWindow
 	private PopupWindow filterPopWindow; // 筛选PopupWindow
-
+	private int sortTypeTemp = 0;
+	private NetworkAction request;
+	private String Category_id;
+	private String CacheID;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -92,41 +101,32 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		showSort.setOnClickListener(this);
 		showSaleFirst = (RadioButton) findViewById(R.id.show_salefirst);
 		showFilter = (RadioButton) findViewById(R.id.show_filter);
+		showFilter.setOnClickListener(this);
 		showSort.setOnCheckedChangeListener(this);
 		showSaleFirst.setOnCheckedChangeListener(this);
 		showFilter.setOnCheckedChangeListener(this);
 
-		// radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		//
-		// @Override
-		// public void onCheckedChanged(RadioGroup group, int checkedId) {
-		// switch (checkedId) {
-		// case R.id.show_sort:
-		//
-		// break;
-		// case R.id.show_salefirst:
-		//
-		// break;
-		// case R.id.show_filter:
-		//
-		// break;
-		// }
-		//
-		// }
-		// });
+	
 	}
 
 	private void initData() {
 		// 从分类列表跳转过来的情况
-		Intent intent = getIntent();
-		String Category_id = intent.getStringExtra("Category_id");
-		String CacheID = intent.getStringExtra("CacheID");
-		Log.i(MyApplication.TAG, "Category_id->" + Category_id);
-		Log.i(MyApplication.TAG, "CacheID->" + CacheID);
+		if(MyApplication.searchModule==1)
+			catagorySearch();
 		products = new ArrayList<Object>();
-		adapter = new MyAdapter(this, NetworkAction.获取分类商品, products);
+		adapter = new MyAdapter(this, request, products);
 		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(this);
+		
+	}
+
+	// 从分类列表跳转过来的情况
+	public void catagorySearch()
+	{
+		Intent intent = getIntent();
+		Category_id = intent.getStringExtra("Category_id");
+		CacheID = intent.getStringExtra("CacheID");
+		request=NetworkAction.获取分类商品;
 		paramterCatagory = new HashMap<String, String>();
 		paramterCatagory.put("act", "product");
 		paramterCatagory.put("sid", MyApplication.sid);
@@ -139,13 +139,13 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		paramterCatagory.put("CacheID1", "0");
 		paramterCatagory.put("brans", "0");
 		paramterCatagory.put("clears", "0");
-		paramterCatagory.put("start_price", "0");
-		paramterCatagory.put("end_price", "0");
+		paramterCatagory.put("start_price",start_price);
+		paramterCatagory.put("end_price",end_price);
 		paramterCatagory.put("sort_type", "0");
 		paramterCatagory.put("cates", "0");
 		showSaleFirst.setChecked(true);
 	}
-
+	
 	@Override
 	public void showResualt(JSONObject response, NetworkAction request)
 			throws JSONException {
@@ -202,6 +202,10 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		case R.id.show_sort:
 			initSortPop(radioGroup);
 			break;
+		case R.id.show_filter:
+			initFilterPop(radioGroup);
+			// initSortPop(radioGroup);
+			break;
 		}
 
 	}
@@ -219,7 +223,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 					.getDrawable(R.drawable.filter_ico_select);
 			filterSelect.setBounds(0, 0, filterSelect.getMinimumWidth(),
 					filterSelect.getMinimumHeight());
-			//综合排序被选中时的右边的对号的图片
+			// 综合排序被选中时的右边的对号的图片
 			Drawable sortSelectBg = MyApplication.resources
 					.getDrawable(R.drawable.sort_select_bg);
 			sortSelectBg.setBounds(0, 0, sortSelectBg.getMinimumWidth(),
@@ -229,7 +233,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 			switch (buttonView.getId()) {
 			case R.id.show_sort:
 				buttonView.setCompoundDrawables(null, null, sortSelect, null); // 设置右图标
-//				initSortPop(radioGroup);
+				// initSortPop(radioGroup);
 				break;
 			case R.id.show_salefirst:
 				resetData(0);
@@ -243,7 +247,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 			case R.id.show_pop_sort:
 				buttonView.setCompoundDrawables(null, null, sortSelectBg, null); // 设置右图标
 				showSort.setText(buttonView.getText().toString());
-				//添加综合排序的代码
+				// 添加综合排序的代码
 				resetData(3);
 				ConnectServer.getResualt(this, paramterCatagory,
 						NetworkAction.获取分类商品, Url.URL_INDEX);
@@ -252,7 +256,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 			case R.id.show_pop_low:
 				buttonView.setCompoundDrawables(null, null, sortSelectBg, null); // 设置右图标
 				showSort.setText(buttonView.getText().toString());
-				//添加价格从低到高的代码
+				// 添加价格从低到高的代码
 				resetData(1);
 				ConnectServer.getResualt(this, paramterCatagory,
 						NetworkAction.获取分类商品, Url.URL_INDEX);
@@ -261,7 +265,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 			case R.id.show_pop_high:
 				buttonView.setCompoundDrawables(null, null, sortSelectBg, null); // 设置右图标
 				showSort.setText(buttonView.getText().toString());
-				//添加价格从高到底的代码
+				// 添加价格从高到底的代码
 				resetData(2);
 				ConnectServer.getResualt(this, paramterCatagory,
 						NetworkAction.获取分类商品, Url.URL_INDEX);
@@ -308,38 +312,82 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		LayoutInflater layoutInflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View popuView = layoutInflater.inflate(R.layout.pop_sort, null);
-		sortPopWindow = new PopupWindow(popuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		popSort=(RadioButton) popuView.findViewById(R.id.show_pop_sort);
-		popLow=(RadioButton) popuView.findViewById(R.id.show_pop_low);
-		popHigh=(RadioButton) popuView.findViewById(R.id.show_pop_high);
+		sortPopWindow = new PopupWindow(popuView,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		popSort = (RadioButton) popuView.findViewById(R.id.show_pop_sort);
+		popLow = (RadioButton) popuView.findViewById(R.id.show_pop_low);
+		popHigh = (RadioButton) popuView.findViewById(R.id.show_pop_high);
 		popSort.setOnCheckedChangeListener(this);
 		popLow.setOnCheckedChangeListener(this);
 		popHigh.setOnCheckedChangeListener(this);
-		if(showSort.getText().toString().equals(popSort.getText().toString()))
+		if (showSort.getText().toString().equals(popSort.getText().toString()))
 			popSort.setChecked(true);
-		else if(showSort.getText().toString().equals(popLow.getText().toString()))
+		else if (showSort.getText().toString()
+				.equals(popLow.getText().toString()))
 			popLow.setChecked(true);
-		else if(showSort.getText().toString().equals(popHigh.getText().toString()))
+		else if (showSort.getText().toString()
+				.equals(popHigh.getText().toString()))
 			popHigh.setChecked(true);
-		//加上下面两句代码点击其他地方该弹出框将消失
-		ColorDrawable cd=new ColorDrawable(-0000);
+		// 加上下面两句代码点击其他地方该弹出框将消失
+		ColorDrawable cd = new ColorDrawable(-0000);
 		sortPopWindow.setBackgroundDrawable(cd);
-		int height=title.getHeight()+radioGroup.getHeight();
+		int height = title.getHeight() + radioGroup.getHeight();
 		sortPopWindow.setFocusable(true);
 		sortPopWindow.setOutsideTouchable(true);
-		sortPopWindow.showAtLocation(parent, Gravity.TOP,10,height+50); 
+		sortPopWindow.showAtLocation(parent, Gravity.TOP, 10, height + 50);
 		sortPopWindow.update();
 	}
-	
-	//更新数据源的时候重置数据，根据排序方式而定
-	public void resetData(int sortType)
-	{
+
+	// 初始化筛选弹出菜单
+	private void initFilterPop(View parent) {
+		LayoutInflater layoutInflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View popuView = layoutInflater.inflate(R.layout.pop_filter, null);
+		filterPopWindow = new PopupWindow(popuView,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		startPrice = (EditText) popuView.findViewById(R.id.filter_startprice);
+		endPrice = (EditText) popuView.findViewById(R.id.filter_endprice);
+
+		// 加上下面两句代码点击其他地方该弹出框将消失
+		ColorDrawable cd = new ColorDrawable(-0000);
+		filterPopWindow.setBackgroundDrawable(cd);
+		int height = title.getHeight() + radioGroup.getHeight();
+		filterPopWindow.setFocusable(true);
+		filterPopWindow.setOutsideTouchable(true);
+		filterPopWindow.showAtLocation(parent, Gravity.TOP, 0, height + 47);
+		filterPopWindow.setOnDismissListener(new OnDismissListener() {
+
+			@Override
+			public void onDismiss() {
+				start_price=startPrice.getText().toString();
+				end_price=endPrice.getText().toString();
+				if (!start_price.equals("")
+						&& !end_price.equals("")) {
+					resetData(sortTypeTemp);
+					paramterCatagory.put("start_price", start_price);
+					paramterCatagory.put("end_price", end_price);
+					ConnectServer.getResualt(ProductShow.this,
+							paramterCatagory, NetworkAction.获取分类商品,
+							Url.URL_INDEX);
+				}
+
+			}
+		});
+		filterPopWindow.update();
+
+	}
+
+	// 更新数据源的时候重置数据，根据排序方式而定
+	public void resetData(int sortType) {
+		sortTypeTemp = sortType;
 		products.clear();// 清空数据
 		page = 1;// 重置页码
 		getMore.setVisibility(View.VISIBLE);// 还原更多按钮的显示
-		paramterCatagory.remove(paramterCatagory.get("nowpage"));// 重置页码参数
 		paramterCatagory.put("nowpage", String.valueOf(page));
-		paramterCatagory.remove(paramterCatagory.get("sort_type"));// 重置排序类型
 		paramterCatagory.put("sort_type", String.valueOf(sortType));
+		paramterCatagory.put("start_price",start_price);
+		paramterCatagory.put("end_price", end_price);
 	}
 }

@@ -23,6 +23,7 @@
             android:layout_gravity="center"
             />
             <EditText 
+                android:id="@+id/catagory_search"
                  android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"

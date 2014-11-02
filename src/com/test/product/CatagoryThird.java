@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -43,6 +44,7 @@ public class CatagoryThird extends NormalActivity implements OnItemClickListener
 	private ArrayList<Object> listThird;
 	private MyAdapter adapterThird;
 	private GridView gridView;
+	private EditText catagorySearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,9 @@ public class CatagoryThird extends NormalActivity implements OnItemClickListener
 		title.setModule(4);
 		title.setTitleTxt("ап╠М");
 		gridView = (GridView) findViewById(R.id.catatgory_third);
-
+		gridView.setOnItemClickListener(this);
+		catagorySearch=(EditText) findViewById(R.id.catagory_search);
+		catagorySearch.setOnEditorActionListener(new MyApplication.OnEditorActionListener(this, catagorySearch));
 	}
 
 	private void initData() {
@@ -78,13 +82,13 @@ public class CatagoryThird extends NormalActivity implements OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long parentId) {
-//		Intent intent = new Intent().setClass(this, ProductListShow.class);
-//		intent.putExtra("Category_id",
-//				((Category) listThird.get(position)).getCategory_id());
-//		intent.putExtra("CacheID",
-//				((Category) listThird.get(position)).getCacheID());
-//
-//		startActivity(intent);
+		Intent intent = new Intent().setClass(this, ProductShow.class);
+		intent.putExtra("Category_id",
+				((Category) listThird.get(position)).getCategory_id());
+		intent.putExtra("CacheID",
+				((Category) listThird.get(position)).getCacheID());
+		MyApplication.searchModule=1;
+		startActivity(intent);
 
 	}
 }
