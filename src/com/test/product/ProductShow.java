@@ -58,7 +58,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private ArrayList<Object> products;
 	private MyAdapter adapter;
 	private MyGridView gridView;
-	private HashMap<String, String> paramterCatagory;// 获取分类商品的请求参数
+	private HashMap<String, String> paramter;// 获取分类商品的请求参数
 	private int page = 1; // 需要申请查看的数据的页码
 	private String pageSize = "10";
 	// private String sortType = "0"; // 排序方式 0销量，1价格升序，2价格降序，3人气，4上架时间，5好评
@@ -81,6 +81,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private NetworkAction request;
 	private String Category_id;
 	private String CacheID;
+	private String url;
+	private String searchTxt;//搜索关键字
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -127,25 +129,32 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		Category_id = intent.getStringExtra("Category_id");
 		CacheID = intent.getStringExtra("CacheID");
 		request=NetworkAction.获取分类商品;
-		paramterCatagory = new HashMap<String, String>();
-		paramterCatagory.put("act", "product");
-		paramterCatagory.put("sid", MyApplication.sid);
-		paramterCatagory.put("store_id", MyApplication.sid);
-		paramterCatagory.put("nowpage", String.valueOf(page));
-		paramterCatagory.put("pagesize", pageSize);
-		paramterCatagory.put("keyname", Category_id);
-		paramterCatagory.put("CacheID", CacheID);
-		paramterCatagory.put("keyname1", "0");
-		paramterCatagory.put("CacheID1", "0");
-		paramterCatagory.put("brans", "0");
-		paramterCatagory.put("clears", "0");
-		paramterCatagory.put("start_price",start_price);
-		paramterCatagory.put("end_price",end_price);
-		paramterCatagory.put("sort_type", "0");
-		paramterCatagory.put("cates", "0");
+		url=Url.URL_INDEX;
+		paramter = new HashMap<String, String>();
+		paramter.put("act", "product");
+		paramter.put("sid", MyApplication.sid);
+		paramter.put("store_id", MyApplication.sid);
+		paramter.put("nowpage", String.valueOf(page));
+		paramter.put("pagesize", pageSize);
+		paramter.put("keyname", Category_id);
+		paramter.put("CacheID", CacheID);
+		paramter.put("keyname1", "0");
+		paramter.put("CacheID1", "0");
+		paramter.put("brans", "0");
+		paramter.put("clears", "0");
+		paramter.put("start_price",start_price);
+		paramter.put("end_price",end_price);
+		paramter.put("sort_type", "0");
+		paramter.put("cates", "0");
 		showSaleFirst.setChecked(true);
 	}
 	
+	
+	public void stringSearch()
+	{
+		Intent intent = getIntent();
+		searchTxt = intent.getStringExtra("searchTxt");
+	}
 	@Override
 	public void showResualt(JSONObject response, NetworkAction request)
 			throws JSONException {
@@ -194,10 +203,10 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.getMore:
-			paramterCatagory.remove(paramterCatagory.get("nowpage"));
-			paramterCatagory.put("nowpage", String.valueOf(page));
-			ConnectServer.getResualt(this, paramterCatagory,
-					NetworkAction.获取分类商品, Url.URL_INDEX);
+			paramter.remove(paramter.get("nowpage"));
+			paramter.put("nowpage", String.valueOf(page));
+			ConnectServer.getResualt(this, paramter,
+					request,url);
 			break;
 		case R.id.show_sort:
 			initSortPop(radioGroup);
@@ -237,7 +246,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				break;
 			case R.id.show_salefirst:
 				resetData(0);
-				ConnectServer.getResualt(this, paramterCatagory,
+				ConnectServer.getResualt(this, paramter,
 						NetworkAction.获取分类商品, Url.URL_INDEX);
 				break;
 			case R.id.show_filter:
@@ -249,8 +258,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加综合排序的代码
 				resetData(3);
-				ConnectServer.getResualt(this, paramterCatagory,
-						NetworkAction.获取分类商品, Url.URL_INDEX);
+				ConnectServer.getResualt(this, paramter,
+						request, url);
 				sortPopWindow.dismiss();
 				break;
 			case R.id.show_pop_low:
@@ -258,8 +267,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加价格从低到高的代码
 				resetData(1);
-				ConnectServer.getResualt(this, paramterCatagory,
-						NetworkAction.获取分类商品, Url.URL_INDEX);
+				ConnectServer.getResualt(this, paramter,
+						request, url);
 				sortPopWindow.dismiss();
 				break;
 			case R.id.show_pop_high:
@@ -267,8 +276,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加价格从高到底的代码
 				resetData(2);
-				ConnectServer.getResualt(this, paramterCatagory,
-						NetworkAction.获取分类商品, Url.URL_INDEX);
+				ConnectServer.getResualt(this, paramter,
+						request, url);
 				sortPopWindow.dismiss();
 				break;
 			}
@@ -366,11 +375,10 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				if (!start_price.equals("")
 						&& !end_price.equals("")) {
 					resetData(sortTypeTemp);
-					paramterCatagory.put("start_price", start_price);
-					paramterCatagory.put("end_price", end_price);
+					paramter.put("start_price", start_price);
+					paramter.put("end_price", end_price);
 					ConnectServer.getResualt(ProductShow.this,
-							paramterCatagory, NetworkAction.获取分类商品,
-							Url.URL_INDEX);
+							paramter, request, url);
 				}
 
 			}
@@ -385,9 +393,9 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		products.clear();// 清空数据
 		page = 1;// 重置页码
 		getMore.setVisibility(View.VISIBLE);// 还原更多按钮的显示
-		paramterCatagory.put("nowpage", String.valueOf(page));
-		paramterCatagory.put("sort_type", String.valueOf(sortType));
-		paramterCatagory.put("start_price",start_price);
-		paramterCatagory.put("end_price", end_price);
+		paramter.put("nowpage", String.valueOf(page));
+		paramter.put("sort_type", String.valueOf(sortType));
+		paramter.put("start_price",start_price);
+		paramter.put("end_price", end_price);
 	}
 }
