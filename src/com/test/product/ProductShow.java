@@ -51,7 +51,7 @@ import com.test.model.Category;
 import com.test.utils.ConnectServer;
 import com.test.utils.NetworkAction;
 
-//商品列表
+//商品列表的类
 public class ProductShow extends NormalActivity implements OnItemClickListener,
 		OnClickListener, OnCheckedChangeListener {
 
