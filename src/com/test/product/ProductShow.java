@@ -55,7 +55,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		OnClickListener, OnCheckedChangeListener {
 
 	private Title title;// 设置标题栏
-	private ArrayList<Object> products;
+	private ArrayList<Object> products;//
 	private MyAdapter adapter;
 	private MyGridView gridView;
 	private HashMap<String, String> paramter;// 获取分类商品的请求参数
