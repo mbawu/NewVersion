@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +24,10 @@ public class Title extends FrameLayout {
 	private LinearLayout msgBtn;// 消息按钮
 	private FrameLayout searchLayout;// 搜索模块
 	private LinearLayout moreBtn;// 更多模块
+	private FrameLayout morePage;// 更多页面
 	private LinearLayout txtLayout;// 标题模块
 	private TextView titleTxt;// 标题栏文字
-	private SearchEditText searchTxt;
+	private EditText searchTxt;
 
 	public Title(Context context) {
 		super(context, null);
@@ -40,33 +42,14 @@ public class Title extends FrameLayout {
 		titleTxt = (TextView) findViewById(R.id.title_txt);
 		searchLayout = (FrameLayout) findViewById(R.id.searchLayout);
 		moreBtn = (LinearLayout) findViewById(R.id.moreBtn);
+		morePage = (FrameLayout) findViewById(R.id.morePage);
 		txtLayout = (LinearLayout) findViewById(R.id.txtLayout);
 		backBtn.setOnClickListener(new OnclickListener());
 		msgBtn.setOnClickListener(new OnclickListener());
 		moreBtn.setOnClickListener(new OnclickListener());
-		searchTxt = (SearchEditText) findViewById(R.id.searchTxt);
+		morePage.setOnClickListener(new OnclickListener());
+		searchTxt = (EditText) findViewById(R.id.searchTxt);
 		searchTxt.setOnEditorActionListener(new MyApplication.OnEditorActionListener(context,searchTxt));
-//		searchTxt.setOnEditorActionListener(new OnEditorActionListener() {
-//
-//			@Override
-//			public boolean onEditorAction(TextView v, int actionId,
-//					KeyEvent event) {
-//				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//					// 先隐藏键盘
-//					((InputMethodManager) searchTxt.getContext()
-//							.getSystemService(Context.INPUT_METHOD_SERVICE))
-//							.hideSoftInputFromWindow(((Activity) context)
-//									.getCurrentFocus().getWindowToken(),
-//									InputMethodManager.HIDE_NOT_ALWAYS);
-//
-//				}
-////				if(((Activity)context).getLocalClassName().equals("product.ProductShow"))
-//				Toast.makeText(context,((Activity)context).getLocalClassName().equals("product.ProductShow")+"", 2000).show();
-//				Toast.makeText(context, v.getText().toString(), 2000).show();
-//				return true;
-//			}
-//
-//		});
 	}
 
 	
@@ -84,7 +67,8 @@ public class Title extends FrameLayout {
 			case R.id.moreBtn:
 				// 更多按钮的弹出框
 				break;
-			default:
+			case R.id.morePage:
+				// 跳转更多页面
 				break;
 			}
 
@@ -92,9 +76,13 @@ public class Title extends FrameLayout {
 	}
 
 	/**
-	 * 设置标题栏模式 1. 消息按钮+搜索框+更多按钮 2. 后退按钮+标题名称+更多按钮 3. 标题名称 4. 后退按钮+标题名称 5.
-	 * 后退按钮+搜索框+更多按钮
-	 * 
+	 * 设置标题栏模式 
+	 * 1. 消息按钮+搜索框+更多按钮 
+	 * 2. 后退按钮+标题名称+更多按钮 
+	 * 3. 标题名称 
+	 * 4. 后退按钮+标题名称 
+	 * 5. 后退按钮+搜索框+更多按钮
+	 * 6. 标题名称 +更多页面
 	 * @param module
 	 */
 	public void setModule(int module) {
@@ -119,6 +107,10 @@ public class Title extends FrameLayout {
 			backBtn.setVisibility(View.VISIBLE);
 			searchLayout.setVisibility(View.VISIBLE);
 			moreBtn.setVisibility(View.VISIBLE);
+			break;
+		case 6:
+			txtLayout.setVisibility(View.VISIBLE);
+			morePage.setVisibility(View.VISIBLE);
 			break;
 		}
 	}

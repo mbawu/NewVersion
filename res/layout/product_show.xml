@@ -22,7 +22,7 @@
 	<RadioButton 
 	    android:id="@+id/show_sort"
 	    android:layout_width="0dp"
-	    android:layout_weight="4"
+	    android:layout_weight="3"
 	    android:layout_height="match_parent"
 	    android:button="@null"
 	    android:gravity="center"

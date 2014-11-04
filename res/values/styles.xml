@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -31,6 +31,7 @@
         <item name="android:shadowDy">1.0</item>
         <item name="android:shadowRadius">1.0</item>
     </style>
+
     <style name="custom_dialog_msg">
         <item name="android:textSize">16.0dip</item>
         <item name="android:textColor">#ff666666</item>
@@ -40,17 +41,31 @@
         <item name="android:textSize">15.0dip</item>
         <item name="android:textColor">#ffffffff</item>
     </style>
-    
-     <!-- 正文显示样式 -->
+
+    <!-- 正文显示样式 -->
     <style name="txtStyle">
         <item name="android:textSize">12.0dip</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">@color/black</item>
     </style>
-    
-    <style name="ItemRadioBtn">  
-      <!--   <item name="android:background">@drawable/radio_btn_bg</item>   -->
-        <item name="android:background">@drawable/radio_item</item>  
-             <item name="android:layout_marginTop">5dp</item>
-	</style>
+
+    <style name="ItemRadioBtn">
+
+        <!-- <item name="android:background">@drawable/radio_btn_bg</item> -->
+        <item name="android:background">@drawable/radio_item</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <!-- 我的菜单样式 -->
+    <style name="personMenuLayout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14.0dip</item>
+        <item name="android:textColor">@color/menu_noselect</item>
+        <item name="android:background">@drawable/catagory_second_bg</item>
+         <item name="android:layout_marginTop">10dp</item>
+                 <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
 </resources>

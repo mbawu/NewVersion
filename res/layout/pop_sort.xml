@@ -34,7 +34,7 @@
             android:button="@null"
             android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-            android:text="价格从低到高"
+            android:text="价格升序"
             android:textColor="@color/menu_noselect" />
 
         <RadioButton
@@ -47,7 +47,7 @@
             android:button="@null"
             android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-            android:text="价格从高到底"
+            android:text="价格降序"
             android:textColor="@color/menu_noselect" />
     </RadioGroup>
 
