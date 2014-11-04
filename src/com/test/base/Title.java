@@ -138,4 +138,9 @@ public class Title extends FrameLayout {
 	public void setTitleTxt(String title) {
 		titleTxt.setText(title);
 	}
+	
+	//设置搜索框的文字内容
+	public void setSearchTxt(String searchString) {
+		searchTxt.setText(searchString);
+	}
 }

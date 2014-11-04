@@ -145,7 +145,8 @@ public class MyAdapter extends BaseAdapter implements
 			holder = new ViewHolder();
 			if (request.equals(NetworkAction.热门商品)
 					|| request.equals(NetworkAction.秒杀商品)
-					|| request.equals(NetworkAction.获取分类商品)) {
+					|| request.equals(NetworkAction.获取分类商品)
+					|| request.equals(NetworkAction.搜索商品)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.home_hot_item, null);
 				holder.img = (NetworkImageView) convertView
@@ -187,7 +188,8 @@ public class MyAdapter extends BaseAdapter implements
 		}
 
 		if (request.equals(NetworkAction.热门商品)
-				|| request.equals(NetworkAction.获取分类商品)) {
+				|| request.equals(NetworkAction.获取分类商品)
+				|| request.equals(NetworkAction.搜索商品)) {
 			// Log.i("test", "热门商品data.size()->" + data.size());
 			Product product = (Product) data.get(position);
 			holder.nameTxt.setText(product.getName());

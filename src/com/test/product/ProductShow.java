@@ -74,8 +74,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private RadioButton showFilter;// 筛选
 	private EditText startPrice;// 筛选起止价格
 	private EditText endPrice;// 筛选起止价格
-	private String start_price="0";
-	private String end_price="0";
+	private String start_price = "0";
+	private String end_price = "0";
 	private PopupWindow sortPopWindow; // 综合排序PopupWindow
 	private PopupWindow filterPopWindow; // 筛选PopupWindow
 	private int sortTypeTemp = 0;
@@ -83,7 +83,8 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	private String Category_id;
 	private String CacheID;
 	private String url;
-	private String searchTxt;//搜索关键字
+	public String searchTxt;// 搜索关键字
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -108,30 +109,31 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		showSort.setOnCheckedChangeListener(this);
 		showSaleFirst.setOnCheckedChangeListener(this);
 		showFilter.setOnCheckedChangeListener(this);
-
-	
+		products = new ArrayList<Object>();
+		paramter = new HashMap<String, String>();
 	}
 
-	private void initData() {
+	public void initData() {
 		// 从分类列表跳转过来的情况
-		if(MyApplication.searchModule==1)
+		if (MyApplication.searchModule == 1)
 			catagorySearch();
-		products = new ArrayList<Object>();
+		else if (MyApplication.searchModule == 2
+				|| MyApplication.searchModule == 3)
+			stringSearch();
 		adapter = new MyAdapter(this, request, products);
 		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(this);
-		
+
 	}
 
 	// 从分类列表跳转过来的情况
-	public void catagorySearch()
-	{
+	public void catagorySearch() {
+
 		Intent intent = getIntent();
 		Category_id = intent.getStringExtra("Category_id");
 		CacheID = intent.getStringExtra("CacheID");
-		request=NetworkAction.获取分类商品;
-		url=Url.URL_INDEX;
-		paramter = new HashMap<String, String>();
+		request = NetworkAction.获取分类商品;
+		url = Url.URL_INDEX;
 		paramter.put("act", "product");
 		paramter.put("sid", MyApplication.sid);
 		paramter.put("store_id", MyApplication.sid);
@@ -143,23 +145,51 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		paramter.put("CacheID1", "0");
 		paramter.put("brans", "0");
 		paramter.put("clears", "0");
-		paramter.put("start_price",start_price);
-		paramter.put("end_price",end_price);
+		paramter.put("start_price", start_price);
+		paramter.put("end_price", end_price);
 		paramter.put("sort_type", "0");
 		paramter.put("cates", "0");
 		showSaleFirst.setChecked(true);
 	}
-	
-	
-	public void stringSearch()
-	{
-		Intent intent = getIntent();
-		searchTxt = intent.getStringExtra("searchTxt");
+
+	public void stringSearch() {
+		if (MyApplication.searchModule == 2) {
+			Intent intent = getIntent();
+			searchTxt = intent.getStringExtra("searchTxt");
+		}
+		title.setSearchTxt(searchTxt);
+		Log.i(MyApplication.TAG, "searchTxt->" + searchTxt);
+		request = NetworkAction.搜索商品;
+		url = Url.URL_SEARCH;
+		paramter.put("act", "search");
+		paramter.put("sid", MyApplication.sid);
+		paramter.put("store_id", MyApplication.sid);
+		paramter.put("CacheID", "");
+		paramter.put("CacheID1", "0");
+		paramter.put("brans", "0");
+		paramter.put("cates", "0");
+		paramter.put("clear", "0");
+		paramter.put("keyname", searchTxt);
+		paramter.put("keyname1", "0");
+		paramter.put("nowpage", String.valueOf(page));
+		paramter.put("pagesize", pageSize);
+		paramter.put("sort_type", "0");
+		
+		//如果是模式3肯定是在当前页面，设置单选框的选中事件无法触发通讯事件，所以需要执行一次
+		if(MyApplication.searchModule == 3 && showSaleFirst.isChecked())
+		{
+			resetData(0);
+			ConnectServer.getResualt(this, paramter, request, url);
+		}
+		else
+			showSaleFirst.setChecked(true);
 	}
+
 	@Override
 	public void showResualt(JSONObject response, NetworkAction request)
 			throws JSONException {
-		if (request.equals(NetworkAction.获取分类商品)) {
+		if (request.equals(NetworkAction.获取分类商品)
+				|| request.equals(NetworkAction.搜索商品)) {
 			page++;
 			totalpage = response.getInt("totalpage");
 
@@ -168,10 +198,14 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 			if (page > totalpage)
 				getMore.setVisibility(View.GONE);
 			// 判断是否有商品数据
-			if (productsArray.length() == 0)
-				Toast.makeText(ProductShow.this,
-						"该分类还没有商品" + productsArray.length(), 2000).show();
-			else {
+			if (productsArray.length() == 0) {
+				if (request.equals(NetworkAction.获取分类商品))
+					Toast.makeText(ProductShow.this, "该分类还没有商品！", 2000).show();
+				else if (request.equals(NetworkAction.搜索商品))
+					Toast.makeText(ProductShow.this,
+							"对不起，没有搜索到商品！", 2000)
+							.show();
+			} else {
 				for (int i = 0; i < productsArray.length(); i++) {
 
 					JSONObject product = productsArray.getJSONObject(i);
@@ -206,8 +240,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		case R.id.getMore:
 			paramter.remove(paramter.get("nowpage"));
 			paramter.put("nowpage", String.valueOf(page));
-			ConnectServer.getResualt(this, paramter,
-					request,url);
+			ConnectServer.getResualt(this, paramter, request, url);
 			break;
 		case R.id.show_sort:
 			initSortPop(radioGroup);
@@ -247,8 +280,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				break;
 			case R.id.show_salefirst:
 				resetData(0);
-				ConnectServer.getResualt(this, paramter,
-						NetworkAction.获取分类商品, Url.URL_INDEX);
+				ConnectServer.getResualt(this, paramter, request, url);
 				break;
 			case R.id.show_filter:
 				buttonView.setCompoundDrawables(null, null, filterSelect, null); // 设置右图标
@@ -259,8 +291,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加综合排序的代码
 				resetData(3);
-				ConnectServer.getResualt(this, paramter,
-						request, url);
+				ConnectServer.getResualt(this, paramter, request, url);
 				sortPopWindow.dismiss();
 				break;
 			case R.id.show_pop_low:
@@ -268,8 +299,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加价格从低到高的代码
 				resetData(1);
-				ConnectServer.getResualt(this, paramter,
-						request, url);
+				ConnectServer.getResualt(this, paramter, request, url);
 				sortPopWindow.dismiss();
 				break;
 			case R.id.show_pop_high:
@@ -277,8 +307,7 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 				showSort.setText(buttonView.getText().toString());
 				// 添加价格从高到底的代码
 				resetData(2);
-				ConnectServer.getResualt(this, paramter,
-						request, url);
+				ConnectServer.getResualt(this, paramter, request, url);
 				sortPopWindow.dismiss();
 				break;
 			}
@@ -371,15 +400,14 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 
 			@Override
 			public void onDismiss() {
-				start_price=startPrice.getText().toString();
-				end_price=endPrice.getText().toString();
-				if (!start_price.equals("")
-						&& !end_price.equals("")) {
+				start_price = startPrice.getText().toString();
+				end_price = endPrice.getText().toString();
+				if (!start_price.equals("") && !end_price.equals("")) {
 					resetData(sortTypeTemp);
 					paramter.put("start_price", start_price);
 					paramter.put("end_price", end_price);
-					ConnectServer.getResualt(ProductShow.this,
-							paramter, request, url);
+					ConnectServer.getResualt(ProductShow.this, paramter,
+							request, url);
 				}
 
 			}
@@ -396,7 +424,11 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 		getMore.setVisibility(View.VISIBLE);// 还原更多按钮的显示
 		paramter.put("nowpage", String.valueOf(page));
 		paramter.put("sort_type", String.valueOf(sortType));
-		paramter.put("start_price",start_price);
-		paramter.put("end_price", end_price);
+		// 从列表分类搜索的参数中有起止价格
+		if (MyApplication.searchModule == 1) {
+			paramter.put("start_price", start_price);
+			paramter.put("end_price", end_price);
+		}
+
 	}
 }

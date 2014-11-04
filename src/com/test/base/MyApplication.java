@@ -280,7 +280,9 @@ public class MyApplication extends Application {
 				//如果是在商品列表页面
 				 if(((Activity)contextTemp).getLocalClassName().equals("product.ProductShow"))
 				 {
-					 MyApplication.searchModule=2;
+					 MyApplication.searchModule=3;
+					 ((ProductShow)contextTemp).searchTxt=((EditText)view).getText().toString();
+					 ((ProductShow)contextTemp).initData();
 				 }
 				 else
 				 {
