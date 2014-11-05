@@ -165,6 +165,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             </activity>
+             <activity
+            android:name="com.test.person.More"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+             <activity
+            android:name="com.test.person.MoreAbout"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+              <activity
+            android:name="com.test.person.Login"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

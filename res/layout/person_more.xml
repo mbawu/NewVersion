@@ -2,11 +2,144 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray"
     android:orientation="vertical" >
-    
- <com.test.base.Title
+
+    <com.test.base.Title
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
- 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
+
+        <!-- 推送消息 -->
+
+        <FrameLayout style="@style/personMenuLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/more_push_ico"
+                android:gravity="center_vertical"
+                android:text="推送消息"
+                android:textColor="@color/menu_noselect" />
+
+            <CheckBox
+                android:id="@+id/more_push"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:button="@null" />
+            <!--
+                <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
+            -->
+        </FrameLayout>
+
+        <!-- 版本更新 -->
+
+        <FrameLayout
+            android:id="@+id/more_update"
+            style="@style/personMenuLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/more_update_ico"
+                android:gravity="center_vertical"
+                android:text="版本更新"
+                android:textColor="@color/menu_noselect" />
+        </FrameLayout>
+
+        <!-- 清空缓存 -->
+
+        <FrameLayout
+            android:id="@+id/more_clear"
+            style="@style/personMenuLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/more_clear_ico"
+                android:gravity="center_vertical"
+                android:text="清空缓存"
+                android:textColor="@color/menu_noselect" />
+        </FrameLayout>
+
+        <!-- 关于我们 -->
+
+        <FrameLayout
+            android:id="@+id/more_about"
+            style="@style/personMenuLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/more_about_ico"
+                android:gravity="center_vertical"
+                android:text="关于我们"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
+        </FrameLayout>
+
+        <!-- 客服电话 -->
+
+        <FrameLayout
+            android:id="@+id/more_phone"
+            style="@style/personMenuLayout" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/more_phone_ico"
+                android:gravity="center_vertical"
+                android:text="客服电话  "
+                android:textColor="@color/menu_noselect" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="@string/more_tel_num_txt"
+                android:textColor="@color/menu_noselect" />
+        </FrameLayout>
+    </LinearLayout>
+<!-- 退出按钮 -->
+
+    <Button
+        android:id="@+id/more_loginout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/login_btn_bg"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:text="退出"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 </LinearLayout>

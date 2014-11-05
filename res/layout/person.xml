@@ -23,6 +23,7 @@
             android:background="@drawable/person_top_bg" />
 
         <!-- 没有登录的时候显示的图片和按钮 -->
+
         <FrameLayout
             android:id="@+id/loginout_layout"
             android:layout_width="match_parent"
@@ -41,6 +42,12 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:src="@drawable/loginout_img" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/person_camera_ico" />
             </FrameLayout>
 
             <TextView
@@ -57,6 +64,7 @@
         </FrameLayout>
 
         <!-- 登录以后显示的头像和姓名 -->
+
         <FrameLayout
             android:id="@+id/login_layout"
             android:layout_width="match_parent"
@@ -64,12 +72,23 @@
             android:layout_marginLeft="10dp"
             android:visibility="gone" >
 
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/person_img"
+            <FrameLayout
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_gravity="bottom"/>
-            
+                android:layout_gravity="bottom"
+                android:background="@drawable/loginout_bg" >
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/person_img"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/person_camera_ico" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/person_name"
@@ -84,123 +103,149 @@
         </FrameLayout>
     </FrameLayout>
 
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical" >
+
         <!-- 订单查询 -->
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/person_order"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_order_ico"
-                android:text="订单查询"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="订单查询"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
         <!-- 我的消息 -->
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/person_message"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_msg_ico"
-                android:text="我的消息"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="我的消息"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
-        
+
         <!-- 地址管理 -->
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/person_address"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_address_ico"
-                android:text="地址管理"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="地址管理"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
-        
+
         <!-- 账户安全 -->
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/person_sec"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_sec_ico"
-                android:text="账户安全"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="账户安全"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
-        
+
         <!-- 意见反馈 -->
-        <FrameLayout 
+
+        <FrameLayout
             android:id="@+id/person_sugguest"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_sugguest_ico"
-                android:text="意见反馈"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="意见反馈"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
-        
-          <!-- 我的优惠券 -->
-        <FrameLayout 
+
+        <!-- 我的优惠券 -->
+
+        <FrameLayout
             android:id="@+id/person_coupon"
-            style="@style/personMenuLayout">
-            <TextView 
+            style="@style/personMenuLayout" >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/menu_noselect"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/person_coupon_ico"
-                android:text="我的优惠券"/>
-            <ImageView 
+                android:gravity="center_vertical"
+                android:text="我的优惠券"
+                android:textColor="@color/menu_noselect" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_gravity="right|center_vertical"
-                android:src="@drawable/person_right_ico"/>
+                android:layout_marginRight="10dp"
+                android:src="@drawable/person_right_ico" />
         </FrameLayout>
     </LinearLayout>
+
 </LinearLayout>

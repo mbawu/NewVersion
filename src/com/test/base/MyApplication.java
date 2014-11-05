@@ -254,6 +254,9 @@ public class MyApplication extends Application {
 		return name;
 	}
 
+	
+	
+	//title标题栏的搜索框点击键盘的搜索事件
 	public static class OnEditorActionListener implements
 			android.widget.TextView.OnEditorActionListener {
 

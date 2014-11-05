@@ -1,31 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
- 
-    
-    <!-- 连框颜色值 -->
-    <item>
-        <shape>
-            <solid android:color="#CCCCCC" />
-        </shape>
-    </item>
- 
-     <!-- 主体背景颜色值 -->
-    <item
-        android:top="1dp"
-        android:bottom="1dp"
-        android:left="1dp"
-        android:right="1dp">
-        <shape>
-             <corners android:topLeftRadius="10dp"   
-                    android:topRightRadius="10dp"    
-               android:bottomRightRadius="10dp"   
-                android:bottomLeftRadius="10dp"/>    
-            <solid android:color="@color/white" />
-           
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-        </shape>
-        
-    </item>
-  
+   <!--  <item android:drawable="@drawable/style_color" android:state_selected="true"><shape android:shape="rectangle">
+            <solid android:color="@color/black" />
 
-</layer-list>
+            <stroke android:width="1dip" android:color="@color/black" />
+        </shape></item>
+    <item android:drawable="@drawable/style_color" android:state_pressed="true"><shape android:shape="rectangle">
+            <solid android:color="@color/black" />
+
+            <stroke android:width="1dip" android:color="@color/black" />
+        </shape></item> -->
+    <item><shape>
+            <solid android:color="#FFFFFF" />
+
+            <corners android:radius="3dip" />
+
+            <stroke android:width="1dip" android:color="#CCCCCC" />
+        </shape></item>
+
+</selector>

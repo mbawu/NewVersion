@@ -2,12 +2,16 @@
 <resources>
     <color name="title_textcolor">#FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- 按钮风格背景颜色 -->
     <drawable name="style_btn_bg">#E44882</drawable>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
     <color name="gray">#FF575756</color>
     <color name="background_gray">#f5f8f9</color>
     <color name="catagory_first">#646464</color>
+    <!-- 主题风格颜色 -->
      <color name="style_color">#E44882</color>
      <color name="menu_noselect">#969696</color>
+     <!-- 输入框的文字的颜色 -->
+     <color name="edit_txt_color">#404040</color>
 </resources>

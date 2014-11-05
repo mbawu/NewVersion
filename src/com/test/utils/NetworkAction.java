@@ -39,5 +39,6 @@ public enum  NetworkAction {
 取消订单,
 确认收货,
 评论订单,
-获取运费
+获取运费,
+注销登录
 }

@@ -12,6 +12,7 @@ import com.test.utils.NetworkAction;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -21,13 +22,27 @@ import android.view.KeyEvent;
  */
 public abstract class NormalActivity extends Activity implements showResualtI{
 
+	/*
+	 * 根据该参数在onresume的super()方法之前判断是否是第一次进入该页面
+	*	如果为真的话就是第一次进入该页面
+	*	如果为假的话则是从其他页面返回到该页面的情况
+	 */
+	public boolean isFirstResume=true;
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		MyApplication.getInstance().addActivity(this);
+		Log.i(MyApplication.TAG,"NormalActivity->onStart" );
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		isFirstResume=false;
+		Log.i(MyApplication.TAG,"NormalActivity->onResume" );
+	}
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

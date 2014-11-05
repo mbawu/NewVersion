@@ -5,7 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 <string name="version">1.0</string>
-
+<string name="more_tel_num_txt">400-083-8310</string>
+<string name="person_more_tel_num">4000838310</string>
 <item type="id" name="tag_first"></item>
     <item type="id" name="tag_second"></item>
       <item type="id" name="tag_three"></item>

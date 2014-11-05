@@ -3,7 +3,9 @@ package com.test.person;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.test.R;
+import com.test.base.MyApplication;
 import com.test.base.NormalActivity;
 import com.test.base.Title;
 import com.test.utils.NetworkAction;
@@ -26,6 +29,9 @@ public class Person extends NormalActivity implements OnClickListener {
 	private FrameLayout coupon;// 我的优惠券
 	private TextView loginBtn;// 跳转到登录页面的按钮
 	private NetworkImageView img;// 登录以后显示的个人头像
+	private FrameLayout loginout; // 没有登录时的模块
+	private FrameLayout login; // 登录时的模块
+	private TextView nameTxt;// 登录以后显示的名称
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,36 @@ public class Person extends NormalActivity implements OnClickListener {
 		initData();
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		// 如果是从其他页面返回该页面并且登录的情况下
+		if (!isFirstResume && MyApplication.loginStat) {
+			loginout.setVisibility(View.GONE);
+			login.setVisibility(View.VISIBLE);
+			// 先取昵称，没有的话就取用户名
+			String name = MyApplication.sp.getString("nickname","");
+			if(name.equals(""))
+				name=MyApplication.sp.getString("username", "");
+			nameTxt.setText(name);
+			// 设置用户头像，如果没有则显示未登录时候的头像
+			String photo = MyApplication.sp.getString("photo", "");
+			if (!photo.equals(""))
+				MyApplication.client.getImageForNetImageView(photo, img,
+						R.drawable.loginout_img);
+		}
+		// 如果是从其他页面返回该页面并且已退出登录的情况下
+		else if (!isFirstResume && !MyApplication.loginStat) {
+			loginout.setVisibility(View.VISIBLE);
+			login.setVisibility(View.GONE);
+		}
+		super.onResume();
+
+	}
+
 	private void initView() {
+		loginout = (FrameLayout) findViewById(R.id.loginout_layout);
+		login = (FrameLayout) findViewById(R.id.login_layout);
 		title = (Title) findViewById(R.id.title);
 		title.setModule(6);
 		title.setTitleTxt("我的");
@@ -48,6 +83,7 @@ public class Person extends NormalActivity implements OnClickListener {
 		coupon = (FrameLayout) findViewById(R.id.person_coupon);
 		loginBtn = (TextView) findViewById(R.id.goto_login_btn);
 		img = (NetworkImageView) findViewById(R.id.person_img);
+		nameTxt = (TextView) findViewById(R.id.person_name);
 	}
 
 	private void initData() {
@@ -70,6 +106,7 @@ public class Person extends NormalActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		Intent intent = null;
 		switch (v.getId()) {
 		// 订单查询
 		case R.id.person_order:
@@ -97,13 +134,15 @@ public class Person extends NormalActivity implements OnClickListener {
 			break;
 		// 跳转到登录页面的按钮
 		case R.id.goto_login_btn:
-
+			intent = new Intent().setClass(this, Login.class);
 			break;
 		// 登录以后显示的个人头像，点击以后弹出菜单
 		case R.id.person_img:
 
 			break;
 		}
+		if (intent != null)
+			startActivity(intent);
 
 	}
 

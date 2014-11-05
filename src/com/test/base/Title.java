@@ -1,9 +1,11 @@
 package com.test.base;
 
 import com.test.R;
+import com.test.person.More;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -57,6 +59,7 @@ public class Title extends FrameLayout {
 
 		@Override
 		public void onClick(View view) {
+			Intent intent=null;
 			switch (view.getId()) {
 			case R.id.backBtn:
 				((Activity) context).finish();
@@ -69,9 +72,11 @@ public class Title extends FrameLayout {
 				break;
 			case R.id.morePage:
 				// 跳转更多页面
+				intent=new Intent().setClass(context, More.class);
 				break;
 			}
-
+			if(intent!=null)
+				((Activity)context).startActivity(intent);
 		}
 	}
 
