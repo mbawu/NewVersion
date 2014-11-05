@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:orientation="vertical" >
+
+    <com.test.base.Title
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical" >
+
+        <!-- step1 -->
+
+        <LinearLayout
+            android:id="@+id/forget_step1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- 手机号 -->
+
+            <EditText
+                android:id="@+id/forget_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/catagory_second_bg"
+                android:hint="验证手机号"
+                android:paddingBottom="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:textColor="@color/edit_txt_color"
+                android:textColorHint="@color/menu_noselect"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/forget_sendTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="短信已经发送到您的手机，如果120秒内还没有收到短信验证码，请重新获取验证码。"
+                android:textColor="#e36159"
+                android:textSize="11sp" 
+                android:visibility="gone"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
+
+                <EditText
+                    android:id="@+id/forget_getcode_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/catagory_second_bg"
+                    android:hint="输入验证码"
+                    android:inputType="textPassword"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="6dp"
+                    android:textColor="@color/edit_txt_color"
+                    android:textColorHint="@color/menu_noselect"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/forget_getcode_btn"
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/forget_getcode_noselect"
+                    android:gravity="center"
+                    android:text="获取验证码"
+                    android:textColor="@color/white" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- step2 -->
+
+        <LinearLayout
+            android:id="@+id/forget_step2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <EditText
+                android:id="@+id/forget_new_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/catagory_second_bg"
+                android:hint="请输入密码"
+                android:paddingBottom="6dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:textColor="@color/edit_txt_color"
+                android:textColorHint="@color/menu_noselect"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/forget_pwd_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="密码由6~20位字符组成，包含至少两种以上的字母、数字或者半角字符，区分大小写。"
+                android:textColor="#646464"
+                android:textSize="11sp" />
+        </LinearLayout>
+        <!-- step3 -->
+
+        <TextView
+            android:id="@+id/forget_step3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="恭喜您，密码已修改完成，请您牢记您的密码。"
+            android:textColor="#262626"
+            android:textSize="16sp" />
+        <!-- 下一步按钮 -->
+
+        <TextView
+            android:id="@+id/forget_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/login_btn_bg"
+            android:gravity="center"
+            android:text="下一步"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

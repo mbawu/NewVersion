@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -129,9 +130,10 @@ public class Login extends NormalActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		Intent intent=null;
 		switch (v.getId()) {
 		case R.id.login_forget_btn:
-
+			intent=new Intent().setClass(this, ForgetPwd.class);
 			break;
 		case R.id.login_register_btn:
 
@@ -139,8 +141,9 @@ public class Login extends NormalActivity implements OnClickListener {
 		case R.id.login_btn:
 			login();
 			break;
-
 		}
+		if(intent!=null)
+			startActivity(intent);
 	}
 
 	private void login() {
