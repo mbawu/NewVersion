@@ -42,6 +42,16 @@ public class Login extends NormalActivity implements OnClickListener {
 		initData();
 	}
 
+	@Override
+	protected void onResume() {
+		//如果是从修改密码页面或者从注册页面返回到该页面则重新填写最新的用户名和密码
+		if (!isFirstResume && MyApplication.registerSuc) {
+			userName.setText(MyApplication.sp.getString("username", ""));
+			userPwd.setText(MyApplication.sp.getString("password", ""));
+		}
+		super.onResume();
+	}
+	
 	private void initView() {
 		title = (Title) findViewById(R.id.title);
 		title.setModule(4);
@@ -57,8 +67,7 @@ public class Login extends NormalActivity implements OnClickListener {
 		forgetPwd.setOnClickListener(this);
 		register.setOnClickListener(this);
 		login.setOnClickListener(this);
-		if (MyApplication.sp.getString("username", "") != null)
-		{
+		if (MyApplication.sp.getString("username", "") != null) {
 			userName.setText(MyApplication.sp.getString("username", ""));
 			userPwd.setText(MyApplication.sp.getString("password", ""));
 		}
@@ -67,12 +76,10 @@ public class Login extends NormalActivity implements OnClickListener {
 	@Override
 	public void showResualt(JSONObject response, NetworkAction request)
 			throws JSONException {
-		//检查是否是更换了用户，如果是的话清空购物车信息
-		if (!MyApplication.sp.getString(
-				"username", "").equals(
-						response.getString("username"))) {
-			MyApplication.shopCartList
-					.clear();
+		// 检查是否是更换了用户，如果是的话清空购物车信息
+		if (!MyApplication.sp.getString("username", "").equals(
+				response.getString("username"))) {
+			MyApplication.shopCartList.clear();
 			try {
 				MyApplication.shopCartManager
 						.saveProducts(MyApplication.shopCartList);
@@ -81,68 +88,60 @@ public class Login extends NormalActivity implements OnClickListener {
 				e.printStackTrace();
 			}
 		}
-		
-		MyApplication.seskey = response
-				.getString("sessionid");
-		MyApplication.uid = response
-				.getString("uid");
-		MyApplication.ed.putString("password",userPwd.getText().toString());
-		MyApplication.ed.putString("username",
-				response.getString("username"));
 
-		MyApplication.ed.putString("nickname",
-				response.getString("nickname"));
-		MyApplication.ed.putString("address",
-				response.getString("address"));
+		MyApplication.seskey = response.getString("sessionid");
+		MyApplication.uid = response.getString("uid");
+		MyApplication.ed.putString("password", userPwd.getText().toString());
+		MyApplication.ed.putString("username", response.getString("username"));
 
-		MyApplication.ed.putString("photo",
-				response.getString("photo"));
-		MyApplication.ed.putString("email",
-				response.getString("email"));
+		MyApplication.ed.putString("nickname", response.getString("nickname"));
+		MyApplication.ed.putString("address", response.getString("address"));
+
+		MyApplication.ed.putString("photo", response.getString("photo"));
+		MyApplication.ed.putString("email", response.getString("email"));
 		MyApplication.ed.putString("createtime",
 				response.getString("createtime"));
-		MyApplication.ed.putString("birthday",
-				response.getString("birthday"));
-		MyApplication.ed.putString("sex",
-				response.getString("sex"));
-		MyApplication.ed.putString("credit",
-				response.getString("credit"));
+		MyApplication.ed.putString("birthday", response.getString("birthday"));
+		MyApplication.ed.putString("sex", response.getString("sex"));
+		MyApplication.ed.putString("credit", response.getString("credit"));
 		MyApplication.ed.putString("newfriends",
 				response.getString("newfriends"));
 		MyApplication.ed.putString("province_name",
 				response.getString("province_name"));
-		MyApplication.ed.putString("city_name",
-				response.getString("city_name"));
-		MyApplication.ed.putString("area_name",
-				response.getString("area_name"));
+		MyApplication.ed
+				.putString("city_name", response.getString("city_name"));
+		MyApplication.ed
+				.putString("area_name", response.getString("area_name"));
 		MyApplication.ed.putString("province_id",
 				response.getString("province_id"));
-		MyApplication.ed.putString("city_id",
-				response.getString("city_id"));
-		MyApplication.ed.putString("area_id",
-				response.getString("area_id"));
+		MyApplication.ed.putString("city_id", response.getString("city_id"));
+		MyApplication.ed.putString("area_id", response.getString("area_id"));
 		MyApplication.ed.commit();
 		MyApplication.loginStat = true;
 		Login.this.finish();
-		Toast.makeText(Login.this, "登录成功", 2000)
-				.show();
+		Toast.makeText(Login.this, "登录成功", 2000).show();
 	}
 
 	@Override
 	public void onClick(View v) {
-		Intent intent=null;
+		Intent intent = null;
 		switch (v.getId()) {
+		// 忘记密码
 		case R.id.login_forget_btn:
-			intent=new Intent().setClass(this, ForgetPwd.class);
+			intent = new Intent().setClass(this, ForgetPwd.class);
+			intent.putExtra("module", "1");
 			break;
+		// 注册页面
 		case R.id.login_register_btn:
-
+			intent = new Intent().setClass(this, ForgetPwd.class);
+			intent.putExtra("module", "2");
 			break;
+		// 登录按钮
 		case R.id.login_btn:
 			login();
 			break;
 		}
-		if(intent!=null)
+		if (intent != null)
 			startActivity(intent);
 	}
 
@@ -161,7 +160,7 @@ public class Login extends NormalActivity implements OnClickListener {
 		paramter.put("sid", MyApplication.sid);
 		paramter.put("username", username);
 		paramter.put("password", password);
-		ConnectServer.getResualt(this, paramter,
-				NetworkAction.登录, Url.URL_USERS);
+		ConnectServer.getResualt(this, paramter, NetworkAction.登录,
+				Url.URL_USERS);
 	}
 }

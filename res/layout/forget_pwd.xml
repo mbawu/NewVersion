@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/catagory_second_bg"
-                android:hint="验证手机号"
+                android:hint="手机号"
                 android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

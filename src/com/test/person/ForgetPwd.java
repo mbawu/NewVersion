@@ -1,5 +1,6 @@
 package com.test.person;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,6 +8,7 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,6 +45,7 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 	private HashMap<String, String> paramter;
 	private String codeId;// 保存获取到的验证码ID
 	private TextView newPwd;// 新的密码
+	private int module;// 该页面的类型 1. 找回密码的页面 2.立即注册的页面
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,14 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 	}
 
 	private void initView() {
+		Intent intent = getIntent();
+		module = Integer.valueOf(intent.getStringExtra("module"));
 		title = (Title) findViewById(R.id.title);
 		title.setModule(4);
-		title.setTitleTxt("找回密码");
+		if (module == 1)
+			title.setTitleTxt("找回密码");
+		else if (module == 2)
+			title.setTitleTxt("注册");
 		step1 = (LinearLayout) findViewById(R.id.forget_step1);
 		step2 = (LinearLayout) findViewById(R.id.forget_step2);
 		step3 = (TextView) findViewById(R.id.forget_step3);
@@ -67,11 +75,12 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 		getCode.setOnClickListener(this);
 		codeTxt = (EditText) findViewById(R.id.forget_getcode_txt);
 		countNum = new CountSecond();
-		newPwd=(TextView) findViewById(R.id.forget_pwd_txt);
+		newPwd = (TextView) findViewById(R.id.forget_pwd_txt);
 		paramter = new HashMap<String, String>();
 	}
 
 	private void initData() {
+
 		nextStep();
 		nextStepBtn.setOnClickListener(this);
 	}
@@ -88,6 +97,8 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 			step3.setVisibility(View.GONE);
 			nextStepBtn.setText("提交");
 		} else if (step == 3) {
+			if (module == 2)
+				step3.setText("恭喜您，注册账号已完成，请您牢记您的用户名和密码。");
 			step1.setVisibility(View.GONE);
 			step2.setVisibility(View.GONE);
 			step3.setVisibility(View.VISIBLE);
@@ -110,10 +121,72 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 			// 如果验证码验证成功的话进入到第二步
 			step = 2;
 			nextStep();
-		}
-		else if (request.equals(NetworkAction.找回密码)) {
+		} else if (request.equals(NetworkAction.找回密码)) {
+			//更新配置文件中的密码
+			MyApplication.ed.putString("password", newPwd.getText().toString());
+			MyApplication.registerSuc = true;
+			MyApplication.ed.commit();
 			// 如果修改密码成功的话进入到第三步
-			step =3;
+			step = 3;
+			nextStep();
+		}
+		else if(request.equals(NetworkAction.用户注册))
+		{
+			try {
+				MyApplication.shopCartManager
+						.saveProducts(MyApplication.shopCartList);
+				MyApplication.shopcart_refresh = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*
+			 * 如果返回code1代表注册成功，
+			 * 注册成功的时候将用户信息保存到本地SharedPreferences
+			 */
+			MyApplication.ed
+					.putString("username", phoneNumTxt.getText().toString());
+			MyApplication.ed.putString("password", newPwd.getText().toString());
+			MyApplication.seskey = response
+					.getString("sessionid");
+			MyApplication.ed.putString("uid",
+					response.getString("uid"));
+			MyApplication.ed.putString("username",
+					response.getString("username"));
+			MyApplication.ed.putString("nickname",
+					response.getString("nickname"));
+			MyApplication.ed.putString("photo",
+					response.getString("photo"));
+			MyApplication.ed.putString("email",
+					response.getString("email"));
+			MyApplication.ed.putString("createtime",
+					response.getString("createtime"));
+			MyApplication.ed.putString("birthday",
+					response.getString("birthday"));
+			MyApplication.ed.putString("address",
+					response.getString("address"));
+			MyApplication.ed.putString("sex",
+					response.getString("sex"));
+			MyApplication.ed.putString("credit",
+					response.getString("credit"));
+			MyApplication.ed.putString("newfriends",
+					response.getString("newfriends"));
+			MyApplication.ed.putString("province_name",
+					response.getString("province_name"));
+			MyApplication.ed.putString("city_name",
+					response.getString("city_name"));
+			MyApplication.ed.putString("area_name",
+					response.getString("area_name"));
+			MyApplication.ed.putString("province_id",
+					response.getString("province_id"));
+			MyApplication.ed.putString("city_id",
+					response.getString("city_id"));
+			MyApplication.ed.putString("area_id",
+					response.getString("area_id"));
+			MyApplication.ed.putString("phone",
+					phoneNumTxt.getText().toString());
+			MyApplication.ed.commit();
+			MyApplication.registerSuc = true;
+			step = 3;
 			nextStep();
 		}
 	}
@@ -131,9 +204,8 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 		paramter.clear();
 		String phoneNum = phoneNumTxt.getText().toString();
 		String code = codeTxt.getText().toString();
-		//验证手机号码是否正确
-		if(!isMobileNO(phoneNum))
-		{
+		// 验证手机号码是否正确
+		if (!isMobileNO(phoneNum)) {
 			Toast.makeText(this, "请输入正确的手机号码！", 2000).show();
 			return;
 		}
@@ -149,7 +221,7 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 		// 下一步的按钮
 		case R.id.forget_btn:
 			if (step == 1) {
-				
+
 				if (!code.equals("")) {
 					paramter.clear();
 					paramter.put("act", "iscode");
@@ -161,27 +233,39 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 							NetworkAction.验证验证码, Url.URL_MEMBER);
 				} else
 					Toast.makeText(this, "请输入收到的验证码！", 2000).show();
-			}
-			else if(step==2)
-			{
-				String pwd=newPwd.getText().toString();
-				if(pwd.length()<6)
-				{
+			} else if (step == 2) {
+				String pwd = newPwd.getText().toString();
+				if (pwd.length() < 6) {
 					Toast.makeText(this, "请输入大于等于6位的密码！", 2000).show();
 					return;
 				}
 				paramter.clear();
-				paramter.put("sid", MyApplication.sid);
-				paramter.put("act", "setpwd");
-				paramter.put("smsid", codeId);
-				paramter.put("mobile", phoneNum);
-				paramter.put("password", pwd);
-				paramter.put("smskey", code);
-				paramter.put("username", phoneNum);
-				ConnectServer.getResualt(this, paramter, NetworkAction.找回密码,
-						Url.URL_MEMBER);
-			}else if(step==3)
-			{
+				if (module == 1) {
+					paramter.put("sid", MyApplication.sid);
+					paramter.put("act", "setpwd");
+					paramter.put("smsid", codeId);
+					paramter.put("mobile", phoneNum);
+					paramter.put("password", pwd);
+					paramter.put("smskey", code);
+					paramter.put("username", phoneNum);
+					ConnectServer.getResualt(this, paramter,
+							NetworkAction.找回密码, Url.URL_MEMBER);
+				}
+				else if(module == 2)
+				{
+					paramter.put("act", "register");
+					paramter.put("sid",MyApplication.sid);
+					paramter.put("username", phoneNum);
+					paramter.put("password", pwd);
+					paramter.put("repassword", pwd);
+					paramter.put("mobile", phoneNum);
+					paramter.put("email", "");
+					paramter.put("smsid", codeId);
+					paramter.put("smskey", code);
+					ConnectServer.getResualt(this, paramter,
+							NetworkAction.用户注册, Url.URL_USERS);
+				}
+			} else if (step == 3) {
 				finish();
 			}
 			break;
@@ -200,7 +284,7 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 				getCode.setOnClickListener(ForgetPwd.this);
 				getCode.setBackgroundDrawable(ForgetPwd.this.getResources()
 						.getDrawable(R.drawable.forget_getcode_noselect));
-				getCode.setText("获取验证码");
+				getCode.setText("重新发送");
 				getCodeTxt.setVisibility(View.GONE);
 				temp = seconds;
 			} else {
