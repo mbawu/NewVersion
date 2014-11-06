@@ -7,6 +7,13 @@
 <string name="version">1.0</string>
 <string name="more_tel_num_txt">400-083-8310</string>
 <string name="person_more_tel_num">4000838310</string>
+
+ <!-- 底部菜单栏 -->
+    <string name="main_menu_personcenter">个人中心</string>
+    <string name="main_menu_home">首页</string>
+    <string name="main_menu_search">活动</string>
+    <string name="main_menu_list">列表</string>
+    <string name="main_menu_shopcart">购物车</string>
 <item type="id" name="tag_first"></item>
     <item type="id" name="tag_second"></item>
       <item type="id" name="tag_three"></item>
