@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="密码由6~20位字符组成，包含至少两种以上的字母、数字或者半角字符，区分大小写。"
+                android:text="密码由6~20位字符组成，包含至少一种以上的字母、数字或者半角字符，区分大小写。"
                 android:textColor="#646464"
                 android:textSize="11sp" />
         </LinearLayout>

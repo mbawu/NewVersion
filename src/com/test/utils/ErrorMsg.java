@@ -248,6 +248,16 @@ public class ErrorMsg {
 				break;
 			}
 		}
+		else if (request.equals(NetworkAction.获取验证码)) {
+			switch (code) {
+			case 1:
+				result = "发送成功";
+				break;
+			case 2:
+				result = "发送失败";
+				break;
+			}
+		}
 		else {
 			result = "操作失败";
 		}
