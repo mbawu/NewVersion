@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+        <color name="blue">#ff0000ff</color>
+    <color name="lightgray">#ffe8e8e8</color>
     <color name="title_textcolor">#FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
         <color name="main_bg">#FFFFFF</color>
@@ -16,4 +17,7 @@
      <color name="menu_noselect">#969696</color>
      <!-- 输入框的文字的颜色 -->
      <color name="edit_txt_color">#404040</color>
+     <!-- 标题栏按钮点击时背景 -->
+   <drawable name="btn_press">#404040</drawable>   
+   <drawable name="btn_normal">#E44882</drawable>  
 </resources>

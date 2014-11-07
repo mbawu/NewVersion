@@ -162,7 +162,7 @@ public class Home extends MenuActivity implements OnGestureListener,
 		secKillGridView.setAdapter(adapterSecKill);
 
 		// 设置滚动条初始位置
-		// srollView.smoothScrollTo(0, 0);
+//		 srollView.smoothScrollTo(0, 0);
 	}
 
 	private void initData() {
@@ -258,9 +258,10 @@ public class Home extends MenuActivity implements OnGestureListener,
 									.openStream());
 							int height = map.getHeight();
 							int width = map.getWidth();
-							// Log.i(MyApplication.TAG, "height-->"+height);
+							 Log.i(MyApplication.TAG, "height-->"+height);
 							newHeight = (int) (MyApplication.width * ((double) height / width));
 							getHeight = true;
+							 Log.i(MyApplication.TAG, "newHeight-->"+newHeight);
 							ConnectServer.getResualt(Home.this, paramter,
 									NetworkAction.首页广告, Url.URL_INDEX);
 						} catch (Exception e) {
@@ -451,20 +452,20 @@ public class Home extends MenuActivity implements OnGestureListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long productId) {
 
-//		Intent intent = new Intent().setClass(this, ProductDetail.class);
-//		
-//		if (parent.getId() == R.id.home_seckill_gridview) {
-//			Product product = (Product) secKillProduct.get(position);
-//			intent.putExtra("productId",product.getId());
-//			intent.putExtra("skid",product.getSkID());
-////			Log.i(MyApplication.TAG,"productId-->"+product.getId()+"  skid-->"+product.getSkID());
-//		}
-//		else if(parent.getId() == R.id.home_hot_gridview)
-//		{
-//			intent.putExtra("productId", String.valueOf(productId));
-//		}
-////		Toast.makeText(this, String.valueOf(productId), 2000).show();
-//		 startActivity(intent);
+		Intent intent = new Intent().setClass(this, ProductDetail.class);
+		
+		if (parent.getId() == R.id.home_seckill_gridview) {
+			Product product = (Product) secKillProduct.get(position);
+			intent.putExtra("productId",product.getId());
+			intent.putExtra("skid",product.getSkID());
+//			Log.i(MyApplication.TAG,"productId-->"+product.getId()+"  skid-->"+product.getSkID());
+		}
+		else if(parent.getId() == R.id.home_hot_gridview)
+		{
+			intent.putExtra("productId", String.valueOf(productId));
+		}
+//		Toast.makeText(this, String.valueOf(productId), 2000).show();
+		 startActivity(intent);
 
 	}
 

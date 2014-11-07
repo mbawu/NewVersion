@@ -5,5 +5,5 @@
     android:drawable="@drawable/main_menu_bg_normal" /> 
     <item 
     android:state_checked="true" 
-    android:drawable="@drawable/main_menu_bg_press" /> 
+    android:drawable="@drawable/main_menu_bg_normal" /> 
 </selector> 

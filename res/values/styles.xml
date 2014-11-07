@@ -80,4 +80,53 @@
         <item name="android:paddingBottom">2.0dip</item>
         <item name="android:paddingTop">2.0dip</item>
     </style>
+    
+    <!-- 小正文显示样式 -->
+    <style name="littleTxtStyle">
+        <item name="android:textSize">15.0dip</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+    
+        <!-- 商品详情容器盒子样式 -->
+    <style name="product_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+    
+     <!-- 评论星级样式,不可编辑模式 -->
+    <style name="RedStartRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/redstar_ratingbar_full</item>
+        <item name="android:minHeight">11dip</item>
+        <item name="android:maxHeight">11dip</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+<!-- 评论星级样式，可编辑模式 -->
+    <style name="EditeStartRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/bigstar_ratingbar_full</item>
+        <item name="android:minHeight">11dip</item>
+        <item name="android:maxHeight">30dip</item>
+    </style>
+    
+      <!-- 小按钮样式 -->
+    <style name="litleBtnStyle">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:layout_marginBottom">7dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

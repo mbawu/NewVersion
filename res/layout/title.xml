@@ -7,24 +7,25 @@
 
         <LinearLayout
             android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@drawable/title_item_selector"
             android:orientation="horizontal" 
             android:visibility="gone">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_margin="10dp"
                 android:src="@drawable/back" />
         </LinearLayout>
  <!-- 消息按钮 -->
 
         <LinearLayout
             android:id="@+id/msgBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:gravity="center"
+                        android:background="@drawable/title_item_selector"
             android:orientation="horizontal" 
             android:visibility="gone">
             <TextView
@@ -136,35 +137,51 @@
                 android:text="标题文字"/>
         </LinearLayout>
         
-        <!-- 更多按钮 -->
+         <!-- 购物车按钮 -->
 
         <LinearLayout
-            android:id="@+id/moreBtn"
-            android:layout_width="wrap_content"
+            android:id="@+id/cartBtn"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
+                        android:background="@drawable/title_item_selector"
             android:gravity="center"
             android:layout_gravity="right|center"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
             android:orientation="horizontal" 
             android:visibility="gone">
              <ImageView 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/cart_ico"/>
+        </LinearLayout>
+        
+        <!-- 更多按钮 -->
+
+        <LinearLayout
+            android:id="@+id/moreBtn"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+             android:background="@drawable/title_item_selector"
+            android:gravity="center"
+            android:layout_gravity="right|center"
+            android:orientation="horizontal" 
+            android:visibility="gone">
+             <ImageView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/more_ico"/>
         </LinearLayout>
+        
+        
         
         <!-- 更多页面 -->
 
         <FrameLayout
             android:id="@+id/morePage"
-            android:layout_width="match_parent"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
+                        android:background="@drawable/title_item_selector"
             android:gravity="center"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            
             android:visibility="gone">
              <TextView 
                     android:layout_width="wrap_content"

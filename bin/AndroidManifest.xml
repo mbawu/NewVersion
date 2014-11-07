@@ -7,7 +7,8 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
-<permission
+
+    <permission
         android:name="com.test.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
@@ -15,25 +16,26 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
     <uses-permission android:name="com.test.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <application
         android:name="com.test.base.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" 
-        android:largeHeap="true">
-        
-           <!--            JPUSH                      -->
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.NoTitleBar" >
+
+        <!-- JPUSH -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
@@ -44,32 +46,32 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
             </intent-filter>
         </service>
-         <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true" >
-             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
                 <category android:name="com.test" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-             <!-- Optional -->
+            <!-- Optional -->
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
-   
         </receiver>
-        
-        <!-- Required SDK核心功能-->
+
+        <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
-        <!-- User defined.  For test only  用户自定义的广播接收器need2-->
-        
-       
+        <!-- User defined.  For test only  用户自定义的广播接收器need2 -->
+
+
         <!-- Required SDK:RICH PUSH -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
@@ -98,7 +100,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="24a2583f67fe6a6a0773dc1e" />
-       <!--            JPUSH      END                -->
+        <!-- JPUSH      END -->
         <!-- 开机自启广播 -->
         <receiver android:name=".base.BootReceiver" >
             <intent-filter>
@@ -108,7 +110,7 @@
                 </action>
             </intent-filter>
         </receiver>
-         <!-- 支付宝 -->
+        <!-- 支付宝 -->
         <activity
             android:name="com.unionpay.uppay.PayActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -119,16 +121,17 @@
         <activity
             android:name="com.alipay.android.app.sdk.WapPayActivity"
             android:screenOrientation="portrait" />
-        
-        
         <activity
             android:name="com.test.Load"
             android:label="@string/app_name" >
-           <!-- <intent-filter>
+
+            
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> --> 
+            </intent-filter>
+            
         </activity>
         <activity
             android:name="com.test.product.Home"
@@ -138,54 +141,52 @@
             android:name="com.test.product.SeckillProduct"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-         <activity
+        <activity
             android:name="com.test.product.HotProduct"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-         <activity
+        <activity
             android:name="com.test.product.CatagoryFirst"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
-            <activity
+        <activity
             android:name="com.test.product.CatagoryThird"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-            <activity
+        <activity
             android:name="com.test.product.ProductShow"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-             <activity
+        <activity
             android:name="com.test.person.Person"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-                    
-             <activity
+        <activity
             android:name="com.test.person.More"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-             <activity
+        <activity
             android:name="com.test.person.MoreAbout"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-              <activity
+        <activity
             android:name="com.test.person.Login"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-                <activity
+        <activity
             android:name="com.test.person.ForgetPwd"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-                 <activity
+        <activity
             android:name="com.test.MenuBottom"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-                   <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            </activity>
+            android:windowSoftInputMode="adjustPan" />
+             
+        <activity
+            android:name="com.test.product.ProductDetail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+           
     </application>
 
 </manifest>

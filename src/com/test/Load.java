@@ -53,7 +53,7 @@ public class Load extends Activity {
 		@Override
 		public void run() {
 			//初始化JPUSH
-			Intent intent = new Intent().setClass(Load.this, Home.class);
+			Intent intent = new Intent().setClass(Load.this, MenuBottom.class);
 			startActivity(intent);
 			//检查配置文件是否打开消息推送功能
 			MyApplication.jPush=MyApplication.sp.getBoolean("push", true);

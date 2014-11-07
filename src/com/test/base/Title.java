@@ -26,6 +26,7 @@ public class Title extends FrameLayout {
 	private LinearLayout msgBtn;// 消息按钮
 	private FrameLayout searchLayout;// 搜索模块
 	private LinearLayout moreBtn;// 更多模块
+	private LinearLayout cartBtn;// 购物车按钮
 	private FrameLayout morePage;// 更多页面
 	private LinearLayout txtLayout;// 标题模块
 	private TextView titleTxt;// 标题栏文字
@@ -41,6 +42,7 @@ public class Title extends FrameLayout {
 		LayoutInflater.from(context).inflate(R.layout.title, this, true);
 		backBtn = (LinearLayout) findViewById(R.id.backBtn);
 		msgBtn = (LinearLayout) findViewById(R.id.msgBtn);
+		cartBtn = (LinearLayout) findViewById(R.id.cartBtn);
 		titleTxt = (TextView) findViewById(R.id.title_txt);
 		searchLayout = (FrameLayout) findViewById(R.id.searchLayout);
 		moreBtn = (LinearLayout) findViewById(R.id.moreBtn);
@@ -50,6 +52,7 @@ public class Title extends FrameLayout {
 		msgBtn.setOnClickListener(new OnclickListener());
 		moreBtn.setOnClickListener(new OnclickListener());
 		morePage.setOnClickListener(new OnclickListener());
+		cartBtn.setOnClickListener(new OnclickListener());
 		searchTxt = (EditText) findViewById(R.id.searchTxt);
 		searchTxt.setOnEditorActionListener(new MyApplication.OnEditorActionListener(context,searchTxt));
 	}
@@ -74,6 +77,10 @@ public class Title extends FrameLayout {
 				// 跳转更多页面
 				intent=new Intent().setClass(context, More.class);
 				break;
+			case R.id.cartBtn:
+				// 跳转购物车页面
+//				intent=new Intent().setClass(context, More.class);
+				break;
 			}
 			if(intent!=null)
 				((Activity)context).startActivity(intent);
@@ -88,6 +95,7 @@ public class Title extends FrameLayout {
 	 * 4. 后退按钮+标题名称 
 	 * 5. 后退按钮+搜索框+更多按钮
 	 * 6. 标题名称 +更多页面
+	 * 7. 后退按钮+标题名称+购物车按钮+更多按钮
 	 * @param module
 	 */
 	public void setModule(int module) {
@@ -116,6 +124,12 @@ public class Title extends FrameLayout {
 		case 6:
 			txtLayout.setVisibility(View.VISIBLE);
 			morePage.setVisibility(View.VISIBLE);
+			break;
+		case 7:
+			backBtn.setVisibility(View.VISIBLE);
+			txtLayout.setVisibility(View.VISIBLE);
+			cartBtn.setVisibility(View.VISIBLE);
+			moreBtn.setVisibility(View.VISIBLE);
 			break;
 		}
 	}
