@@ -79,10 +79,8 @@ public class ProductDetail extends Activity implements OnClickListener,
 		OnGestureListener {
 
 	private Resources resources;
-	private RatingBar stars;// 评论星级
 	private TextView secKillTime;// 秒杀商品时间
 	private TextView commentNumTxt;// 评论总数
-	private TextView storePriceTxt;// 显示是秒杀价还是促销价的文本框
 	private String num = "1";// 记录商品数量
 	private ProgressDialog progressBar;// 加载商品详情时候的进度条
 	private AlertDialog alertDialog;// 加载商品详情出错时候的提示框
@@ -137,7 +135,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 		flipperTxt = (RadioGroup) findViewById(R.id.product_txt_layout);
 		// TODO Auto-generated method stub
 		commentNumTxt = (TextView) findViewById(R.id.product_comment_num);
-		stars = (RatingBar) findViewById(R.id.product_stars);// 评论星级
 		discountLayout = (LinearLayout) findViewById(R.id.product_discount_layout);// 促销信息模块
 		giftLayout = (LinearLayout) findViewById(R.id.product_gift_layout);// 赠品模块
 		layoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
@@ -149,7 +146,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 				return gesture.onTouchEvent(event);
 			}
 		});
-		storePriceTxt = (TextView) findViewById(R.id.product_store_pricetxt);
 		secKillTime = (TextView) findViewById(R.id.product_seckill_outtime);
 		viewWidth = View.MeasureSpec.makeMeasureSpec(0,
 				View.MeasureSpec.UNSPECIFIED);
@@ -298,13 +294,16 @@ public class ProductDetail extends Activity implements OnClickListener,
 										// 开始刷新倒计时文本框
 										ChangeTime.secKillTime = time;
 										name.setText(info.getString("SKName"));
-										referencePrice.setText("￥"
+										if(!normalInfo
+												.getString("ReferencePrice").equals("null"))
+										referencePrice.setText("原价：￥"
 												+ normalInfo
 														.getString("ReferencePrice"));
+										else
+											referencePrice.setVisibility(View.GONE);
 										Log.i(MyApplication.TAG,
 												"getStorePrice()->"
 														+ info.getString("SKPrice"));
-										storePriceTxt.setText("秒杀价：");
 										storePrice.setText("￥"
 												+ info.getString("SKPrice"));
 
@@ -343,9 +342,13 @@ public class ProductDetail extends Activity implements OnClickListener,
 													.getString("ProductName"));
 										else
 											name.setText(tempname);
-										referencePrice.setText("￥"
+										if(!normalInfo
+												.getString("ReferencePrice").equals("null"))
+										referencePrice.setText("原价：￥"
 												+ normalInfo
 														.getString("ReferencePrice"));
+										else
+											referencePrice.setVisibility(View.GONE);
 										storePrice.setText("￥"
 												+ normalInfo
 														.getString("StorePrice"));
@@ -692,36 +695,34 @@ public class ProductDetail extends Activity implements OnClickListener,
 									product.setNature(normalInfo
 											.getString("Nature"));
 									// ----------------------共同区域----------------------------------
-									// 商品评论星级
-									String commentStars = normalInfo
-											.getString("CommentStars");
-									Log.i(MyApplication.TAG, "commentStars-->"
-											+ commentStars);
-									stars.setRating(Float.valueOf(commentStars));
-									// stars.setEnabled(false);
-									Log.i(MyApplication.TAG,"");
 									
+									//获取图片缩放比例后的高度
 									final JSONObject itemTemp;
 									itemTemp = imgList.getJSONObject(0);
-									// 如果有首页广告图片并且没有获取到实际网络图片的宽高比例的时候先获取其相对高度
+									 Log.i(MyApplication.TAG, "imgList.length() -->"+imgList.length() );
+									 Log.i(MyApplication.TAG, "getHeight -->"+getHeight );
+									// 如果有图片并且没有获取到实际网络图片的宽高比例的时候先获取其相对高度
 									if (imgList.length() > 0 && !getHeight) {
+										
 										Thread thread = new Thread(new Runnable() {
 											
 											@Override
 											public void run() {
 												
 												try {
-													
+													 Log.i(MyApplication.TAG, "run -->717" );
+													 Log.i(MyApplication.TAG, "run -->"+ itemTemp.toString() );
 													String path = Url.URL_IMGPATH
-															+ itemTemp.getString("attachments_path");
+															+ itemTemp.getString("FilePath");
 													URL url = new URL(path);
 													String responseCode = url.openConnection()
 															.getHeaderField(0);
+													 Log.i(MyApplication.TAG, "run -->723" );
 													Bitmap map = BitmapFactory.decodeStream(url
 															.openStream());
+													 Log.i(MyApplication.TAG, "run -->726" );
 													int height = map.getHeight();
 													int width = map.getWidth();
-													 Log.i(MyApplication.TAG, "height-->"+height);
 													newHeight = (int) (MyApplication.width * ((double) height / width));
 													getHeight = true;
 													 Log.i(MyApplication.TAG, "newHeight-->"+newHeight);
@@ -735,6 +736,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 
 											}
 										});
+										 Log.i(MyApplication.TAG, "start -->" );
 										thread.start();
 										return;
 									}
@@ -747,16 +749,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 														.getString("FilePath");
 										String imgPath = ((JSONObject) imgList
 												.get(i)).getString("FilePath");
-//										LinearLayout ll = (LinearLayout) MyApplication.Inflater
-//												.inflate(R.layout.img_item,
-//														null);
 										product.setImgPath(imgPath);
-//										NetworkImageView l = (NetworkImageView) ll
-//												.findViewById(R.id.product_photo);
-//										MyApplication.client
-//												.getImageForNetImageView(m, l,
-//														R.drawable.ic_launcher);
-//										flipper.addView(ll, layoutParams);
 										Log.i(MyApplication.TAG, "imgList->"+imgList.length());
 										NetworkImageView netView = new NetworkImageView(ProductDetail.this);
 										netView.setAdjustViewBounds(false);
@@ -770,7 +763,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 										flipper.setInAnimation(ProductDetail.this, R.anim.view_in_from_right);
 										flipper.setOutAnimation(ProductDetail.this, R.anim.view_out_to_left);
 										RadioGroup.LayoutParams rbParams = new RadioGroup.LayoutParams(
-												5, 5);
+												15,15);
 										rbParams.setMargins(0, 0, 10, 0);
 										RadioButton rb = new RadioButton(flipperTxt.getContext());
 										rb.setBackgroundDrawable(MyApplication.resources

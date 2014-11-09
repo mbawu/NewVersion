@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,8 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,7 +37,7 @@ import com.test.model.Product;
 import com.test.utils.ConnectServer;
 import com.test.utils.NetworkAction;
 
-public class HotProduct extends NormalActivity implements OnClickListener{
+public class HotProduct extends NormalActivity implements OnClickListener,OnItemClickListener{
 
 	private Title title;// 设置标题栏
 	private MyGridView gridView;
@@ -64,6 +67,7 @@ public class HotProduct extends NormalActivity implements OnClickListener{
 		adapterHot = new MyAdapter(this, NetworkAction.热门商品, hotProduct);
 		paramterHot = new HashMap<String, String>();
 		gridView.setAdapter(adapterHot);
+		gridView.setOnItemClickListener(this);
 		getMore= (LinearLayout) findViewById(R.id.getMore);
 		getMore.setOnClickListener(this);
 	}
@@ -124,6 +128,14 @@ public class HotProduct extends NormalActivity implements OnClickListener{
 
 		}
 		
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long productId) {
+		Intent intent = new Intent().setClass(this, ProductDetail.class);
+		intent.putExtra("productId", String.valueOf(productId));
+		 startActivity(intent);
 	}
 
 }

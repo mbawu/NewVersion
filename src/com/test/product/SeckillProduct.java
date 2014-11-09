@@ -7,12 +7,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.test.R;
 import com.test.base.ChangeTime;
@@ -25,7 +30,7 @@ import com.test.model.Product;
 import com.test.utils.ConnectServer;
 import com.test.utils.NetworkAction;
 
-public class SeckillProduct extends NormalActivity {
+public class SeckillProduct extends NormalActivity implements OnItemClickListener {
 
 	private Title title;// 设置标题栏
 	private GridView gridView;
@@ -63,6 +68,7 @@ public class SeckillProduct extends NormalActivity {
 		adapterSecKill = new MyAdapter(this, NetworkAction.秒杀商品, secKillProduct);
 		paramterSeckill = new HashMap<String, String>();
 		gridView.setAdapter(adapterSecKill);
+		gridView.setOnItemClickListener(this);
 	}
 
 	private void initData() {
@@ -133,6 +139,17 @@ public class SeckillProduct extends NormalActivity {
 		}
 		adapterSecKill.notifyDataSetChanged();// 通知适配器数据发生变化了
 
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long productId) {
+		Intent intent = new Intent().setClass(this, ProductDetail.class);
+		Product product = (Product) secKillProduct.get(position);
+		intent.putExtra("productId",product.getId());
+		intent.putExtra("skid",product.getSkID());
+		 startActivity(intent);
+		
 	}
 
 }
