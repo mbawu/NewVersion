@@ -181,12 +181,13 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
                         android:background="@drawable/title_item_selector"
+                        android:layout_gravity="right|center_vertical"
             android:gravity="center"
             android:visibility="gone">
              <TextView 
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
+                    android:layout_height="match_parent"
+                                android:gravity="center"
                     android:textSize="14sp"
                     android:textColor="@color/white"
                     android:text="更多"/>

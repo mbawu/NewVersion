@@ -3,6 +3,7 @@ package com.test.base;
 import java.util.ArrayList;
 
 import com.test.product.Home;
+import com.test.product.ProductDetail;
 import com.test.product.SeckillProduct;
 //import com.bdh.activity.product.ProductDetail;
 
@@ -44,24 +45,24 @@ public class ChangeTime  implements Runnable{
 			}
 			
 			//秒杀商品详情页面倒计时文本框刷新
-//			if(secKillTime!=-1)
-//			{
-//				Bundle bundle=new Bundle();
-//				secKillTime--;
-//				String day = String.valueOf(secKillTime / 60 / 60 / 24);
-//				String hour = String.valueOf(secKillTime / 60 / 60 % 24);
-//				String min = String.valueOf(secKillTime / 60 % 60);
-//				String sec = String.valueOf(secKillTime % 60);
-//				String timeString = day + "天" + hour + "时" + min + "分" + sec + "秒";
-//				bundle.putLong("time", secKillTime);
-//				bundle.putString("timeString", timeString);
-//				if(ProductDetail.secKillHandler!=null)
-//				{
-//					Message msg=new Message();
-//					msg.setData(bundle);
-//					ProductDetail.secKillHandler.sendMessage(msg);
-//				}
-//			}
+			if(secKillTime!=-1)
+			{
+				Bundle bundle=new Bundle();
+				secKillTime--;
+				String day = String.valueOf(secKillTime / 60 / 60 / 24);
+				String hour = String.valueOf(secKillTime / 60 / 60 % 24);
+				String min = String.valueOf(secKillTime / 60 % 60);
+				String sec = String.valueOf(secKillTime % 60);
+				String timeString = day + "天" + hour + "时" + min + "分" + sec + "秒";
+				bundle.putLong("time", secKillTime);
+				bundle.putString("timeString", timeString);
+				if(ProductDetail.secKillHandler!=null)
+				{
+					Message msg=new Message();
+					msg.setData(bundle);
+					ProductDetail.secKillHandler.sendMessage(msg);
+				}
+			}
 			
 			//秒杀商品列表倒计时刷新
 			if(timeList.size()>0&&!MyApplication.exit)

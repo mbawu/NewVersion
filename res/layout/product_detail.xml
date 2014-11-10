@@ -57,19 +57,6 @@
                 android:background="@drawable/catagory_second_bg"
                 android:orientation="vertical" >
 
-                <!-- 秒杀时间 -->
-
-                <TextView
-                    android:id="@+id/product_seckill_outtime"
-                    style="@style/txtStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/gray"
-                    android:gravity="center"
-                    android:layout_marginLeft="6dp"
-                    android:textColor="@color/white"
-                    android:visibility="gone" />
                 <!-- 商品名称 -->
 
                 <TextView
@@ -77,9 +64,9 @@
                     style="@style/littleTxtStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="6dp"
                     android:gravity="left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
                     android:textColor="#323232"
                     android:textSize="15sp" />
                 <!-- 价格 -->
@@ -88,20 +75,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/product_detail_lines"
-                    android:layout_marginTop="3dp" 
-                    android:layout_marginLeft="6dp">
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="3dp" >
 
                     <TextView
                         android:id="@+id/product_store_price"
                         style="@style/littleTxtStyle"
                         android:text="价格"
                         android:textColor="#e36159" />
-                    <!--
-                        <TextView
-                        style="@style/littleTxtStyle"
-                        android:layout_width="wrap_content"
-                        android:text="价格：" />
-                    -->
 
                     <TextView
                         android:id="@+id/product_reference_price"
@@ -111,23 +92,43 @@
                         android:textColor="#969696"
                         android:textSize="13sp" />
                 </LinearLayout>
-                <!--
-                促销价
+                <!-- 秒杀时间 -->
 
                 <LinearLayout
+                    android:id="@+id/product_seckill_outtime_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/product_detail_lines"
-                    android:layout_marginTop="3dp" >
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <TextView
-                        android:id="@+id/product_store_pricetxt"
-                        style="@style/littleTxtStyle"
-                        android:text="促销价：" />
+                        style="@style/txtStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:drawableLeft="@drawable/home_seckill_ico"
+                        android:gravity="left|center_vertical"
+                        android:text="掌上秒杀"
+                        android:textColor="#404040"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
 
-                    
+                    <TextView
+                        android:id="@+id/product_seckill_outtime"
+                        style="@style/txtStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/time_bg"
+                        android:gravity="center"
+                        android:text="秒杀时间"
+                        android:textColor="@color/catagory_first"
+                        android:textSize="13sp"
+                        android:visibility="visible" />
                 </LinearLayout>
-                -->
             </LinearLayout>
 
             <!-- 促销信息 -->
@@ -136,47 +137,181 @@
                 android:id="@+id/product_discount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/product_detail_lines"
                 android:layout_marginTop="3dp"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
-                <!-- 折扣 -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/catagory_second_bg" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:text="促销"
+                        android:textColor="#404040"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:id="@+id/product_discount_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center" >
+
+                        <TextView
+                            android:id="@+id/product_discount_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/red_bolder_bg"
+                            android:paddingBottom="1dp"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingTop="1dp"
+                            android:text="折扣"
+                            android:textColor="#e36159"
+                            android:textSize="15sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/product_cashback_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/red_bolder_bg"
+                            android:paddingBottom="1dp"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingTop="1dp"
+                            android:text="满返"
+                            android:textColor="#e36159"
+                            android:textSize="15sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/product_discount_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/product_discount_close" />
+                </FrameLayout>
+                <!-- 促销内容 -->
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:id="@+id/product_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/catagory_second_bg"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
 
-                    <TextView
-                        style="@style/littleTxtStyle"
-                        android:text="促销信息：" />
+                    <LinearLayout
+                        android:id="@+id/product_dcontent_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone" >
 
-                    <TextView
-                        style="@style/littleTxtStyle"
-                        android:background="@color/red"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="折扣"
-                        android:textColor="@color/white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/red_bolder_bg"
+                            android:paddingBottom="1dp"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingTop="1dp"
+                            android:text="折扣"
+                            android:textColor="#e36159"
+                            android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/product_discount"
-                        style="@style/littleTxtStyle"
-                        android:text="无折扣"
-                        android:textColor="@color/red" />
+                        <TextView
+                            android:id="@+id/product_discount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:text="折扣内容1111111111111111111111111111111"
+                            android:textColor="#e36159"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/product_ccontent_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/red_bolder_bg"
+                            android:paddingBottom="1dp"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingTop="1dp"
+                            android:text="满返"
+                            android:textColor="#e36159"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/product_cashback"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:text="满返内容1111111111111111111111111111111"
+                            android:textColor="#e36159"
+                            android:textSize="15sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <!-- 商品属性 -->
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/product_attribute_layout"
-                style="@style/product_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/product_detail_lines"
-                android:orientation="vertical"
-                android:visibility="gone" />
+                android:layout_marginTop="3dp"
+                android:orientation="vertical" 
+                android:background="@drawable/catagory_second_bg" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:text="规格"
+                        android:textColor="#404040"
+                        android:textSize="15sp" />
+                    <TextView
+                            android:id="@+id/product_attribute_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="#404040"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:text="商品属性"
+                            android:textSize="13sp" />
+                    <ImageView 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@drawable/product_discount_close"
+                        android:layout_marginRight="10dp"/>
+            </FrameLayout>
 
             <!-- 赠品 -->
 
@@ -228,9 +363,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="right"
                         android:background="@drawable/addition" />
-                </FrameLayout>
-
-
+                </FrameLayout></LinearLayout>
             -->
 
 

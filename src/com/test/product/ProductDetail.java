@@ -52,16 +52,20 @@ import android.os.Message;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -91,7 +95,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 	private TextView name;// 商品名称
 	private TextView referencePrice;// 商品参考价格
 	private TextView storePrice;// 商品促销价格
-	private TextView discountTxt;// 商品折扣文本框
+
 	private String discount;// 商品折扣
 	private TextView cashBack;// 满返
 	private Product product;// 商品实体类
@@ -99,7 +103,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 	private LinearLayout comment;// 查看评价按钮
 	private Button buyNow;// 立即购买按钮
 	private Button addShopcart;// 加入购物车按钮
-	private LinearLayout attributeLayout;// 商品属性
 	private int viewWidth;
 	private int viewHeight;
 	public static Handler secKillHandler;// 秒杀倒计时handler
@@ -110,15 +113,28 @@ public class ProductDetail extends Activity implements OnClickListener,
 	private LinearLayout.LayoutParams layoutParams;
 	private String buyType = "1"; // Buy_type 购买类型：1正常购买，2秒杀
 	private String freight;// 运费
-	private LinearLayout discountLayout;// 促销信息模块
 	private LinearLayout giftLayout;// 赠品模块
 
+	// 新版修改的参数
 	private Title title;// 设置标题栏
 	private RadioGroup flipperTxt;// 存放首页广告图片右下角跟随移动的单选框容器
 	private MyViewFlipper flipper;
 	private boolean getHeight = false;// 是否有获取到图片的高度
 	private int newHeight = 0;
-	
+	private LinearLayout timeLayout;// 显示倒计时的容器
+	private LinearLayout discountLayout;// 促销信息头模块
+	private LinearLayout discountModuleLayout;// 促销信息折扣和满返的模块容器
+	private TextView discountModuleTxt;// 促销信息折扣的标签
+	private TextView cashbackModuleTxt;// 促销信息满返的标签
+	private ImageView discountImg;// 促销信息模块图片
+	private LinearLayout discountContentLayout;// 促销信息内容模块
+	private LinearLayout dContentLayout;// 折扣内容模块
+	private LinearLayout cContentLayout;// 满返内容模块
+	private TextView discountTxt;// 折扣文本框
+	private TextView cashbackTxt;// 满返文本框
+	private FrameLayout attributeLayout;// 商品属性
+	private TextView attributeTxt;// 属性文本框
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -133,9 +149,20 @@ public class ProductDetail extends Activity implements OnClickListener,
 		title.setModule(7);
 		title.setTitleTxt("商品详情");
 		flipperTxt = (RadioGroup) findViewById(R.id.product_txt_layout);
+		timeLayout = (LinearLayout) findViewById(R.id.product_seckill_outtime_layout);
+		discountContentLayout = (LinearLayout) findViewById(R.id.product_content_layout);
+		discountModuleLayout = (LinearLayout) findViewById(R.id.product_discount_title);
+		discountModuleTxt = (TextView) findViewById(R.id.product_discount_txt);
+		cashbackModuleTxt = (TextView) findViewById(R.id.product_cashback_txt);
+		discountImg = (ImageView) findViewById(R.id.product_discount_img);
+		dContentLayout = (LinearLayout) findViewById(R.id.product_dcontent_layout);
+		cContentLayout = (LinearLayout) findViewById(R.id.product_ccontent_layout);
+		discountTxt = (TextView) findViewById(R.id.product_discount);
+		cashbackTxt = (TextView) findViewById(R.id.product_cashback);
 		// TODO Auto-generated method stub
 		commentNumTxt = (TextView) findViewById(R.id.product_comment_num);
 		discountLayout = (LinearLayout) findViewById(R.id.product_discount_layout);// 促销信息模块
+		discountLayout.setOnClickListener(this);
 		giftLayout = (LinearLayout) findViewById(R.id.product_gift_layout);// 赠品模块
 		layoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT);
@@ -158,8 +185,8 @@ public class ProductDetail extends Activity implements OnClickListener,
 		referencePrice = (TextView) findViewById(R.id.product_reference_price);// 商品价格
 		referencePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); // 中间加横线
 		storePrice = (TextView) findViewById(R.id.product_store_price);// 商品促销价格
-		discountTxt = (TextView) findViewById(R.id.product_discount);// 商品折扣
-		attributeLayout = (LinearLayout) findViewById(R.id.product_attribute_layout);// 商品属性
+		attributeLayout = (FrameLayout) findViewById(R.id.product_attribute_layout);// 商品属性
+		attributeLayout.setOnClickListener(this);
 		call = (LinearLayout) findViewById(R.id.product_call);// 联系客服按钮
 		call.setOnClickListener(this);
 		comment = (LinearLayout) findViewById(R.id.product_comment);// 查看评价按钮
@@ -179,7 +206,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 				// 从子线程返回的计算好了的新的时间字符串
 				String timeString = bundle.getString("timeString");
 				if (time > 0)
-					secKillTime.setText(timeString);
+					secKillTime.setText("倒计时：" + timeString);
 				else {
 					// 重置秒杀商品详情页面的倒计时时间
 					ChangeTime.secKillTime = -1;
@@ -289,18 +316,20 @@ public class ProductDetail extends Activity implements OnClickListener,
 										// 得到离秒杀商品结束剩余的时间
 										long time = outTime - startTime;
 										// 显示秒杀商品倒计时文本框
-										secKillTime.setVisibility(View.VISIBLE);
+										timeLayout.setVisibility(View.VISIBLE);
 										secKillTime.setTextSize(15);
 										// 开始刷新倒计时文本框
 										ChangeTime.secKillTime = time;
 										name.setText(info.getString("SKName"));
-										if(!normalInfo
-												.getString("ReferencePrice").equals("null"))
-										referencePrice.setText("原价：￥"
-												+ normalInfo
-														.getString("ReferencePrice"));
+										if (!normalInfo.getString(
+												"ReferencePrice")
+												.equals("null"))
+											referencePrice.setText("原价：￥"
+													+ normalInfo
+															.getString("ReferencePrice"));
 										else
-											referencePrice.setVisibility(View.GONE);
+											referencePrice
+													.setVisibility(View.GONE);
 										Log.i(MyApplication.TAG,
 												"getStorePrice()->"
 														+ info.getString("SKPrice"));
@@ -342,166 +371,22 @@ public class ProductDetail extends Activity implements OnClickListener,
 													.getString("ProductName"));
 										else
 											name.setText(tempname);
-										if(!normalInfo
-												.getString("ReferencePrice").equals("null"))
-										referencePrice.setText("原价：￥"
-												+ normalInfo
-														.getString("ReferencePrice"));
+										// 没有原价信息隐藏该模块
+										if (!normalInfo.getString(
+												"ReferencePrice")
+												.equals("null"))
+											referencePrice.setText("原价：￥"
+													+ normalInfo
+															.getString("ReferencePrice"));
 										else
-											referencePrice.setVisibility(View.GONE);
+											referencePrice
+													.setVisibility(View.GONE);
 										storePrice.setText("￥"
 												+ normalInfo
 														.getString("StorePrice"));
 										// 初始化图片集合
 										imgList = response
 												.getJSONArray("ImgInfo");
-										// 显示促销信息模块
-										discountLayout
-												.setVisibility(View.VISIBLE);
-										// 折扣信息
-										JSONArray discounts = response
-												.getJSONArray("discount");
-										if (discounts.length() > 0) {
-											for (int i = 0; i < discounts
-													.length(); i++) {
-												JSONObject discountObject = discounts
-														.getJSONObject(i);
-												discount = discountObject
-														.getString("Per");
-
-												product.setDiscount(discountObject
-														.getString("Per"));
-												product.setDiscountCash(discountObject
-														.getString("OffsetPrice"));
-												discountTxt.setText(product
-														.getDiscount()
-														+ "折   抵￥"
-														+ product
-																.getDiscountCash());
-
-											}
-										}
-										// 动态生成满返信息
-										JSONArray coupons = response
-												.getJSONArray("coupons");
-
-										if (coupons.length() > 0) {
-											// 动态生成满返信息
-											for (int i = 0; i < coupons
-													.length(); i++) {
-												JSONObject couponObject = coupons
-														.getJSONObject(i);
-												Coupon coupon = new Coupon();
-												coupon.setCouponID(couponObject
-														.getString("CouponID"));
-												coupon.setStoreID(couponObject
-														.getString("StoreID"));
-												coupon.setProductID(couponObject
-														.getString("ProductID"));
-												coupon.setPrice(couponObject
-														.getString("Price"));
-												coupon.setStart_time(couponObject
-														.getString("StartTime"));
-												coupon.setEnd_time(couponObject
-														.getString("EndTime"));
-												coupon.setPriceLine(couponObject
-														.getString("PriceLine"));
-												product.addCoupon(coupon);
-												// 新加一行
-												LinearLayout layout = new LinearLayout(
-														discountLayout
-																.getContext());
-												LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-														LayoutParams.MATCH_PARENT,
-														LayoutParams.WRAP_CONTENT);
-												layoutParams.setMargins(0, 6,
-														0, 0);
-												if (i == 0) {
-													// 促销信息宽度填充
-													TextView t1 = new TextView(
-															layout.getContext());
-													t1.setText("促销信息：     ");
-													t1.setVisibility(View.INVISIBLE);
-													layout.addView(t1);
-													// 红色背景的满返文字
-													TextView t2 = new TextView(
-															layout.getContext());
-													t2.setText("满返");
-													t2.setTextColor(MyApplication.resources
-															.getColor(R.color.white));
-													t2.setBackgroundColor(MyApplication.resources
-															.getColor(R.color.red));
-													t2.setTextSize(15);
-													t2.setPadding(8, 0, 8, 0);
-													layout.addView(t2);
-													// 有效期
-													String time = couponObject
-															.getString(
-																	"StartTime")
-															.substring(5, 7)
-															+ "月"
-															+ couponObject
-																	.getString(
-																			"StartTime")
-																	.substring(
-																			8,
-																			10)
-															+ "日 ~ "
-															+ couponObject
-																	.getString(
-																			"EndTime")
-																	.substring(
-																			5,
-																			7)
-															+ "月"
-															+ couponObject
-																	.getString(
-																			"EndTime")
-																	.substring(
-																			8,
-																			10)
-															+ "日";
-													Log.i(MyApplication.TAG,
-															"time-->" + time);
-													TextView t3 = new TextView(
-															layout.getContext());
-													t3.setText(time);
-													t3.setTextColor(MyApplication.resources
-															.getColor(R.color.red));
-													t3.setTextSize(15);
-													layout.addView(t3);
-												}
-												LinearLayout layoutNext = new LinearLayout(
-														discountLayout
-																.getContext());
-												// 促销信息宽度填充
-												TextView t4 = new TextView(
-														layoutNext.getContext());
-												t4.setText("促销信息：     ");
-												t4.setVisibility(View.INVISIBLE);
-												layoutNext.addView(t4);
-
-												// 显示的文字
-												TextView t5 = new TextView(
-														layoutNext.getContext());
-												t5.setText("满￥"
-														+ couponObject
-																.getString("PriceLine")
-														+ "元返￥"
-														+ couponObject
-																.getString("Price")
-														+ "元优惠券");
-												t5.setTextColor(MyApplication.resources
-														.getColor(R.color.red));
-												t5.setTextSize(13);
-												layoutNext.addView(t5);
-												discountLayout.addView(layout,
-														layoutParams);
-												discountLayout.addView(
-														layoutNext,
-														layoutParams);
-											}
-										}
 
 										// 商品属性
 										JSONArray attributes = response
@@ -674,10 +559,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 												.getString("ProductLeft"));// 库存数
 										product.setStorePrice(normalInfo
 												.getString("StorePrice"));
-										if (coupons.length() == 0
-												&& discounts.length() == 0)
-											discountLayout
-													.setVisibility(View.GONE);
+
 									}
 
 									// --------------------------普通商品和秒杀商品相同属性的信息打包---------------------------------
@@ -695,88 +577,214 @@ public class ProductDetail extends Activity implements OnClickListener,
 									product.setNature(normalInfo
 											.getString("Nature"));
 									// ----------------------共同区域----------------------------------
-									
-									//获取图片缩放比例后的高度
+
+									// 获取图片缩放比例后的高度
 									final JSONObject itemTemp;
 									itemTemp = imgList.getJSONObject(0);
-									 Log.i(MyApplication.TAG, "imgList.length() -->"+imgList.length() );
-									 Log.i(MyApplication.TAG, "getHeight -->"+getHeight );
 									// 如果有图片并且没有获取到实际网络图片的宽高比例的时候先获取其相对高度
 									if (imgList.length() > 0 && !getHeight) {
-										
-										Thread thread = new Thread(new Runnable() {
-											
-											@Override
-											public void run() {
-												
-												try {
-													 Log.i(MyApplication.TAG, "run -->717" );
-													 Log.i(MyApplication.TAG, "run -->"+ itemTemp.toString() );
-													String path = Url.URL_IMGPATH
-															+ itemTemp.getString("FilePath");
-													URL url = new URL(path);
-													String responseCode = url.openConnection()
-															.getHeaderField(0);
-													 Log.i(MyApplication.TAG, "run -->723" );
-													Bitmap map = BitmapFactory.decodeStream(url
-															.openStream());
-													 Log.i(MyApplication.TAG, "run -->726" );
-													int height = map.getHeight();
-													int width = map.getWidth();
-													newHeight = (int) (MyApplication.width * ((double) height / width));
-													getHeight = true;
-													 Log.i(MyApplication.TAG, "newHeight-->"+newHeight);
-//													ConnectServer.getResualt(Home.this, paramter,
-//															NetworkAction.首页广告, Url.URL_INDEX);
-													 sendData(request);
-												} catch (Exception e) {
-													// TODO Auto-generated catch block
-													e.printStackTrace();
-												}
+										Thread thread = new Thread(
+												new Runnable() {
 
-											}
-										});
-										 Log.i(MyApplication.TAG, "start -->" );
+													@Override
+													public void run() {
+
+														try {
+															String path = Url.URL_IMGPATH
+																	+ itemTemp
+																			.getString("FilePath");
+															URL url = new URL(
+																	path);
+															String responseCode = url
+																	.openConnection()
+																	.getHeaderField(
+																			0);
+															Bitmap map = BitmapFactory
+																	.decodeStream(url
+																			.openStream());
+															int height = map
+																	.getHeight();
+															int width = map
+																	.getWidth();
+															newHeight = (int) (MyApplication.width * ((double) height / width));
+															getHeight = true;
+															sendData(request);
+														} catch (Exception e) {
+															// TODO
+															// Auto-generated
+															// catch block
+															e.printStackTrace();
+														}
+
+													}
+												});
 										thread.start();
 										return;
 									}
 									// 图片集合
 									for (int i = 0; i < imgList.length(); i++) {
-										//记录图片总数
-										photopage=imgList.length();
+										// 记录图片总数
+										photopage = imgList.length();
 										String m = Url.URL_IMGPATH
 												+ ((JSONObject) imgList.get(i))
 														.getString("FilePath");
 										String imgPath = ((JSONObject) imgList
 												.get(i)).getString("FilePath");
 										product.setImgPath(imgPath);
-										Log.i(MyApplication.TAG, "imgList->"+imgList.length());
-										NetworkImageView netView = new NetworkImageView(ProductDetail.this);
+										Log.i(MyApplication.TAG, "imgList->"
+												+ imgList.length());
+										NetworkImageView netView = new NetworkImageView(
+												ProductDetail.this);
 										netView.setAdjustViewBounds(false);
 										LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-												LayoutParams.MATCH_PARENT, newHeight);
+												LayoutParams.MATCH_PARENT,
+												newHeight);
 										netView.setLayoutParams(layoutParams);
-										Log.i(MyApplication.TAG, "m->"+m);
-										MyApplication.client.getImageForNetImageView(m, netView,
-												R.drawable.ic_launcher);
+										Log.i(MyApplication.TAG, "m->" + m);
+										MyApplication.client
+												.getImageForNetImageView(m,
+														netView,
+														R.drawable.ic_launcher);
 										flipper.addView(netView);
-										flipper.setInAnimation(ProductDetail.this, R.anim.view_in_from_right);
-										flipper.setOutAnimation(ProductDetail.this, R.anim.view_out_to_left);
+										flipper.setInAnimation(
+												ProductDetail.this,
+												R.anim.view_in_from_right);
+										flipper.setOutAnimation(
+												ProductDetail.this,
+												R.anim.view_out_to_left);
 										RadioGroup.LayoutParams rbParams = new RadioGroup.LayoutParams(
-												15,15);
+												15, 15);
 										rbParams.setMargins(0, 0, 10, 0);
-										RadioButton rb = new RadioButton(flipperTxt.getContext());
+										RadioButton rb = new RadioButton(
+												flipperTxt.getContext());
 										rb.setBackgroundDrawable(MyApplication.resources
 												.getDrawable(R.drawable.product_img_bg));
 										rb.setId(i);
 										// 设置透明色来去掉radiobutton原来的button按钮
-										rb.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+										rb.setButtonDrawable(new ColorDrawable(
+												Color.TRANSPARENT));
 										if (i == 0)
 											rb.setChecked(true);
 										netView.setTag(rb);
 										flipperTxt.addView(rb, rbParams);
 									}
 									photototalpage = imgList.length();
+
+									// 商品详情的促销信息模块,只是针对非秒杀商品的
+									if (buyType.equals("1")) {
+
+										// 折扣信息集合
+										JSONArray discounts = response
+												.getJSONArray("discount");
+										// 满返信息集合
+										JSONArray coupons = response
+												.getJSONArray("coupons");
+										if (discounts.length() > 0
+												|| coupons.length() > 0)
+											// 显示促销信息模块
+											discountLayout
+													.setVisibility(View.VISIBLE);
+										Log.i(MyApplication.TAG,
+												"discount length->"
+														+ discounts.length());
+										// 有折扣信息的时候
+										if (discounts.length() > 0) {
+											// 有折扣信息的时候显示折扣标签和内容
+											discountModuleTxt
+													.setVisibility(View.VISIBLE);
+											dContentLayout
+													.setVisibility(View.VISIBLE);
+											for (int i = 0; i < discounts
+													.length(); i++) {
+												JSONObject discountObject = discounts
+														.getJSONObject(i);
+												discount = discountObject
+														.getString("Per");
+
+												product.setDiscount(discountObject
+														.getString("Per"));
+												product.setDiscountCash(discountObject
+														.getString("OffsetPrice"));
+												discountTxt.setText(product
+														.getDiscount()
+														+ "折   抵￥"
+														+ product
+																.getDiscountCash());
+
+											}
+										}
+
+										if (coupons.length() > 0) {
+											cashbackModuleTxt
+													.setVisibility(View.VISIBLE);
+											cContentLayout
+													.setVisibility(View.VISIBLE);
+											// 动态生成满返信息
+											for (int i = 0; i < coupons
+													.length(); i++) {
+												JSONObject couponObject = coupons
+														.getJSONObject(i);
+												Coupon coupon = new Coupon();
+												coupon.setCouponID(couponObject
+														.getString("CouponID"));
+												coupon.setStoreID(couponObject
+														.getString("StoreID"));
+												coupon.setProductID(couponObject
+														.getString("ProductID"));
+												coupon.setPrice(couponObject
+														.getString("Price"));
+												coupon.setStart_time(couponObject
+														.getString("StartTime"));
+												coupon.setEnd_time(couponObject
+														.getString("EndTime"));
+												coupon.setPriceLine(couponObject
+														.getString("PriceLine"));
+												product.addCoupon(coupon);
+												// 满返内容
+												String cashbackContent = "凡购买商品满￥"
+														+ couponObject
+																.getString("PriceLine")
+														+ "元立返￥"
+														+ couponObject
+																.getString("Price")
+														+ "元优惠券";
+												// 满返时间
+												String time = couponObject
+														.getString("StartTime")
+														.substring(5, 7)
+														+ "月"
+														+ couponObject
+																.getString(
+																		"StartTime")
+																.substring(8,
+																		10)
+														+ "日 ~ "
+														+ couponObject
+																.getString(
+																		"EndTime")
+																.substring(5, 7)
+														+ "月"
+														+ couponObject
+																.getString(
+																		"EndTime")
+																.substring(8,
+																		10)
+														+ "日";
+												if (i == 0) {
+													cashbackTxt.setText(time
+															+ "      "
+															+ cashbackContent);
+												} else {
+													cashbackTxt
+															.setText(cashbackTxt
+																	.getText()
+																	.toString()
+																	+ "，"
+																	+ cashbackContent);
+												}
+											}
+										}
+									}
 
 									// 赠品
 									JSONArray gifts = response
@@ -850,44 +858,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 									// 如果没有赠品则不显示该模块
 									else
 										giftLayout.setVisibility(View.GONE);
-									// giftGroup
-									// .setOnCheckedChangeListener(new
-									// OnCheckedChangeListener() {
-									//
-									// @Override
-									// public void onCheckedChanged(
-									// RadioGroup group,
-									// int checkedId) {
-									// RadioButton btn = (RadioButton) group
-									// .getChildAt(checkedId);
-									// //
-									// 购买普通商品的时候并且该商品有折扣时使用新属性的价格和折扣计算最新的价格和优惠价
-									// if (buyType.equals("1")
-									// && discount != null) {
-									// String Price = (String) btn
-									// .getTag();
-									// String newPrice = String.valueOf(Double
-									// .valueOf(Price)
-									// * (Double
-									// .valueOf(discount) / 100));
-									// DecimalFormat df = new DecimalFormat(
-									// ".00");
-									// String lessPrice =
-									// String.valueOf(df.format(Double
-									// .valueOf(Price)
-									// - Double.valueOf(newPrice)));
-									// discountTxt
-									// .setText(discount
-									// + "折   抵￥"
-									// + lessPrice);
-									// storePrice
-									// .setText(newPrice);
-									// }
-									// //
-									// }
-									// });
-									// layout.addView(attributeGroup);
-									// attributeLayout.addView(layout);
 
 								} else if (request.equals(NetworkAction.评论列表)) {
 									commentNumTxt.setText("("
@@ -1087,7 +1057,38 @@ public class ProductDetail extends Activity implements OnClickListener,
 		case 0:// 动态添加的商品属性按钮的点击事件
 				// Toast.makeText(this, v.getTag().toString(), 2000).show();
 			break;
-		default:
+		case R.id.product_discount_layout:// 促销信息模块
+			// visible 0 gone 8
+			if (discountContentLayout.getVisibility() == 8) {
+				discountContentLayout.setVisibility(View.VISIBLE);
+				discountImg.setBackgroundDrawable(MyApplication.resources
+						.getDrawable(R.drawable.product_discount_open));
+				discountModuleLayout.setVisibility(View.GONE);
+			} else {
+				discountContentLayout.setVisibility(View.GONE);
+				discountImg.setBackgroundDrawable(MyApplication.resources
+						.getDrawable(R.drawable.product_discount_close));
+				discountModuleLayout.setVisibility(View.VISIBLE);
+			}
+			break;
+		// 商品规格模块
+		case R.id.product_attribute_layout:
+			AlertDialog  congratulateDialog = new AlertDialog.Builder(this).create();
+//			congratulateDialog.setContentView(R.layout.test);
+			  //重新设置
+			 Window window = congratulateDialog.getWindow();
+			  WindowManager.LayoutParams lp = window.getAttributes();
+			  window .setGravity(Gravity.LEFT | Gravity.TOP);
+			  lp.x = MyApplication.width-300; // 新位置X坐标
+			  lp.y = title.getHeight(); // 新位置Y坐标
+			  window .setAttributes(lp);
+			congratulateDialog.show();
+			congratulateDialog.getWindow().setContentView(R.layout.test);
+		    congratulateDialog.getWindow().setWindowAnimations(R.style.dialogWindowAnim);
+		   
+
+
+
 			break;
 		}
 
@@ -1097,41 +1098,43 @@ public class ProductDetail extends Activity implements OnClickListener,
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		if(photopage<=1)
+		if (photopage <= 1)
 			return false;
-//		if (e1.getX() > e2.getX()) {
-//			if (photopage < photototalpage) {
-//				flipper.setInAnimation(ProductDetail.this,
-//						R.anim.view_in_from_right);
-//				flipper.setOutAnimation(ProductDetail.this,
-//						R.anim.view_out_to_left);
-//				flipper.showNext();
-//				photopage = photopage + 1;
-//			}
-//		} else {
-//			if (photopage == 1) {
-//
-//			} else {
-//				flipper.setInAnimation(ProductDetail.this,
-//						R.anim.view_in_from_left);
-//				flipper.setOutAnimation(ProductDetail.this,
-//						R.anim.view_out_to_right);
-//				flipper.showPrevious();
-//				photopage = photopage - 1;
-//			}
-//		}
+		// if (e1.getX() > e2.getX()) {
+		// if (photopage < photototalpage) {
+		// flipper.setInAnimation(ProductDetail.this,
+		// R.anim.view_in_from_right);
+		// flipper.setOutAnimation(ProductDetail.this,
+		// R.anim.view_out_to_left);
+		// flipper.showNext();
+		// photopage = photopage + 1;
+		// }
+		// } else {
+		// if (photopage == 1) {
+		//
+		// } else {
+		// flipper.setInAnimation(ProductDetail.this,
+		// R.anim.view_in_from_left);
+		// flipper.setOutAnimation(ProductDetail.this,
+		// R.anim.view_out_to_right);
+		// flipper.showPrevious();
+		// photopage = photopage - 1;
+		// }
+		// }
 		if (e1.getX() > e2.getX()) {
-			flipper.setInAnimation(ProductDetail.this, R.anim.view_in_from_right);
+			flipper.setInAnimation(ProductDetail.this,
+					R.anim.view_in_from_right);
 			flipper.setOutAnimation(ProductDetail.this, R.anim.view_out_to_left);
 			flipper.showNext();
 		} else {
 
 			flipper.setInAnimation(ProductDetail.this, R.anim.view_in_from_left);
-			flipper.setOutAnimation(ProductDetail.this, R.anim.view_out_to_right);
+			flipper.setOutAnimation(ProductDetail.this,
+					R.anim.view_out_to_right);
 			flipper.showPrevious();
 		}
 
-//		flipper.startFlipping();
+		// flipper.startFlipping();
 		return false;
 	}
 

@@ -9,12 +9,14 @@ package com.test;
 
 public final class R {
     public static final class anim {
-        public static final int view_in_from_bottom=0x7f040000;
-        public static final int view_in_from_left=0x7f040001;
-        public static final int view_in_from_right=0x7f040002;
-        public static final int view_out_to_bottom=0x7f040003;
-        public static final int view_out_to_left=0x7f040004;
-        public static final int view_out_to_right=0x7f040005;
+        public static final int dialog_animation_enter=0x7f040000;
+        public static final int dialog_animation_exit=0x7f040001;
+        public static final int view_in_from_bottom=0x7f040002;
+        public static final int view_in_from_left=0x7f040003;
+        public static final int view_in_from_right=0x7f040004;
+        public static final int view_out_to_bottom=0x7f040005;
+        public static final int view_out_to_left=0x7f040006;
+        public static final int view_out_to_right=0x7f040007;
     }
     public static final class attr {
     }
@@ -58,10 +60,10 @@ public final class R {
     public static final class drawable {
         public static final int back=0x7f020000;
         public static final int bigstar_ratingbar_full=0x7f020001;
-        public static final int btn_normal=0x7f02005d;
+        public static final int btn_normal=0x7f020061;
         /**  标题栏按钮点击时背景 
          */
-        public static final int btn_press=0x7f02005c;
+        public static final int btn_press=0x7f020060;
         public static final int button=0x7f020002;
         public static final int cart_ico=0x7f020003;
         public static final int catagory_first_bg=0x7f020004;
@@ -128,37 +130,42 @@ public final class R {
         public static final int person_sec_ico=0x7f020041;
         public static final int person_sugguest_ico=0x7f020042;
         public static final int person_top_bg=0x7f020043;
-        public static final int product_img_bg=0x7f020044;
-        public static final int product_img_noselect=0x7f020045;
-        public static final int product_img_select=0x7f020046;
-        public static final int product_phone_bg=0x7f020047;
-        public static final int push_noselect=0x7f020048;
-        public static final int push_select=0x7f020049;
-        public static final int radio_item=0x7f02004a;
-        public static final int radio_noselect=0x7f02004b;
-        public static final int radio_select=0x7f02004c;
-        public static final int redstar_ratingbar_full=0x7f02004d;
-        public static final int search_bg=0x7f02004e;
-        public static final int search_ico=0x7f02004f;
-        public static final int search_icob=0x7f020050;
-        public static final int search_top_bg=0x7f020051;
-        public static final int sort_ico_noselect=0x7f020052;
-        public static final int sort_ico_select=0x7f020053;
-        public static final int sort_select_bg=0x7f020054;
+        public static final int product_discount_close=0x7f020044;
+        public static final int product_discount_open=0x7f020045;
+        public static final int product_img_bg=0x7f020046;
+        public static final int product_img_noselect=0x7f020047;
+        public static final int product_img_select=0x7f020048;
+        public static final int product_phone_bg=0x7f020049;
+        public static final int push_noselect=0x7f02004a;
+        public static final int push_select=0x7f02004b;
+        public static final int radio_item=0x7f02004c;
+        public static final int radio_noselect=0x7f02004d;
+        public static final int radio_select=0x7f02004e;
+        public static final int red_bolder_bg=0x7f02004f;
+        public static final int redstar_ratingbar_full=0x7f020050;
+        public static final int search_bg=0x7f020051;
+        public static final int search_ico=0x7f020052;
+        public static final int search_icob=0x7f020053;
+        public static final int search_top_bg=0x7f020054;
+        public static final int sort_ico_noselect=0x7f020055;
+        public static final int sort_ico_select=0x7f020056;
+        public static final int sort_select_bg=0x7f020057;
         /**  按钮风格背景颜色 
          */
-        public static final int style_btn_bg=0x7f02005b;
-        public static final int title_bg=0x7f020055;
-        public static final int title_item_selector=0x7f020056;
-        public static final int xingxing_big=0x7f020057;
-        public static final int xingxing_new=0x7f020058;
-        public static final int xingxingan_big=0x7f020059;
-        public static final int xingxingan_new=0x7f02005a;
+        public static final int style_btn_bg=0x7f02005f;
+        public static final int time_bg=0x7f020058;
+        public static final int title_bg=0x7f020059;
+        public static final int title_item_selector=0x7f02005a;
+        public static final int xingxing_big=0x7f02005b;
+        public static final int xingxing_new=0x7f02005c;
+        public static final int xingxingan_big=0x7f02005d;
+        public static final int xingxingan_new=0x7f02005e;
     }
     public static final class id {
-        public static final int action_settings=0x7f080072;
-        public static final int backBtn=0x7f080069;
-        public static final int cartBtn=0x7f08006f;
+        public static final int action_settings=0x7f08007d;
+        public static final int animation=0x7f08007c;
+        public static final int backBtn=0x7f080073;
+        public static final int cartBtn=0x7f080079;
         public static final int catagory_first_select_img=0x7f080009;
         public static final int catagory_frist_txt=0x7f080008;
         public static final int catagory_search=0x7f080005;
@@ -216,15 +223,15 @@ public final class R {
         public static final int main_tab_search=0x7f080039;
         public static final int main_tab_shopcart=0x7f08003b;
         public static final int message=0x7f08000d;
-        public static final int moreBtn=0x7f080070;
-        public static final int morePage=0x7f080071;
+        public static final int moreBtn=0x7f08007a;
+        public static final int morePage=0x7f08007b;
         public static final int more_about=0x7f08004b;
         public static final int more_clear=0x7f08004a;
         public static final int more_loginout_btn=0x7f08004d;
         public static final int more_phone=0x7f08004c;
         public static final int more_push=0x7f080048;
         public static final int more_update=0x7f080049;
-        public static final int msgBtn=0x7f08006a;
+        public static final int msgBtn=0x7f080074;
         public static final int negativeButton=0x7f08000f;
         public static final int person_address=0x7f080044;
         public static final int person_coupon=0x7f080047;
@@ -235,42 +242,52 @@ public final class R {
         public static final int person_sec=0x7f080045;
         public static final int person_sugguest=0x7f080046;
         public static final int positiveButton=0x7f08000e;
-        public static final int product_add_shopcart=0x7f080061;
-        public static final int product_attribute_layout=0x7f08005b;
-        public static final int product_buynow=0x7f080060;
-        public static final int product_call=0x7f08005d;
-        public static final int product_comment=0x7f08005e;
-        public static final int product_comment_num=0x7f08005f;
-        public static final int product_discount=0x7f08005a;
-        public static final int product_discount_layout=0x7f080059;
-        public static final int product_gift_layout=0x7f08005c;
-        public static final int product_gridView=0x7f080067;
-        public static final int product_name=0x7f080056;
+        public static final int product_add_shopcart=0x7f08006b;
+        public static final int product_attribute_layout=0x7f080064;
+        public static final int product_attribute_txt=0x7f080065;
+        public static final int product_buynow=0x7f08006a;
+        public static final int product_call=0x7f080067;
+        public static final int product_cashback=0x7f080063;
+        public static final int product_cashback_txt=0x7f08005d;
+        public static final int product_ccontent_layout=0x7f080062;
+        public static final int product_comment=0x7f080068;
+        public static final int product_comment_num=0x7f080069;
+        public static final int product_content_layout=0x7f08005f;
+        public static final int product_dcontent_layout=0x7f080060;
+        public static final int product_discount=0x7f080061;
+        public static final int product_discount_img=0x7f08005e;
+        public static final int product_discount_layout=0x7f08005a;
+        public static final int product_discount_title=0x7f08005b;
+        public static final int product_discount_txt=0x7f08005c;
+        public static final int product_gift_layout=0x7f080066;
+        public static final int product_gridView=0x7f080071;
+        public static final int product_name=0x7f080055;
         public static final int product_photo=0x7f080031;
-        public static final int product_reference_price=0x7f080058;
-        public static final int product_seckill_outtime=0x7f080055;
-        public static final int product_store_price=0x7f080057;
+        public static final int product_reference_price=0x7f080057;
+        public static final int product_seckill_outtime=0x7f080059;
+        public static final int product_seckill_outtime_layout=0x7f080058;
+        public static final int product_store_price=0x7f080056;
         public static final int product_txt_layout=0x7f080054;
         public static final int product_viewFlipper=0x7f080053;
-        public static final int product_webview=0x7f080062;
-        public static final int searchLayout=0x7f08006b;
-        public static final int searchTxt=0x7f08006c;
-        public static final int seckill_gridview=0x7f080068;
+        public static final int product_webview=0x7f08006c;
+        public static final int searchLayout=0x7f080075;
+        public static final int searchTxt=0x7f080076;
+        public static final int seckill_gridview=0x7f080072;
         public static final int seckill_img=0x7f08002e;
-        public static final int show_filter=0x7f080066;
-        public static final int show_group=0x7f080063;
+        public static final int show_filter=0x7f080070;
+        public static final int show_group=0x7f08006d;
         public static final int show_pop_high=0x7f080052;
         public static final int show_pop_low=0x7f080051;
         public static final int show_pop_sort=0x7f080050;
-        public static final int show_salefirst=0x7f080065;
-        public static final int show_sort=0x7f080064;
+        public static final int show_salefirst=0x7f08006f;
+        public static final int show_sort=0x7f08006e;
         public static final int tag_first=0x7f080000;
         public static final int tag_four=0x7f080003;
         public static final int tag_second=0x7f080001;
         public static final int tag_three=0x7f080002;
         public static final int title=0x7f080004;
-        public static final int title_txt=0x7f08006e;
-        public static final int txtLayout=0x7f08006d;
+        public static final int title_txt=0x7f080078;
+        public static final int txtLayout=0x7f080077;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -297,7 +314,8 @@ public final class R {
         public static final int radio_item=0x7f030015;
         public static final int radio_item2=0x7f030016;
         public static final int seckill=0x7f030017;
-        public static final int title=0x7f030018;
+        public static final int test=0x7f030018;
+        public static final int title=0x7f030019;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
@@ -370,6 +388,7 @@ public final class R {
          */
         public static final int custom_dialog_btnparent=0x7f090003;
         public static final int custom_dialog_msg=0x7f090004;
+        public static final int dialogWindowAnim=0x7f09000f;
         /**  小按钮样式 
          */
         public static final int litleBtnStyle=0x7f09000e;
