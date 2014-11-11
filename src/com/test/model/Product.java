@@ -14,6 +14,7 @@ public class Product  implements Serializable{
 	private static final long serialVersionUID = 7060210544600464481L;
 	private String skID;//秒杀ID
 	private String id; // 商品id
+	private String code;//商品编号
 	private String shortName;//商品短名称
 	private String name; // 商品名称
 	private String SKName;//秒杀名称
@@ -27,11 +28,11 @@ public class Product  implements Serializable{
 	private String subProductName;// 商品子标题
 	private String discountCash;// 优惠了多少钱
 	private String discount;// 折扣
-	private String attribute;//商品属性
+	private Attribute attribute;//商品属性
 	private String time;//秒杀商品当前时间戳
 	private String outEndTime;//秒杀商品结束时间戳
 	private String SKPrice;//秒杀价格
-	private ArrayList<String> attributes;//商品属性集合
+	private ArrayList<Object> attributes;//商品属性集合
 	private String store_id;
 	private String num;//商品数量
 	private String date;//购买商品的日期
@@ -45,8 +46,28 @@ public class Product  implements Serializable{
 	private String OrderItemID;//子订单ID
 	private String priceID;//属性ID
 	private String gift_name;//商品赠品
+	private boolean haseAttribute=true;//是否有属性
 	
-	
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+
+	public boolean isHaseAttribute() {
+		return haseAttribute;
+	}
+
+
+	public void setHaseAttribute(boolean haseAttribute) {
+		this.haseAttribute = haseAttribute;
+	}
+
+
 	public String getGift_name() {
 		return gift_name;
 	}
@@ -268,7 +289,7 @@ public class Product  implements Serializable{
 
 	public Product() {
 		imgs = new ArrayList<String>();
-		attributes=new ArrayList<String>();
+		attributes=new ArrayList<Object>();
 		coupons=new ArrayList<Coupon>();
 	}
 
@@ -319,7 +340,7 @@ public class Product  implements Serializable{
 		this.storePrice = storePrice;
 	}
 
-	public String getAttribute() {
+	public Attribute getAttribute() {
 		return attribute;
 	}
 
@@ -327,13 +348,22 @@ public class Product  implements Serializable{
 		return imgs;
 	}
 
-	public ArrayList<String> getAttributes() {
+	public ArrayList<Object> getAttributes() {
 		return attributes;
 	}
-
-	public void setAttribute(String attribute) {
+	public ArrayList<Object> setAttributes(Attribute attribute) {
 		attributes.add(attribute);
+		return attributes;
+	}
+	public void setAttribute(Attribute attribute) {
+		attribute.setChecked(true);
 		this.attribute = attribute;
 	}
 
+	public void clearAttributeStat(){
+		for (int i = 0; i < attributes.size(); i++) {
+			Attribute attribute=(Attribute) attributes.get(i);
+			attribute.setChecked(false);
+		}
+	}
 }

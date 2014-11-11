@@ -284,33 +284,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:orientation="vertical" 
-                android:background="@drawable/catagory_second_bg" >
+                android:background="@drawable/catagory_second_bg"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="规格"
+                    android:textColor="#404040"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
                     <TextView
+                        android:id="@+id/product_attribute_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:paddingBottom="6dp"
-                        android:paddingTop="6dp"
-                        android:text="规格"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="5dp"
+                        android:text="商品属性"
                         android:textColor="#404040"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                     <TextView
-                            android:id="@+id/product_attribute_txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textColor="#404040"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="5dp"
-                            android:text="商品属性"
-                            android:textSize="13sp" />
-                    <ImageView 
+                        android:id="@+id/product_attribute_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:background="@drawable/product_discount_close"
-                        android:layout_marginRight="10dp"/>
+                        android:paddingLeft="15dp"
+                        android:paddingRight="5dp"
+                        android:text="数量"
+                        android:textColor="#404040"
+                        android:textSize="13sp" />
+                    <TextView
+                        android:id="@+id/product_attribute_invetory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="5dp"
+                        android:text="库存"
+                        android:textColor="#404040"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/product_discount_close" />
             </FrameLayout>
 
             <!-- 赠品 -->
@@ -363,7 +390,9 @@
                         android:layout_height="30dp"
                         android:layout_gravity="right"
                         android:background="@drawable/addition" />
-                </FrameLayout></LinearLayout>
+                </FrameLayout>
+</LinearLayout>
+
             -->
 
 
@@ -438,7 +467,8 @@
                     style="@style/litleBtnStyle"
                     android:layout_gravity="right"
                     android:layout_marginRight="30dp"
-                    android:background="@drawable/button"
+                    android:background="@drawable/attribute_checked_bg"
+                    android:textColor="@color/style_color"
                     android:text="加入购物车" />
             </FrameLayout>
 

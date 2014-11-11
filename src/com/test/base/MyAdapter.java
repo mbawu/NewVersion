@@ -16,6 +16,7 @@ import com.android.volley.toolbox.NetworkImageView;
 //import com.test.activity.product.ProductListShow;
 //import com.test.activity.product.ShopCart;
 import com.test.model.Address;
+import com.test.model.Attribute;
 import com.test.model.Category;
 import com.test.model.Comment;
 import com.test.model.Coupon;
@@ -24,6 +25,7 @@ import com.test.utils.NetworkAction;
 import com.test.model.Order;
 import com.test.model.Product;
 import com.test.product.CatagoryFirst;
+import com.test.product.ProductDetail;
 import com.test.R;
 //import com.test.pay.PayMethod;
 
@@ -66,7 +68,7 @@ public class MyAdapter extends BaseAdapter implements
 	private NetworkAction request;
 	private int orderTypeTemp;
 	private ArrayList<TextView> temp;
-	private int firstPosition=0; //系统会执行两次position=0的情况，第一次测量控件高度，第二次执行操作，为了防止后面的无效的多余的操作
+	private int firstPosition = 0; // 系统会执行两次position=0的情况，第一次测量控件高度，第二次执行操作，为了防止后面的无效的多余的操作
 
 	/**
 	 * 
@@ -113,9 +115,9 @@ public class MyAdapter extends BaseAdapter implements
 			// long parentId = Long.valueOf(category.getCategory_id());
 			// return parentId;
 		} else if (request.equals(NetworkAction.二级分类)) {
-			 Category category = (Category) data.get(position);
-			 long parentId = Long.valueOf(category.getCategory_id());
-			 return parentId;
+			Category category = (Category) data.get(position);
+			long parentId = Long.valueOf(category.getCategory_id());
+			return parentId;
 		}
 
 		return position;
@@ -136,6 +138,8 @@ public class MyAdapter extends BaseAdapter implements
 		// 二级分类
 		public TextView firstTxt;
 		public ImageView firstImg;
+		// 规格
+		public TextView attributeTxt;
 	}
 
 	@Override
@@ -172,15 +176,19 @@ public class MyAdapter extends BaseAdapter implements
 						.findViewById(R.id.catagory_first_select_img);
 
 			} else if (request.equals(NetworkAction.二级分类)
-					||request.equals(NetworkAction.三级分类)) {
+					|| request.equals(NetworkAction.三级分类)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.catagory_second_item, null);
-				holder.secondImg=(NetworkImageView) convertView
+				holder.secondImg = (NetworkImageView) convertView
 						.findViewById(R.id.catagory_second_img);
-				holder.secondName= (TextView) convertView
+				holder.secondName = (TextView) convertView
 						.findViewById(R.id.catagory_second_name);
+			} else if (request.equals(NetworkAction.商品属性)) {
+				convertView = MyApplication.Inflater.inflate(
+						R.layout.attribute_item, null);
+				holder.attributeTxt= (TextView) convertView
+						.findViewById(R.id.attribute_txt);
 			}
-
 			convertView.setTag(holder);
 		} else {
 			// return convertView;
@@ -233,13 +241,14 @@ public class MyAdapter extends BaseAdapter implements
 			holder.firstTxt.setText(category.getCategory_name());
 			holder.firstTxt.setTag(holder.firstImg);
 			holder.firstImg.setTag(category.getCategory_id());
-			if (position == 0 && firstPosition<=1) {
+			if (position == 0 && firstPosition <= 1) {
 				holder.firstTxt.setTextColor(MyApplication.resources
 						.getColor(R.color.style_color));
 				holder.firstImg.setVisibility(View.VISIBLE);
-				((CatagoryFirst)object).getCatagorySecond(category.getCategory_id());
+				((CatagoryFirst) object).getCatagorySecond(category
+						.getCategory_id());
 				firstPosition++;
-//				Log.i(MyApplication.TAG, "positon0->"+position);
+				// Log.i(MyApplication.TAG, "positon0->"+position);
 			} else {
 				holder.firstTxt.setTextColor(MyApplication.resources
 						.getColor(R.color.catagory_first));
@@ -248,13 +257,42 @@ public class MyAdapter extends BaseAdapter implements
 			holder.firstTxt.setOnClickListener(this);
 			temp.add(holder.firstTxt);
 
-		}
-		else if (request.equals(NetworkAction.二级分类)
-				||request.equals(NetworkAction.三级分类)) {
+		} else if (request.equals(NetworkAction.二级分类)
+				|| request.equals(NetworkAction.三级分类)) {
 			Category category = (Category) data.get(position);
-			MyApplication.client.getImageForNetImageView(category.getCategory_img(),
-					holder.secondImg, R.drawable.ic_launcher);
+			MyApplication.client.getImageForNetImageView(
+					category.getCategory_img(), holder.secondImg,
+					R.drawable.ic_launcher);
 			holder.secondName.setText(category.getCategory_name());
+		}
+		else if (request.equals(NetworkAction.商品属性))
+		{
+			final Attribute attribute=(Attribute) data.get(position);
+			if(attribute.isChecked())
+			{
+				holder.attributeTxt.setBackgroundDrawable(MyApplication.resources.getDrawable(R.drawable.attribute_checked_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources.getColor(R.color.style_color));
+				holder.attributeTxt.setText(attribute.getName());
+			}
+			else
+			{
+				holder.attributeTxt.setBackgroundDrawable(MyApplication.resources.getDrawable(R.drawable.catagory_second_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources.getColor(R.color.attribute_normal));
+				holder.attributeTxt.setText(attribute.getName());
+			}
+			holder.attributeTxt.setPadding(1, 5, 1, 5);
+			holder.attributeTxt.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					((ProductDetail)object).product.clearAttributeStat();
+					((ProductDetail)object).priceTxt.setText("￥"+attribute.getPrice());
+					((ProductDetail)object).storePrice.setText("￥"+attribute.getPrice());
+					((ProductDetail)object).attributeTxt.setText(attribute.getName());
+					((ProductDetail)object).product.setAttribute(attribute);
+					((ProductDetail)object).adapter.notifyDataSetChanged();
+				}
+			});
 		}
 
 		return convertView;
@@ -264,7 +302,7 @@ public class MyAdapter extends BaseAdapter implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		//一级分类菜单点击事件
+		// 一级分类菜单点击事件
 		case R.id.catagory_frist_txt:
 			for (int i = 0; i < temp.size(); i++) {
 				TextView txt = temp.get(i);
@@ -277,8 +315,8 @@ public class MyAdapter extends BaseAdapter implements
 					.getColor(R.color.style_color));
 			ImageView img = (ImageView) v.getTag();
 			img.setVisibility(View.VISIBLE);
-			String id=(String) img.getTag();
-			((CatagoryFirst)object).getCatagorySecond(id);
+			String id = (String) img.getTag();
+			((CatagoryFirst) object).getCatagorySecond(id);
 			break;
 		}
 		// if(module.equals("home_hot"))

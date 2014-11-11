@@ -40,5 +40,6 @@ public enum  NetworkAction {
 确认收货,
 评论订单,
 获取运费,
-注销登录
+注销登录,
+商品属性
 }
