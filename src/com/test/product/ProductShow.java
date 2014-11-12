@@ -224,14 +224,9 @@ public class ProductShow extends NormalActivity implements OnItemClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long parentId) {
-		// Intent intent = new Intent().setClass(this, ProductListShow.class);
-		// intent.putExtra("Category_id",
-		// ((Category) listThird.get(position)).getCategory_id());
-		// intent.putExtra("CacheID",
-		// ((Category) listThird.get(position)).getCacheID());
-		//
-		// startActivity(intent);
-
+		Intent intent = new Intent().setClass(this, ProductDetail.class);
+		intent.putExtra("productId", String.valueOf(parentId));
+		 startActivity(intent);
 	}
 
 	@Override

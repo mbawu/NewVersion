@@ -33,9 +33,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -247,6 +250,29 @@ public class MyApplication extends Application {
 		return url;
 	}
 
+	/**
+	 * 获取并设置ListView内容的高度
+	 * 
+	 * @param lv
+	 */
+	public static void setListViewHeight(ListView lv) {
+		ListAdapter la = lv.getAdapter();
+		if (null == la) {
+			return;
+		}
+		// calculate height of all items.
+		int h = 0;
+		final int cnt = la.getCount();
+		for (int i = 0; i < cnt; i++) {
+			View item = la.getView(i, null, lv);
+			item.measure(0, 0);
+			h += item.getMeasuredHeight()+20;
+		}
+		// reset ListView height
+		ViewGroup.LayoutParams lp = lv.getLayoutParams();
+		lp.height = h + (lv.getDividerHeight() * (cnt - 1));
+		lv.setLayoutParams(lp);
+	}
 	public static String limitString(String name) {
 		if (name.length() > subStringLength) {
 			name = name.substring(0, subStringLength) + "...";

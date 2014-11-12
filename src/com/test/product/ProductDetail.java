@@ -28,6 +28,7 @@ import com.test.base.Title;
 import com.test.base.Url;
 import com.test.model.Attribute;
 import com.test.model.Coupon;
+import com.test.model.Gift;
 import com.test.utils.ConnectServer;
 import com.test.utils.ErrorMsg;
 import com.test.utils.NetworkAction;
@@ -77,6 +78,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -106,8 +108,8 @@ public class ProductDetail extends Activity implements OnClickListener,
 	public MyAdapter adapter;
 	public TextView priceTxt;// 规格价格
 
-	private LinearLayout call;// 联系客服按钮
-	private LinearLayout comment;// 查看评价按钮
+	private FrameLayout call;// 联系客服按钮
+	private FrameLayout comment;// 查看评价按钮
 	private Button buyNow;// 立即购买按钮
 	private Button addShopcart;// 加入购物车按钮
 	private int viewWidth;
@@ -120,7 +122,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 	private LinearLayout.LayoutParams layoutParams;
 	private String buyType = "1"; // Buy_type 购买类型：1正常购买，2秒杀
 	private String freight;// 运费
-	private LinearLayout giftLayout;// 赠品模块
 
 	// 新版修改的参数
 	private Title title;// 设置标题栏
@@ -145,6 +146,18 @@ public class ProductDetail extends Activity implements OnClickListener,
 	private TextView inventoryTxt;// 库存文本框
 	private ListView listView;// 属性和赠品集合
 	private TextView attributeNumTxt;// 规格上面的数量框
+	private FrameLayout giftLayout;// 赠品模块
+	public TextView giftTxt;// 库存赠品文本框
+	private TextView giftAttributeTxt;// 显示规格还是赠品的文本框
+	private LinearLayout commentLayout;// 评论内容模块
+	private NetworkImageView commentImg;// 评论头像
+	private TextView nameTxt;// 评论用户昵称
+	private TextView contentTxt;// 评论内容
+	private TextView dateTxt;// 评论日期
+	private int commentNum = 0;// 评论数
+	private ScrollView scrollView;
+	private boolean detailModule=false;//图文详情模式
+	private boolean detailFinished=false;//图文详情是否加载完毕
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -173,11 +186,16 @@ public class ProductDetail extends Activity implements OnClickListener,
 		attributeTxt = (TextView) findViewById(R.id.product_attribute_txt);
 		numTxt = (TextView) findViewById(R.id.product_attribute_num);
 		inventoryTxt = (TextView) findViewById(R.id.product_attribute_invetory);
+		giftTxt = (TextView) findViewById(R.id.product_gift_txt);
+		scrollView = (ScrollView) findViewById(R.id.product_detail_scrollview);
+		scrollView.setOnTouchListener(new TouchListenerImpl());
+
 		// TODO Auto-generated method stub
 		commentNumTxt = (TextView) findViewById(R.id.product_comment_num);
 		discountLayout = (LinearLayout) findViewById(R.id.product_discount_layout);// 促销信息模块
 		discountLayout.setOnClickListener(this);
-		giftLayout = (LinearLayout) findViewById(R.id.product_gift_layout);// 赠品模块
+		giftLayout = (FrameLayout) findViewById(R.id.product_gift_layout);// 赠品模块
+		giftLayout.setOnClickListener(this);
 		layoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT);
 		gesture = new GestureDetector(this);
@@ -201,9 +219,9 @@ public class ProductDetail extends Activity implements OnClickListener,
 		storePrice = (TextView) findViewById(R.id.product_store_price);// 商品促销价格
 		attributeLayout = (FrameLayout) findViewById(R.id.product_attribute_layout);// 商品属性
 		attributeLayout.setOnClickListener(this);
-		call = (LinearLayout) findViewById(R.id.product_call);// 联系客服按钮
+		call = (FrameLayout) findViewById(R.id.product_call);// 联系客服按钮
 		call.setOnClickListener(this);
-		comment = (LinearLayout) findViewById(R.id.product_comment);// 查看评价按钮
+		comment = (FrameLayout) findViewById(R.id.product_comment);// 查看评价按钮
 		comment.setOnClickListener(this);
 		buyNow = (Button) findViewById(R.id.product_buynow);// 立即购买按钮
 		buyNow.setOnClickListener(this);
@@ -267,7 +285,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 				+ "&product_id=" + productId;
 		// Log.i(MyApplication.TAG, "url-->"+productUrl);
 		// 加载商品详情
-		// initWebView();
+		 initWebView();
 	}
 
 	private void sendData(final NetworkAction request) {
@@ -848,7 +866,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 												+ product.getAttribute()
 														.getPrice());
 									} else {
-										product.setHaseAttribute(false);
+										product.setHaveAttribute(false);
 										storePrice.setText("￥"
 												+ product.getStorePrice());
 									}
@@ -857,80 +875,55 @@ public class ProductDetail extends Activity implements OnClickListener,
 									JSONArray gifts = response
 											.getJSONArray("GiftList");
 									if (gifts.length() >= 1) {
-
-										LinearLayout layout = new LinearLayout(
-												giftLayout.getContext());
-										RadioGroup giftGroup = new RadioGroup(
-												layout.getContext());
-										giftGroup.setOrientation(1);
-
-										for (int i = 0; i < gifts.length(); i++) {
-											RadioGroup.LayoutParams layoutParams1 = new RadioGroup.LayoutParams(
-													LayoutParams.WRAP_CONTENT,
-													LayoutParams.WRAP_CONTENT);
-											layoutParams1
-													.setMargins(0, 7, 0, 0);
-											// 设置属性单选按钮
-											RadioButton giftRB = (RadioButton) LayoutInflater
-													.from(giftGroup
-															.getContext())
-													.inflate(
-															R.layout.radio_item2,
-															null);
-											// 显示属性名称
+										giftLayout.setVisibility(View.VISIBLE);
+										for (int j = 0; j < gifts.length(); j++) {
 											JSONObject item = gifts
-													.getJSONObject(i);
-											giftRB.setText(item
+													.getJSONObject(j);
+											Gift gift = new Gift();
+											gift.setID(item.getString("GiftID"));
+											gift.setName(item
 													.getString("GiftName"));
-											giftRB.setTextColor(resources
-													.getColor(R.color.gray));
-											giftRB.setId(i);
-											giftRB.setTextSize(12);
-											giftRB.setTag(item
-													.getString("GiftName"));
-											product.setGift_name(item
-													.getString("GiftName"));
-											giftGroup.addView(giftRB,
-													layoutParams1);
-											if (i == 0) {
-												// 定义标题文本框
-												TextView giftTxt = new TextView(
-														layout.getContext());
-												giftTxt.setText("赠品：          ");
-												giftTxt.setTextColor(resources
-														.getColor(R.color.gray));
-												giftTxt.setPadding(0, 15, 0, 0);
-												giftRB.setChecked(true);
-												layout.addView(giftTxt);
+											gift.setNum(item
+													.getString("GiftTotal"));
+											product.setGifts(gift);
+											if (j == 0) {
+												product.setGift(gift);
+												giftTxt.setText(product
+														.getGift().getName());
 											}
 										}
-										giftGroup
-												.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-													@Override
-													public void onCheckedChanged(
-															RadioGroup group,
-															int checkedId) {
-														RadioButton btn = (RadioButton) group
-																.getChildAt(checkedId);
-														String gift_name = btn
-																.getTag()
-																.toString();
-														product.setGift_name(gift_name);
-													}
-												});
-										layout.addView(giftGroup);
-										giftLayout.addView(layout);
-									}
-									// 如果没有赠品则不显示该模块
-									else
-										giftLayout.setVisibility(View.GONE);
+									} else
+										product.setHaveGift(false);
 
 								} else if (request.equals(NetworkAction.评论列表)) {
 									commentNumTxt.setText("("
 											+ response
 													.getString("total_number")
 											+ ")");
+									int num = response.getInt("total_number");
+									if (num > 0) {
+										commentNum = num;
+										commentLayout = (LinearLayout) findViewById(R.id.product_comment_layout);
+										commentImg = (NetworkImageView) findViewById(R.id.product_detail_comment_img);
+										nameTxt = (TextView) findViewById(R.id.product_detail_comment_name);
+										contentTxt = (TextView) findViewById(R.id.product_detail_comment_content);
+										dateTxt = (TextView) findViewById(R.id.product_detail_comment_date);
+										commentLayout
+												.setVisibility(View.VISIBLE);
+										MyApplication.client
+												.getImageForNetImageView("",
+														commentImg,
+														R.drawable.loginout_img);
+										JSONObject item = response
+												.getJSONArray("list")
+												.getJSONObject(0);
+										nameTxt.setText(item
+												.getString("username"));
+										contentTxt.setText(item
+												.getString("comment_content"));
+										dateTxt.setText(item
+												.getString("createtime"));
+									}
 								}
 
 							} else {
@@ -959,9 +952,9 @@ public class ProductDetail extends Activity implements OnClickListener,
 	 * 初始化webview
 	 */
 	protected void initWebView() {
-		// 设计进度条
-		progressBar = ProgressDialog.show(ProductDetail.this, null,
-				"正在加载商品详情，请稍后…");
+//		// 设计进度条
+//		progressBar = ProgressDialog.show(ProductDetail.this, null,
+//				"正在加载商品详情，请稍后…");
 		// 获得WebView组件
 		webView.getSettings().setJavaScriptEnabled(true);
 		WebSettings settings = webView.getSettings();
@@ -982,16 +975,14 @@ public class ProductDetail extends Activity implements OnClickListener,
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			progressBar.show();
+//			progressBar.show();
 			view.loadUrl(url);
 			return true;
 		}
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-			if (progressBar.isShowing()) {
-				progressBar.dismiss();
-			}
+			detailFinished=true;
 		}
 
 		@Override
@@ -1048,7 +1039,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 			break;
 		case R.id.product_comment:// 查看评价按钮
 			Intent commentIntent = new Intent();
-			// commentIntent.setClass(this, CommentList.class);
+			commentIntent.setClass(this, CommentList.class);
 			commentIntent.putExtra("productID", product.getId());
 			startActivity(commentIntent);
 			break;
@@ -1141,12 +1132,13 @@ public class ProductDetail extends Activity implements OnClickListener,
 			break;
 		// 商品规格模块
 		case R.id.product_attribute_layout:
+		case R.id.product_gift_layout:
 			AlertDialog congratulateDialog = new AlertDialog.Builder(this)
 					.create();
 			Window window = congratulateDialog.getWindow();
 			WindowManager.LayoutParams lp = window.getAttributes();
 			window.setGravity(Gravity.LEFT | Gravity.TOP);
-			lp.x = MyApplication.width - 300; // 新位置X坐标
+			lp.x = MyApplication.width - 250; // 新位置X坐标
 			lp.y = title.getHeight(); // 新位置Y坐标
 			window.setAttributes(lp);
 			congratulateDialog.show();
@@ -1168,26 +1160,41 @@ public class ProductDetail extends Activity implements OnClickListener,
 			TextView codeTxt = (TextView) layout
 					.findViewById(R.id.attribute_code);
 			codeTxt.setText("商品编号：" + product.getId());
-			// 属性集合
-			listView = (ListView) layout.findViewById(R.id.attribute_listview);
-			ArrayList<Object> data = product.getAttributes();
-			adapter = new MyAdapter(this, NetworkAction.商品属性, data);
+			giftAttributeTxt = (TextView) layout.findViewById(R.id.gift_txt);
+			if (v.getId() == R.id.product_attribute_layout) {
+				giftAttributeTxt.setText("规格");
+				// 属性集合
+				listView = (ListView) layout
+						.findViewById(R.id.attribute_listview);
+				ArrayList<Object> data = product.getAttributes();
+				adapter = new MyAdapter(this, NetworkAction.商品属性, data);
+				// 显示数量模块
+				LinearLayout numLayout = (LinearLayout) layout
+						.findViewById(R.id.product_num_layout);
+				View line = (View) layout.findViewById(R.id.product_num_line);
+				numLayout.setVisibility(View.VISIBLE);
+				line.setVisibility(View.VISIBLE);
+				attributeNumTxt = (TextView) layout
+						.findViewById(R.id.product_num);
+				attributeNumTxt.setText(product.getNum());
+				ImageView jian = (ImageView) layout
+						.findViewById(R.id.product_jian);
+				ImageView jia = (ImageView) layout
+						.findViewById(R.id.product_jia);
+				jian.setOnClickListener(this);
+				jia.setOnClickListener(this);
+			} else if (v.getId() == R.id.product_gift_layout) {
+				giftAttributeTxt.setText("赠品");
+				listView = (ListView) layout
+						.findViewById(R.id.attribute_listview);
+				ArrayList<Object> data = product.getGifts();
+				adapter = new MyAdapter(this, NetworkAction.赠品, data);
+			}
 			listView.setDivider(null);
 			listView.setAdapter(adapter);
-			// 显示数量模块
-			LinearLayout numLayout = (LinearLayout) layout
-					.findViewById(R.id.product_num_layout);
-			View line = (View) layout.findViewById(R.id.product_num_line);
-			numLayout.setVisibility(View.VISIBLE);
-			line.setVisibility(View.VISIBLE);
-			attributeNumTxt = (TextView) layout.findViewById(R.id.product_num);
-			attributeNumTxt.setText(product.getNum());
-			ImageView jian = (ImageView) layout.findViewById(R.id.product_jian);
-			ImageView jia = (ImageView) layout.findViewById(R.id.product_jia);
-			jian.setOnClickListener(this);
-			jia.setOnClickListener(this);
-			Button buyBtn=(Button) layout.findViewById(R.id.product_buynow);
-			Button addBtn=(Button) layout.findViewById(R.id.product_add_shopcart);
+			Button buyBtn = (Button) layout.findViewById(R.id.product_buynow);
+			Button addBtn = (Button) layout
+					.findViewById(R.id.product_add_shopcart);
 			buyBtn.setOnClickListener(this);
 			addBtn.setOnClickListener(this);
 			break;
@@ -1196,7 +1203,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 			if (numjian > 1) {
 				numjian--;
 				attributeNumTxt.setText(String.valueOf(numjian));
-				numTxt.setText(String.valueOf(numjian)+"件");
+				numTxt.setText(String.valueOf(numjian) + "件");
 				product.setNum(String.valueOf(numjian));
 			}
 			break;
@@ -1205,15 +1212,66 @@ public class ProductDetail extends Activity implements OnClickListener,
 			numjia++;
 			if (numjia <= Integer.valueOf(product.getInventory())) {
 				attributeNumTxt.setText(String.valueOf(numjia));
-				numTxt.setText(String.valueOf(numjia)+"件");
+				numTxt.setText(String.valueOf(numjia) + "件");
 				product.setNum(String.valueOf(numjia));
-			}
-			else
+			} else
 				Toast.makeText(this, "无法再添加，没有库存了！", 2000).show();
 			break;
 		}
 
 	}
+
+	// 滚动条点击和滑动事件监听器
+	private class TouchListenerImpl implements OnTouchListener {
+		@Override
+		public boolean onTouch(View view, MotionEvent motionEvent) {
+			int count=0;
+			int scrollY = view.getScrollY();
+			int height = view.getHeight();
+			int scrollViewMeasuredHeight = scrollView.getChildAt(0)
+					.getMeasuredHeight();
+			switch (motionEvent.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				if((scrollY + height) == scrollViewMeasuredHeight)
+					detailModule=true;
+				else
+					detailModule=false;
+//				Toast.makeText(ProductDetail.this, detailModule+"", 2000).show();
+				break;
+			case MotionEvent.ACTION_UP:
+
+				break;
+			case MotionEvent.ACTION_MOVE:
+
+				if(detailModule && detailFinished)
+					webView.setVisibility(View.VISIBLE);
+				else if(detailModule&& !detailFinished && count==0)
+				{
+					Toast.makeText(ProductDetail.this, "图文详情还未加载完毕，请稍后！", 2000).show();
+					count++;
+				}
+				
+//				// 如果滑动到顶端的事件
+//				if (scrollY == 0) {
+//
+//				}
+//				Log.i(MyApplication.TAG, " height->" + height);
+//				Log.i(MyApplication.TAG, "scrollY ->" + scrollY);
+//				Log.i(MyApplication.TAG, "scrollViewMeasuredHeight->"
+//						+ scrollViewMeasuredHeight);
+//				// 如果滑动到底部的事件
+//				if ((scrollY + height) > scrollViewMeasuredHeight) {
+//					Toast.makeText(ProductDetail.this, "滑到底端了", 2000).show();
+//				}
+				break;
+
+			default:
+				break;
+			}
+			return false;
+		}
+
+	};
 
 	// 滑动图片的方法
 	@Override
@@ -1221,27 +1279,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 			float velocityY) {
 		if (photopage <= 1)
 			return false;
-		// if (e1.getX() > e2.getX()) {
-		// if (photopage < photototalpage) {
-		// flipper.setInAnimation(ProductDetail.this,
-		// R.anim.view_in_from_right);
-		// flipper.setOutAnimation(ProductDetail.this,
-		// R.anim.view_out_to_left);
-		// flipper.showNext();
-		// photopage = photopage + 1;
-		// }
-		// } else {
-		// if (photopage == 1) {
-		//
-		// } else {
-		// flipper.setInAnimation(ProductDetail.this,
-		// R.anim.view_in_from_left);
-		// flipper.setOutAnimation(ProductDetail.this,
-		// R.anim.view_out_to_right);
-		// flipper.showPrevious();
-		// photopage = photopage - 1;
-		// }
-		// }
+
 		if (e1.getX() > e2.getX()) {
 			flipper.setInAnimation(ProductDetail.this,
 					R.anim.view_in_from_right);
@@ -1255,7 +1293,6 @@ public class ProductDetail extends Activity implements OnClickListener,
 			flipper.showPrevious();
 		}
 
-		// flipper.startFlipping();
 		return false;
 	}
 

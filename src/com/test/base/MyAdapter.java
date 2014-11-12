@@ -20,6 +20,7 @@ import com.test.model.Attribute;
 import com.test.model.Category;
 import com.test.model.Comment;
 import com.test.model.Coupon;
+import com.test.model.Gift;
 import com.test.model.MyMessage;
 import com.test.utils.NetworkAction;
 import com.test.model.Order;
@@ -140,6 +141,11 @@ public class MyAdapter extends BaseAdapter implements
 		public ImageView firstImg;
 		// 规格
 		public TextView attributeTxt;
+		// 商品评价
+		public NetworkImageView commentImg;// 评论头像
+		public TextView nameCommentTxt;// 评论用户昵称
+		public TextView contentTxt;// 评论内容
+		public TextView dateTxt;// 评论日期
 	}
 
 	@Override
@@ -183,11 +189,23 @@ public class MyAdapter extends BaseAdapter implements
 						.findViewById(R.id.catagory_second_img);
 				holder.secondName = (TextView) convertView
 						.findViewById(R.id.catagory_second_name);
-			} else if (request.equals(NetworkAction.商品属性)) {
+			} else if (request.equals(NetworkAction.商品属性)
+					|| request.equals(NetworkAction.赠品)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.attribute_item, null);
-				holder.attributeTxt= (TextView) convertView
+				holder.attributeTxt = (TextView) convertView
 						.findViewById(R.id.attribute_txt);
+			} else if (request.equals(NetworkAction.评论列表)) {
+				convertView = MyApplication.Inflater.inflate(
+						R.layout.comment_item, null);
+				holder.commentImg = (NetworkImageView) convertView
+						.findViewById(R.id.product_detail_comment_img);
+				holder.nameCommentTxt = (TextView) convertView
+						.findViewById(R.id.product_detail_comment_name);
+				holder.contentTxt = (TextView) convertView
+						.findViewById(R.id.product_detail_comment_content);
+				holder.dateTxt = (TextView) convertView
+						.findViewById(R.id.product_detail_comment_date);
 			}
 			convertView.setTag(holder);
 		} else {
@@ -264,35 +282,73 @@ public class MyAdapter extends BaseAdapter implements
 					category.getCategory_img(), holder.secondImg,
 					R.drawable.ic_launcher);
 			holder.secondName.setText(category.getCategory_name());
-		}
-		else if (request.equals(NetworkAction.商品属性))
-		{
-			final Attribute attribute=(Attribute) data.get(position);
-			if(attribute.isChecked())
-			{
-				holder.attributeTxt.setBackgroundDrawable(MyApplication.resources.getDrawable(R.drawable.attribute_checked_bg));
-				holder.attributeTxt.setTextColor(MyApplication.resources.getColor(R.color.style_color));
+		} else if (request.equals(NetworkAction.商品属性)) {
+			final Attribute attribute = (Attribute) data.get(position);
+			if (attribute.isChecked()) {
+				holder.attributeTxt
+						.setBackgroundDrawable(MyApplication.resources
+								.getDrawable(R.drawable.attribute_checked_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources
+						.getColor(R.color.style_color));
 				holder.attributeTxt.setText(attribute.getName());
-			}
-			else
-			{
-				holder.attributeTxt.setBackgroundDrawable(MyApplication.resources.getDrawable(R.drawable.catagory_second_bg));
-				holder.attributeTxt.setTextColor(MyApplication.resources.getColor(R.color.attribute_normal));
+			} else {
+				holder.attributeTxt
+						.setBackgroundDrawable(MyApplication.resources
+								.getDrawable(R.drawable.catagory_second_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources
+						.getColor(R.color.attribute_normal));
 				holder.attributeTxt.setText(attribute.getName());
 			}
 			holder.attributeTxt.setPadding(1, 5, 1, 5);
 			holder.attributeTxt.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					((ProductDetail)object).product.clearAttributeStat();
-					((ProductDetail)object).priceTxt.setText("￥"+attribute.getPrice());
-					((ProductDetail)object).storePrice.setText("￥"+attribute.getPrice());
-					((ProductDetail)object).attributeTxt.setText(attribute.getName());
-					((ProductDetail)object).product.setAttribute(attribute);
-					((ProductDetail)object).adapter.notifyDataSetChanged();
+					((ProductDetail) object).product.clearAttributeStat();
+					((ProductDetail) object).priceTxt.setText("￥"
+							+ attribute.getPrice());
+					((ProductDetail) object).storePrice.setText("￥"
+							+ attribute.getPrice());
+					((ProductDetail) object).attributeTxt.setText(attribute
+							.getName());
+					((ProductDetail) object).product.setAttribute(attribute);
+					((ProductDetail) object).adapter.notifyDataSetChanged();
 				}
 			});
+		} else if (request.equals(NetworkAction.赠品)) {
+			final Gift gift = (Gift) data.get(position);
+			if (gift.isChecked()) {
+				holder.attributeTxt
+						.setBackgroundDrawable(MyApplication.resources
+								.getDrawable(R.drawable.attribute_checked_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources
+						.getColor(R.color.style_color));
+				holder.attributeTxt.setText(gift.getName());
+			} else {
+				holder.attributeTxt
+						.setBackgroundDrawable(MyApplication.resources
+								.getDrawable(R.drawable.catagory_second_bg));
+				holder.attributeTxt.setTextColor(MyApplication.resources
+						.getColor(R.color.attribute_normal));
+				holder.attributeTxt.setText(gift.getName());
+			}
+			holder.attributeTxt.setPadding(1, 5, 1, 5);
+			holder.attributeTxt.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					((ProductDetail) object).giftTxt.setText(gift.getName());
+					((ProductDetail) object).product.setGift(gift);
+					((ProductDetail) object).adapter.notifyDataSetChanged();
+				}
+			});
+		} else if (request.equals(NetworkAction.评论列表)) {
+			Comment comment=(Comment) data.get(position);
+			MyApplication.client.getImageForNetImageView("",
+					holder.commentImg, R.drawable.loginout_img);
+			holder.nameCommentTxt.setText(comment.getUsername());
+			holder.contentTxt.setText(comment.getComment_content());
+			holder.dateTxt.setText(comment.getCreatetime());
 		}
 
 		return convertView;

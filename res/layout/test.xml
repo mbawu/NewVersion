@@ -66,6 +66,7 @@
             android:orientation="horizontal" >
 
             <TextView
+                android:id="@+id/gift_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -94,7 +95,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            android:visibility="visible" >
+            android:visibility="invisible" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -123,15 +124,17 @@
 
                 <ImageView
                     android:id="@+id/product_jian"
-                    android:layout_width="35dp"
+                    android:layout_width="30dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center"
                     android:background="@drawable/attribute_jian" />
 
                 <ImageView
                     android:id="@+id/product_jia"
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="5dp"
                     android:layout_gravity="right|center"
                     android:background="@drawable/attribute_jia" />
             </FrameLayout>

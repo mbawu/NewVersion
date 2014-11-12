@@ -21,4 +21,5 @@
      <!-- 标题栏按钮点击时背景 -->
    <drawable name="btn_press">#404040</drawable>   
    <drawable name="btn_normal">#E44882</drawable>  
+   <drawable name="dialog_cancel">#404040</drawable>
 </resources>
