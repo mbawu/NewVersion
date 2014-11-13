@@ -75,7 +75,7 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 		getCode.setOnClickListener(this);
 		codeTxt = (EditText) findViewById(R.id.forget_getcode_txt);
 		countNum = new CountSecond();
-		newPwd = (TextView) findViewById(R.id.forget_pwd_txt);
+		newPwd = (TextView) findViewById(R.id.forget_new_pwd);
 		paramter = new HashMap<String, String>();
 	}
 
@@ -259,7 +259,7 @@ public class ForgetPwd extends NormalActivity implements OnClickListener {
 					paramter.put("password", pwd);
 					paramter.put("repassword", pwd);
 					paramter.put("mobile", phoneNum);
-					paramter.put("email", "");
+					paramter.put("email", "android@app.com");
 					paramter.put("smsid", codeId);
 					paramter.put("smskey", code);
 					ConnectServer.getResualt(this, paramter,

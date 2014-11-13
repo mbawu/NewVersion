@@ -190,6 +190,18 @@
             android:name="com.test.product.CommentList"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+           <activity
+            android:name="com.test.product.SubmitOrder"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+           <activity
+            android:name="com.test.product.SubmitSuccess"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+           <activity
+            android:name="com.test.pay.PayMethod"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

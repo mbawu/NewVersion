@@ -146,6 +146,12 @@ public class MyAdapter extends BaseAdapter implements
 		public TextView nameCommentTxt;// 评论用户昵称
 		public TextView contentTxt;// 评论内容
 		public TextView dateTxt;// 评论日期
+		//提交订单
+		public NetworkImageView submitImg;
+		public TextView submitNameTxt;
+		public TextView submitPriceTxt;
+		public TextView submitNumTxt;
+		public TextView submitAttributeTxt;
 	}
 
 	@Override
@@ -206,6 +212,19 @@ public class MyAdapter extends BaseAdapter implements
 						.findViewById(R.id.product_detail_comment_content);
 				holder.dateTxt = (TextView) convertView
 						.findViewById(R.id.product_detail_comment_date);
+			} else if (request.equals(NetworkAction.提交订单)) {
+				convertView = MyApplication.Inflater.inflate(
+						R.layout.submit_product_item, null);
+				 holder.submitImg = (NetworkImageView) convertView
+				 .findViewById(R.id.submit_product_photo);
+				 holder.submitNameTxt = (TextView) convertView
+				 .findViewById(R.id.submit_product_name);
+				 holder.submitPriceTxt = (TextView) convertView
+				 .findViewById(R.id.submit_product_price);
+				 holder.submitNumTxt = (TextView) convertView
+				 .findViewById(R.id.submit_product_num);
+				 holder.submitAttributeTxt = (TextView) convertView
+						 .findViewById(R.id.product_attribute);
 			}
 			convertView.setTag(holder);
 		} else {
@@ -343,14 +362,32 @@ public class MyAdapter extends BaseAdapter implements
 				}
 			});
 		} else if (request.equals(NetworkAction.评论列表)) {
-			Comment comment=(Comment) data.get(position);
-			MyApplication.client.getImageForNetImageView("",
-					holder.commentImg, R.drawable.loginout_img);
+			Comment comment = (Comment) data.get(position);
+			MyApplication.client.getImageForNetImageView("", holder.commentImg,
+					R.drawable.loginout_img);
 			holder.nameCommentTxt.setText(comment.getUsername());
 			holder.contentTxt.setText(comment.getComment_content());
 			holder.dateTxt.setText(comment.getCreatetime());
 		}
-
+		 else if (request.equals(NetworkAction.提交订单)) {
+			 Product product = (Product) data.get(position);
+			 // 先判断是秒杀商品还是正常商品，根据不同的商品显示不同的信息
+			 // 购买类型：1正常购买，2秒杀
+			 if (product.getBuy_type().equals("1")) {
+			 holder.submitNameTxt.setText(product.getName());
+			 holder.submitPriceTxt.setText("￥" + product.getStorePrice());
+			 } else {
+				 holder.submitNameTxt.setText(product.getSKName());
+				 holder.submitPriceTxt.setText("￥" + product.getSKPrice());
+			 }
+			 if(product.isHaveAttribute())
+				 holder.submitAttributeTxt.setText(product.getAttribute().getName());
+			 else
+				 holder.submitAttributeTxt.setText("默认规格");
+			 holder.submitNumTxt.setText("X"+product.getNum());
+			 MyApplication.client.getImageForNetImageView(
+			 product.getImgs().get(0),holder.submitImg, R.drawable.ic_launcher);
+		 }
 		return convertView;
 
 	}

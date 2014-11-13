@@ -1044,28 +1044,23 @@ public class ProductDetail extends Activity implements OnClickListener,
 			startActivity(commentIntent);
 			break;
 		case R.id.product_buynow:// 立即购买按钮
-			// product.setBuy_type(buyType);// 记录购买的商品类型
-			// product.setNum(num);// 设置商品的数量为当前选择的数量
-			// double pNumSub = Double.valueOf(product.getNum());
-			// double priceSub = Double.valueOf(product.getStorePrice());
-			// product.setTotalPrice(String.valueOf(pNumSub * priceSub));//
-			// 设置该商品的总价
-			// // if (MyApplication.loginStat) {
-			// // intent = new Intent(this, SubmitOrder.class);
-			// // ArrayList<Object> plist = new ArrayList<Object>();
-			// // plist.add(product);
-			// // intent.putExtra("products", plist);
-			// // } else {
-			// // intent = new Intent(this, PersonLogin.class);
-			// // }
-			// startActivity(intent);
+			 product.setBuy_type(buyType);// 记录购买的商品类型
+			 double pNumSub = Double.valueOf(product.getNum());
+			 double priceSub = Double.valueOf(product.getStorePrice());
+			 product.setTotalPrice(String.valueOf(pNumSub * priceSub));//
+			 //设置该商品的总价
+			  if (MyApplication.loginStat) {
+			  intent = new Intent(this, SubmitOrder.class);
+			  ArrayList<Object> plist = new ArrayList<Object>();
+			  plist.add(product);
+			  intent.putExtra("products", plist);
+			  } else {
+			  intent = new Intent(this, Login.class);
+			  }
+			 startActivity(intent);
 			break;
 		case R.id.product_add_shopcart:// 加入购物车按钮
-			// product.setBuy_type(buyType);// 记录购买的商品类型
-			product.setNum(num);// 设置商品的数量为当前选择的数量
 			double p1NumSub = Double.valueOf(product.getNum());
-			Log.i(MyApplication.TAG,
-					"product.getStorePrice()->" + product.getStorePrice());
 			double p1riceSub = Double.valueOf(product.getStorePrice());
 			product.setTotalPrice(String.valueOf(p1NumSub * p1riceSub));// 设置该商品的总价
 			if (MyApplication.loginStat) {
