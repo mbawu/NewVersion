@@ -21,24 +21,44 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp"
+            android:textColor="@color/style_color"
             android:gravity="center"
-            android:text="恭喜你，订单提交成功!" />
+            android:text="恭喜您，订单已提交成功，我们会尽快为您安排发货，请您耐心等待~" />
         <!-- 提交按钮 -->
 
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
         <Button
-            android:id="@+id/submit_view_btn"
+            android:id="@+id/submit_view_home"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/button"
             android:paddingBottom="6dp"
             android:paddingTop="6dp"
-            android:text="再去逛逛"
+            android:text="返回首页"
             android:textColor="@color/white"
             android:textSize="15sp" />
+        
+        <Button
+            android:id="@+id/submit_view_order"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/dialog_cancel"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="查看订单"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

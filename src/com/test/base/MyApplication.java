@@ -53,7 +53,7 @@ public class MyApplication extends Application {
 	public static String seskey = ""; // 登录注册返回的身份秘钥
 	public static String uid = ""; // 登录注册返回的用户id
 	private static MyApplication instance; // Myapplication对象
-	private List<Activity> mList = new LinkedList<Activity>(); // 本地集合存放Activity引用
+	public static List<Activity> mList = new LinkedList<Activity>(); // 本地集合存放Activity引用
 	public static SharedPreferences sp; // 本地存储SharedPreferences
 	public static Editor ed; // 本地存储编辑器Editor
 	public CacheManager mcCacheManager; // 缓存管理器

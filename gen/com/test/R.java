@@ -178,20 +178,20 @@ public final class R {
         public static final int zhifubao=0x7f02006c;
     }
     public static final class id {
-        public static final int action_settings=0x7f0800ab;
+        public static final int action_settings=0x7f0800ac;
         public static final int address_big_layout=0x7f080080;
         public static final int address_layout=0x7f080082;
         public static final int address_msg=0x7f080081;
         public static final int alipay=0x7f080045;
-        public static final int animation=0x7f0800aa;
-        public static final int attribute_code=0x7f080099;
-        public static final int attribute_img=0x7f080097;
-        public static final int attribute_listview=0x7f08009b;
-        public static final int attribute_price=0x7f080098;
+        public static final int animation=0x7f0800ab;
+        public static final int attribute_code=0x7f08009a;
+        public static final int attribute_img=0x7f080098;
+        public static final int attribute_listview=0x7f08009c;
+        public static final int attribute_price=0x7f080099;
         public static final int attribute_txt=0x7f080004;
-        public static final int backBtn=0x7f0800a1;
+        public static final int backBtn=0x7f0800a2;
         public static final int buyer_msg=0x7f08008a;
-        public static final int cartBtn=0x7f0800a7;
+        public static final int cartBtn=0x7f0800a8;
         public static final int catagory_first_select_img=0x7f08000a;
         public static final int catagory_frist_txt=0x7f080009;
         public static final int catagory_search=0x7f080006;
@@ -215,7 +215,7 @@ public final class R {
         public static final int forget_step2=0x7f08001e;
         public static final int forget_step3=0x7f080021;
         public static final int getMore=0x7f080015;
-        public static final int gift_txt=0x7f08009a;
+        public static final int gift_txt=0x7f08009b;
         public static final int goto_login_btn=0x7f080047;
         public static final int home_hot_framlayout=0x7f08002d;
         public static final int home_hot_gridview=0x7f080031;
@@ -252,15 +252,15 @@ public final class R {
         public static final int main_tab_search=0x7f080041;
         public static final int main_tab_shopcart=0x7f080043;
         public static final int message=0x7f080016;
-        public static final int moreBtn=0x7f0800a8;
-        public static final int morePage=0x7f0800a9;
+        public static final int moreBtn=0x7f0800a9;
+        public static final int morePage=0x7f0800aa;
         public static final int more_about=0x7f080054;
         public static final int more_clear=0x7f080053;
         public static final int more_loginout_btn=0x7f080056;
         public static final int more_phone=0x7f080055;
         public static final int more_push=0x7f080051;
         public static final int more_update=0x7f080052;
-        public static final int msgBtn=0x7f0800a2;
+        public static final int msgBtn=0x7f0800a3;
         public static final int negativeButton=0x7f080018;
         public static final int person_address=0x7f08004d;
         public static final int person_coupon=0x7f080050;
@@ -300,12 +300,12 @@ public final class R {
         public static final int product_gift_layout=0x7f080072;
         public static final int product_gift_txt=0x7f080073;
         public static final int product_gridView=0x7f08007e;
-        public static final int product_jia=0x7f08009f;
-        public static final int product_jian=0x7f08009e;
+        public static final int product_jia=0x7f0800a0;
+        public static final int product_jian=0x7f08009f;
         public static final int product_name=0x7f08005f;
-        public static final int product_num=0x7f08009d;
-        public static final int product_num_layout=0x7f08009c;
-        public static final int product_num_line=0x7f0800a0;
+        public static final int product_num=0x7f08009e;
+        public static final int product_num_layout=0x7f08009d;
+        public static final int product_num_line=0x7f0800a1;
         public static final int product_photo=0x7f080039;
         public static final int product_reference_price=0x7f080061;
         public static final int product_seckill_outtime=0x7f080063;
@@ -314,8 +314,8 @@ public final class R {
         public static final int product_txt_layout=0x7f08005e;
         public static final int product_viewFlipper=0x7f08005d;
         public static final int product_webview=0x7f080079;
-        public static final int searchLayout=0x7f0800a3;
-        public static final int searchTxt=0x7f0800a4;
+        public static final int searchLayout=0x7f0800a4;
+        public static final int searchTxt=0x7f0800a5;
         public static final int seckill_gridview=0x7f08007f;
         public static final int seckill_img=0x7f080037;
         public static final int show_filter=0x7f08007d;
@@ -342,14 +342,15 @@ public final class R {
         public static final int submit_radiogroup=0x7f080087;
         public static final int submit_realprice=0x7f08008f;
         public static final int submit_totalprice=0x7f08008d;
-        public static final int submit_view_btn=0x7f080096;
+        public static final int submit_view_home=0x7f080096;
+        public static final int submit_view_order=0x7f080097;
         public static final int tag_first=0x7f080000;
         public static final int tag_four=0x7f080003;
         public static final int tag_second=0x7f080001;
         public static final int tag_three=0x7f080002;
         public static final int title=0x7f080005;
-        public static final int title_txt=0x7f0800a6;
-        public static final int txtLayout=0x7f0800a5;
+        public static final int title_txt=0x7f0800a7;
+        public static final int txtLayout=0x7f0800a6;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
