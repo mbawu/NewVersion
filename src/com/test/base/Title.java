@@ -3,6 +3,7 @@ package com.test.base;
 import com.test.R;
 import com.test.person.More;
 
+import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +32,8 @@ public class Title extends FrameLayout {
 	private LinearLayout txtLayout;// 标题模块
 	private TextView titleTxt;// 标题栏文字
 	private EditText searchTxt;
+	private LinearLayout sRightLayout;// 特殊右按钮
+	private TextView sRightTxt;// 特殊右按钮文字
 
 	public Title(Context context) {
 		super(context, null);
@@ -54,15 +57,18 @@ public class Title extends FrameLayout {
 		morePage.setOnClickListener(new OnclickListener());
 		cartBtn.setOnClickListener(new OnclickListener());
 		searchTxt = (EditText) findViewById(R.id.searchTxt);
-		searchTxt.setOnEditorActionListener(new MyApplication.OnEditorActionListener(context,searchTxt));
+		searchTxt
+				.setOnEditorActionListener(new MyApplication.OnEditorActionListener(
+						context, searchTxt));
+		sRightLayout = (LinearLayout) findViewById(R.id.special_right_layout);
+		sRightTxt = (TextView) findViewById(R.id.special_right_txt);
 	}
 
-	
 	public class OnclickListener implements View.OnClickListener {
 
 		@Override
 		public void onClick(View view) {
-			Intent intent=null;
+			Intent intent = null;
 			switch (view.getId()) {
 			case R.id.backBtn:
 				((Activity) context).finish();
@@ -75,27 +81,22 @@ public class Title extends FrameLayout {
 				break;
 			case R.id.morePage:
 				// 跳转更多页面
-				intent=new Intent().setClass(context, More.class);
+				intent = new Intent().setClass(context, More.class);
 				break;
 			case R.id.cartBtn:
 				// 跳转购物车页面
-//				intent=new Intent().setClass(context, More.class);
+				// intent=new Intent().setClass(context, More.class);
 				break;
 			}
-			if(intent!=null)
-				((Activity)context).startActivity(intent);
+			if (intent != null)
+				((Activity) context).startActivity(intent);
 		}
 	}
 
 	/**
-	 * 设置标题栏模式 
-	 * 1. 消息按钮+搜索框+更多按钮 
-	 * 2. 后退按钮+标题名称+更多按钮 
-	 * 3. 标题名称 
-	 * 4. 后退按钮+标题名称 
-	 * 5. 后退按钮+搜索框+更多按钮
-	 * 6. 标题名称 +更多页面
-	 * 7. 后退按钮+标题名称+购物车按钮+更多按钮
+	 * 设置标题栏模式 1. 消息按钮+搜索框+更多按钮 2. 后退按钮+标题名称+更多按钮 3. 标题名称 4. 后退按钮+标题名称 5.
+	 * 后退按钮+搜索框+更多按钮 6. 标题名称 +更多页面 7. 后退按钮+标题名称+购物车按钮+更多按钮
+	 * 
 	 * @param module
 	 */
 	public void setModule(int module) {
@@ -131,11 +132,16 @@ public class Title extends FrameLayout {
 			cartBtn.setVisibility(View.VISIBLE);
 			moreBtn.setVisibility(View.VISIBLE);
 			break;
+		case 8:
+			txtLayout.setVisibility(View.VISIBLE);
+			sRightLayout.setVisibility(View.VISIBLE);
+			break;
 		}
 	}
 
 	/**
 	 * 设置后退按钮的可显示性
+	 * 
 	 * @param visibility
 	 */
 	public void setBackBtnVisibility(boolean visibility) {
@@ -149,8 +155,28 @@ public class Title extends FrameLayout {
 	public void setTitleTxt(String title) {
 		titleTxt.setText(title);
 	}
-	
-	//设置搜索框的文字内容
+
+	// 设置右按钮文字
+	public void setRightTxt(String txt) {
+		sRightTxt.setText(txt);
+	}
+
+	// 获取右按钮文字
+	public String getRightTxt() {
+		return sRightTxt.getText().toString();
+	}
+
+	// 设置右按钮事件
+	public void setRightLayoutClick(OnClickListener listener) {
+		sRightLayout.setOnClickListener(listener);
+	}
+
+	// 设置右按钮是否显示
+	public void setRightLayoutVisibility(int visibility) {
+		sRightLayout.setVisibility(visibility);
+	}
+
+	// 设置搜索框的文字内容
 	public void setSearchTxt(String searchString) {
 		searchTxt.setText(searchString);
 	}

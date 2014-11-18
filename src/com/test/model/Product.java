@@ -50,9 +50,26 @@ public class Product implements Serializable {
 	private Gift gift;// 该商品的所选赠品
 	private boolean haveAttribute = true;// 是否有属性
 	private boolean haveGift=true;//是否有赠品
-	
+	private boolean editNum=false;//是否编辑商品数量
+	private boolean editFinished=false;
+
 	
 
+	public boolean isEditFinished() {
+		return editFinished;
+	}
+
+	public void setEditFinished(boolean editFinished) {
+		this.editFinished = editFinished;
+	}
+
+	public boolean isEditNum() {
+		return editNum;
+	}
+
+	public void setEditNum(boolean editNum) {
+		this.editNum = editNum;
+	}
 
 	public boolean isHaveAttribute() {
 		return haveAttribute;

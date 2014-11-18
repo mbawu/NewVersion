@@ -1,0 +1,194 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:orientation="vertical" >
+
+    <!-- 整个标题栏 -->
+
+    <com.test.base.Title
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/shopcart_empty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shopcart_empty_bg"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="60dp"
+                        android:background="@drawable/shopcart_empty" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text="购物车还是空的，去看看秒杀商品吧！"
+                        android:textColor="#969696"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/shopcart_view_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="去秒杀"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shopcart_unempty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical" >
+
+                <ListView
+                    android:id="@+id/shopcart_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+                <!--底部栏 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/catagory_second_bg"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                       
+
+                        <CheckBox
+                            android:id="@+id/shopcart_deleteall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                             android:layout_marginRight="5dp"
+                            android:background="@drawable/my_checkbox"
+                            android:button="@null" />
+                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                           
+                            android:text="全选"
+                            android:textColor="@color/gray" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cart_total_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" 
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="合计  ￥"
+                            android:textColor="#e36159" />
+
+                        <TextView
+                            android:id="@+id/shopcart_totalprice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.00"
+                            android:textColor="#e36159" />
+
+                        <!-- <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(不含运费)"
+                            android:textColor="#969696" /> -->
+                    </LinearLayout>
+                    
+                    <Button
+                    android:id="@+id/shopcart_pay_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="26dp"
+                    android:background="@drawable/button"
+                    android:text="去结算"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+                </LinearLayout>
+
+               <!-- <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:gravity="right"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小计  ￥"
+                        android:textColor="@color/red" />
+
+                    <TextView
+                        android:id="@+id/shopcart_totalprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/red" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/shopcart_pay_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:text="去结算"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout> --> 
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

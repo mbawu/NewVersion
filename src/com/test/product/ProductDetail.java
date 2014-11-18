@@ -1079,6 +1079,9 @@ public class ProductDetail extends Activity implements OnClickListener,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
+									
+										Intent intent=new Intent().setClass(ProductDetail.this, MenuBottom.class);
+										startActivity(intent);
 										MenuBottom.tabHost.setCurrentTab(3);
 										MenuBottom.radioGroup
 												.check(R.id.main_tab_shopcart);
@@ -1103,7 +1106,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 				}
 
 			} else {
-				// intent = new Intent(this, PersonLogin.class);
+				 intent = new Intent(this, Login.class);
 				startActivity(intent);
 			}
 
@@ -1139,7 +1142,7 @@ public class ProductDetail extends Activity implements OnClickListener,
 			congratulateDialog.show();
 			LayoutInflater inflater = (LayoutInflater) this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View layout = inflater.inflate(R.layout.test, null);
+			View layout = inflater.inflate(R.layout.dialog_attribute, null);
 			congratulateDialog.getWindow().setContentView(layout);
 			congratulateDialog.getWindow().setWindowAnimations(
 					R.style.dialogWindowAnim);

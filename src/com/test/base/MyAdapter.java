@@ -27,6 +27,7 @@ import com.test.model.Order;
 import com.test.model.Product;
 import com.test.product.CatagoryFirst;
 import com.test.product.ProductDetail;
+import com.test.product.ShopCart;
 import com.test.R;
 //import com.test.pay.PayMethod;
 
@@ -146,12 +147,22 @@ public class MyAdapter extends BaseAdapter implements
 		public TextView nameCommentTxt;// 评论用户昵称
 		public TextView contentTxt;// 评论内容
 		public TextView dateTxt;// 评论日期
-		//提交订单
+		// 提交订单
 		public NetworkImageView submitImg;
 		public TextView submitNameTxt;
 		public TextView submitPriceTxt;
 		public TextView submitNumTxt;
 		public TextView submitAttributeTxt;
+		// 购物车
+		public NetworkImageView cartImg;
+		public TextView cartNameTxt;
+		public TextView cartPriceTxt;
+		public TextView cartNumTxt;// 没有编辑时候的数量文本框
+		public TextView cartEditNumTxt;// 编辑时候的数量文本框
+		public ImageView subImg;
+		public ImageView addImg;
+		public CheckBox checkBox;
+		public FrameLayout cartEditLayout;// 编辑时候的修改数量模块
 	}
 
 	@Override
@@ -215,16 +226,33 @@ public class MyAdapter extends BaseAdapter implements
 			} else if (request.equals(NetworkAction.提交订单)) {
 				convertView = MyApplication.Inflater.inflate(
 						R.layout.submit_product_item, null);
-				 holder.submitImg = (NetworkImageView) convertView
-				 .findViewById(R.id.submit_product_photo);
-				 holder.submitNameTxt = (TextView) convertView
-				 .findViewById(R.id.submit_product_name);
-				 holder.submitPriceTxt = (TextView) convertView
-				 .findViewById(R.id.submit_product_price);
-				 holder.submitNumTxt = (TextView) convertView
-				 .findViewById(R.id.submit_product_num);
-				 holder.submitAttributeTxt = (TextView) convertView
-						 .findViewById(R.id.product_attribute);
+				holder.submitImg = (NetworkImageView) convertView
+						.findViewById(R.id.submit_product_photo);
+				holder.submitNameTxt = (TextView) convertView
+						.findViewById(R.id.submit_product_name);
+				holder.submitPriceTxt = (TextView) convertView
+						.findViewById(R.id.submit_product_price);
+				holder.submitNumTxt = (TextView) convertView
+						.findViewById(R.id.submit_product_num);
+				holder.submitAttributeTxt = (TextView) convertView
+						.findViewById(R.id.product_attribute);
+			} else if (request.equals(NetworkAction.购物车)) {
+				convertView = MyApplication.Inflater.inflate(
+						R.layout.shopcart_item, null);
+				holder.cartImg = (NetworkImageView) convertView
+						.findViewById(R.id.shopcart_product_photo);
+				holder.cartNameTxt = (TextView) convertView
+						.findViewById(R.id.shopcart_product_name);
+				holder.cartPriceTxt = (TextView) convertView
+						.findViewById(R.id.shopcart_product_price);
+				holder.cartNumTxt = (TextView) convertView
+						.findViewById(R.id.shopcart_noedit_txt);
+				holder.checkBox = (CheckBox) convertView
+						.findViewById(R.id.shopcart_delete);
+				holder.cartEditLayout = (FrameLayout) convertView
+						.findViewById(R.id.shopcart_edit_layout);
+				holder.cartEditNumTxt = (TextView) convertView
+						.findViewById(R.id.shopcart_num_txt);
 			}
 			convertView.setTag(holder);
 		} else {
@@ -368,26 +396,66 @@ public class MyAdapter extends BaseAdapter implements
 			holder.nameCommentTxt.setText(comment.getUsername());
 			holder.contentTxt.setText(comment.getComment_content());
 			holder.dateTxt.setText(comment.getCreatetime());
+		} else if (request.equals(NetworkAction.提交订单)) {
+			Product product = (Product) data.get(position);
+			// 先判断是秒杀商品还是正常商品，根据不同的商品显示不同的信息
+			// 购买类型：1正常购买，2秒杀
+			if (product.getBuy_type().equals("1")) {
+				holder.submitNameTxt.setText(product.getName());
+				holder.submitPriceTxt.setText("￥" + product.getStorePrice());
+			} else {
+				holder.submitNameTxt.setText(product.getSKName());
+				holder.submitPriceTxt.setText("￥" + product.getSKPrice());
+			}
+			if (product.isHaveAttribute())
+				holder.submitAttributeTxt.setText(product.getAttribute()
+						.getName());
+			else
+				holder.submitAttributeTxt.setText("默认规格");
+			holder.submitNumTxt.setText("X" + product.getNum());
+			MyApplication.client.getImageForNetImageView(
+					product.getImgs().get(0), holder.submitImg,
+					R.drawable.ic_launcher);
+		} else if (request.equals(NetworkAction.购物车)) {
+			Product product = (Product) data.get(position);
+			if (product.isEditNum() && !product.isEditFinished()) {
+				holder.cartEditLayout.setVisibility(View.VISIBLE);
+				holder.cartNumTxt.setVisibility(View.GONE);
+				holder.cartEditNumTxt.setText(product.getNum());
+			} else if (product.isEditNum() && product.isEditFinished()) {
+				holder.cartEditLayout.setVisibility(View.GONE);
+				holder.cartNumTxt.setVisibility(View.VISIBLE);
+				product.setEditNum(false);
+				product.setEditFinished(false);
+			}
+			else if (!product.isEditNum() && !product.isEditFinished()) {
+				holder.cartEditLayout.setVisibility(View.GONE);
+				holder.cartNumTxt.setVisibility(View.VISIBLE);
+			}
+			MyApplication.client.getImageForNetImageView(
+					product.getImgs().get(0), holder.cartImg,
+					R.drawable.ic_launcher);
+
+			if (product.getBuy_type().equals("2"))
+				holder.cartNameTxt.setText(product.getSKName());
+			else
+				holder.cartNameTxt.setText(product.getName());
+			holder.cartPriceTxt.setText(product.getStorePrice());
+			holder.cartNumTxt.setText(product.getNum());
+			holder.cartEditNumTxt.setTag(product);
+			ImageView subImg = (ImageView) convertView
+					.findViewById(R.id.shopcart_num_sub);
+			ImageView addImg = (ImageView) convertView
+					.findViewById(R.id.shopcart_num_add);
+			subImg.setTag(holder.cartEditNumTxt);
+			addImg.setTag(holder.cartEditNumTxt);
+			subImg.setOnClickListener(this);
+			addImg.setOnClickListener(this);
+
+			holder.checkBox.setTag(product);
+			holder.checkBox.setChecked(product.isChecked());
+			holder.checkBox.setOnCheckedChangeListener(this);
 		}
-		 else if (request.equals(NetworkAction.提交订单)) {
-			 Product product = (Product) data.get(position);
-			 // 先判断是秒杀商品还是正常商品，根据不同的商品显示不同的信息
-			 // 购买类型：1正常购买，2秒杀
-			 if (product.getBuy_type().equals("1")) {
-			 holder.submitNameTxt.setText(product.getName());
-			 holder.submitPriceTxt.setText("￥" + product.getStorePrice());
-			 } else {
-				 holder.submitNameTxt.setText(product.getSKName());
-				 holder.submitPriceTxt.setText("￥" + product.getSKPrice());
-			 }
-			 if(product.isHaveAttribute())
-				 holder.submitAttributeTxt.setText(product.getAttribute().getName());
-			 else
-				 holder.submitAttributeTxt.setText("默认规格");
-			 holder.submitNumTxt.setText("X"+product.getNum());
-			 MyApplication.client.getImageForNetImageView(
-			 product.getImgs().get(0),holder.submitImg, R.drawable.ic_launcher);
-		 }
 		return convertView;
 
 	}
@@ -411,7 +479,14 @@ public class MyAdapter extends BaseAdapter implements
 			String id = (String) img.getTag();
 			((CatagoryFirst) object).getCatagorySecond(id);
 			break;
+		case R.id.shopcart_num_sub:// 购物车的减少按钮
+			changeShopCartNum(v, "sub");
+			break;
+		case R.id.shopcart_num_add:// 购物车的增加按钮
+			changeShopCartNum(v, "add");
+			break;
 		}
+
 		// if(module.equals("home_hot"))
 		// convertView=MyApplication.Inflater.inflate(R.layout.home_hot_item,
 		// null);
@@ -962,11 +1037,7 @@ public class MyAdapter extends BaseAdapter implements
 		// // Toast.makeText((Context) object, category.getCacheID(), 2000)
 		// // .show();
 		// break;
-		// case R.id.shopcart_num_sub:// 购物车的减少按钮
-		// changeShopCartNum(v, "sub");
-		// break;
-		// case R.id.shopcart_num_add:// 购物车的增加按钮
-		// changeShopCartNum(v, "add");
+
 		// break;
 		// case R.id.coupon_item_use:// 优惠券的使用按钮
 		// Coupon coupon = (Coupon) v.getTag();
@@ -1017,20 +1088,20 @@ public class MyAdapter extends BaseAdapter implements
 
 	// 修改购物车某个商品的数量，更新全局购物车集合并刷新显示
 	public void changeShopCartNum(View v, String operation) {
-		// TextView numTxt = (TextView) v.getTag();
-		// Product product = (Product) numTxt.getTag();
-		// int num = Integer.valueOf(numTxt.getText().toString());
-		// if (operation.equals("sub")) {
-		// // 如果数量为1则不能够再减少该商品
-		// if (num == 1)
-		// return;
-		// else
-		// num--;
-		// } else
-		// num++;
-		// numTxt.setText(String.valueOf(num));
-		// product.setNum(String.valueOf(num));
-		// ((ShopCart) object).recalculatePrice();
+		 TextView numTxt = (TextView) v.getTag();
+		 Product product = (Product) numTxt.getTag();
+		 int num = Integer.valueOf(numTxt.getText().toString());
+		 if (operation.equals("sub")) {
+		 // 如果数量为1则不能够再减少该商品
+		 if (num == 1)
+		 return;
+		 else
+		 num--;
+		 } else
+		 num++;
+		 numTxt.setText(String.valueOf(num));
+		 product.setNum(String.valueOf(num));
+		 ((ShopCart) object).recalculatePrice();
 	}
 
 	/**
@@ -1059,9 +1130,9 @@ public class MyAdapter extends BaseAdapter implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		// Product product = (Product) buttonView.getTag();
-		// Log.i(MyApplication.TAG, "product name-->" + product.getName());
-		// product.setChecked(isChecked);
+		Product product = (Product) buttonView.getTag();
+		Log.i(MyApplication.TAG, "product name-->" + product.getName());
+		product.setChecked(isChecked);
 		// Log.i(MyApplication.TAG, "product checked-->" + product.isChecked())
 	}
 

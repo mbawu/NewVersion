@@ -7,6 +7,7 @@ import com.test.base.MyApplication;
 import com.test.person.Person;
 import com.test.product.CatagoryFirst;
 import com.test.product.Home;
+import com.test.product.ShopCart;
 import com.test.R;
 
 import android.app.TabActivity;
@@ -64,7 +65,7 @@ public class MenuBottom extends TabActivity {
 		tabHost.addTab(spec);
 
 		// ¹ºÎï³µ²Ëµ¥
-		intent = new Intent().setClass(this, CatagoryFirst.class);
+		intent = new Intent().setClass(this, ShopCart.class);
 		spec = tabHost
 				.newTabSpec(resources.getString(R.string.main_menu_shopcart))
 				.setIndicator(resources.getString(R.string.main_menu_shopcart))
