@@ -1,86 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@drawable/title_bg">
+    android:layout_height="wrap_content"
+    android:background="@drawable/title_bg" >
+
     <!-- 后退按钮 -->
 
-        <LinearLayout
-            android:id="@+id/backBtn"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@drawable/title_item_selector"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/back" />
-        </LinearLayout>
- <!-- 消息按钮 -->
+    <LinearLayout
+        android:id="@+id/backBtn"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
-        <LinearLayout
-            android:id="@+id/msgBtn"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/back" />
+    </LinearLayout>
+    <!-- 消息按钮 -->
+
+    <LinearLayout
+        android:id="@+id/msgBtn"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableTop="@drawable/msg_ico"
+            android:src="@drawable/back"
+            android:text="消息"
+            android:textColor="@color/title_textcolor"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- 搜索框 -->
+
+    <FrameLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <EditText
+            android:id="@+id/searchTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/search_ico"
             android:gravity="center"
-                        android:background="@drawable/title_item_selector"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:src="@drawable/back" 
-                android:textSize="12sp"
-                android:textColor="@color/title_textcolor"
-                android:drawableTop="@drawable/msg_ico"
-                android:text="消息"/>
-        </LinearLayout>
-        
-        <!-- 搜索框-->
+            android:hint="寻找宝贝"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/title_textcolor"
+            android:textColorHint="@color/title_textcolor" />
 
         <FrameLayout
-            android:id="@+id/searchLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:visibility="gone"
-           >
-            <EditText
-                android:id="@+id/searchTxt"
-                android:imeOptions="actionSearch"
+            android:layout_marginTop="10dp" >
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:background="@null"
-                android:textColorHint="@color/title_textcolor"
-                android:drawableLeft="@drawable/search_ico"
-                android:textColor="@color/title_textcolor"
-                android:inputType="text"
-                android:singleLine="true"
-                android:hint="寻找宝贝"/>
-            <FrameLayout 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp">
-                <ImageView 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-					android:adjustViewBounds="true"
-                    android:src="@drawable/search_top_bg"/>
-            </FrameLayout>
-            <!-- 因为设置了inputtype以后ondraw绘制的边框无法显示，所以设置了两个输入框，第一个显示边框，
-            第二个设置inputtype才可以在软键盘上显示搜索按钮 -->
-  <!--       <com.test.base.SearchEditText
+                android:adjustViewBounds="true"
+                android:src="@drawable/search_top_bg" />
+        </FrameLayout>
+        <!--
+            因为设置了inputtype以后ondraw绘制的边框无法显示，所以设置了两个输入框，第一个显示边框，
+            第二个设置inputtype才可以在软键盘上显示搜索按钮
+        -->
+        <!--
+             <com.test.base.SearchEditText
                 android:enabled="false"
                 android:imeOptions="actionSearch"
                 android:layout_width="match_parent"
@@ -102,9 +110,11 @@
                 android:textColor="@color/title_textcolor"
                 android:inputType="text"
                 android:singleLine="true"
-                android:hint="寻找宝贝"/>   -->  
-          
-			<!-- 
+                android:hint="寻找宝贝"/>
+        -->
+
+
+        <!--
             <FrameLayout 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -114,105 +124,110 @@
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="50dp"
                     android:src="@drawable/search_ico"/>
-            </FrameLayout> 搜索图标-->
-        </FrameLayout>
-        <!-- 标题内容 -->
+            </FrameLayout> 搜索图标
+        -->
+    </FrameLayout>
+    <!-- 标题内容 -->
 
-        <LinearLayout
-            android:id="@+id/txtLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-            <TextView
-                android:id="@+id/title_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:src="@drawable/back" 
-                android:textSize="18sp"
-                android:textColor="@color/title_textcolor"
-                android:text="标题文字"/>
-        </LinearLayout>
-        
-         <!-- 购物车按钮 -->
+    <LinearLayout
+        android:id="@+id/txtLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
-        <LinearLayout
-            android:id="@+id/cartBtn"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-                        android:background="@drawable/title_item_selector"
-            android:gravity="center"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="40dp"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-             <ImageView 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/cart_ico"/>
-        </LinearLayout>
-        
-        <!-- 更多按钮 -->
+        <TextView
+            android:id="@+id/title_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/back"
+            android:text="标题文字"
+            android:textColor="@color/title_textcolor"
+            android:textSize="18sp" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/moreBtn"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-             android:background="@drawable/title_item_selector"
-            android:gravity="center"
-            android:layout_gravity="right|center"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-             <ImageView 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/more_ico"/>
-        </LinearLayout>
-        
-        
-        
-        <!-- 更多页面 -->
+    <!-- 购物车按钮 -->
 
-        <FrameLayout
-            android:id="@+id/morePage"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-                        android:background="@drawable/title_item_selector"
-                        android:layout_gravity="right|center_vertical"
-            android:gravity="center"
-            android:visibility="gone">
-             <TextView 
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                                android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:text="更多"/>
-        </FrameLayout>
-        
-         <!-- 特殊右按钮 -->
+    <LinearLayout
+        android:id="@+id/cartBtn"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
-        <LinearLayout
-            android:id="@+id/special_right_layout"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cart_ico" />
+    </LinearLayout>
+
+    <!-- 更多按钮 -->
+
+    <LinearLayout
+        android:id="@+id/moreBtn"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/more_ico" />
+    </LinearLayout>
+
+    <!-- 更多页面 -->
+
+    <FrameLayout
+        android:id="@+id/morePage"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-             android:background="@drawable/title_item_selector"
             android:gravity="center"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal" 
-            android:visibility="gone">
-              <TextView
-                android:id="@+id/special_right_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:textColor="@color/title_textcolor"
-                android:text="编辑"/>
-        </LinearLayout>
+            android:text="更多"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </FrameLayout>
+
+    <!-- 特殊右按钮 -->
+
+    <LinearLayout
+        android:id="@+id/special_right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/title_item_selector"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/special_right_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="编辑"
+            android:textColor="@color/title_textcolor"
+            android:textSize="13sp" />
+    </LinearLayout>
+
 </FrameLayout>

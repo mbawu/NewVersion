@@ -188,7 +188,6 @@ public class ShopCart extends MenuActivity implements OnCheckedChangeListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.special_right_layout:// 特殊右按钮
-			Toast.makeText(this, "点了编辑", 2000).show();
 			// 点击编辑按钮的状态
 			if (title.getRightTxt().equals("编辑")) {
 				for (int i = 0; i < MyApplication.shopCartList.size(); i++) {
