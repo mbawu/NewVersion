@@ -40,6 +40,7 @@ import com.test.base.MenuActivity;
 public class ShopCart extends MenuActivity implements OnCheckedChangeListener,
 		OnClickListener {
 
+
 	private Title title;// 设置标题栏
 	private LinearLayout emptyLayout;// 空购物车模块
 	private LinearLayout unemptyLayout;// 非空购物车模块
@@ -326,10 +327,5 @@ public class ShopCart extends MenuActivity implements OnCheckedChangeListener,
 			return false;
 	}
 
-	@Override
-	public void showResualt(JSONObject response,
-			com.test.utils.NetworkAction request) throws JSONException {
-		// TODO Auto-generated method stub
-
-	}
+	
 }

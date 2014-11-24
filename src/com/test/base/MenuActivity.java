@@ -82,5 +82,6 @@ public abstract class MenuActivity extends Activity {
 	  * @param request		与服务器通讯的请求类型
 	  * @throws JSONException
 	  */
-	 public abstract void showResualt(JSONObject response,NetworkAction request) throws JSONException;
+	 public  void showResualt(JSONObject response,NetworkAction request) throws JSONException {
+	}
 }

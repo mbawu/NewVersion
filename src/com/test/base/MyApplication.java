@@ -65,7 +65,7 @@ public class MyApplication extends Application {
 	public static ArrayList<Object> shopCartList;// 放置到购物车的商品的集合
 	public static ShopCartManager shopCartManager;// 购物车管理类
 	public static Boolean shopcart_refresh = false;// 购物车数据发生变化时是否需要刷新购物车数据
-	public static String sid = "12";// 商家ID
+	public static String sid = "14";// 商家ID
 	public static boolean exit = false;
 	public static Context context;
 	public static boolean comment = false;// 是否在评论订单的状态
